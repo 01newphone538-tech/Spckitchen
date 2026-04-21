@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -35,10 +34,15 @@
 
     <!-- SIDEBAR -->
     <aside id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 w-64 bg-gray-900 text-white flex flex-col transition-transform duration-300 z-50 shrink-0">
+        <!-- Logo Header -->
         <div class="p-5 flex items-center justify-between border-b border-gray-800">
-            <div class="flex items-center gap-2"><i class="fa-solid fa-fire-burner text-brand text-xl"></i><h1 class="text-base font-bold">শেরপুর ক্লাউড কিচেন</h1></div>
+            <div class="flex items-center gap-2 cursor-pointer hover:text-brand transition-colors" onclick="switchTab('dashboard')" title="Go to Dashboard">
+                <i class="fa-solid fa-fire-burner text-brand text-xl"></i>
+                <h1 class="text-base font-bold">শেরপুর ক্লাউড কিচেন</h1>
+            </div>
             <button class="md:hidden text-gray-300 hover:text-white" onclick="toggleSidebar()"><i class="fa-solid fa-times text-xl"></i></button>
         </div>
+        
         <nav id="nav-links" class="flex-1 px-3 py-4 space-y-1 overflow-y-auto text-sm custom-scroll">
             <a href="#" onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="flex items-center gap-3 px-4 py-3 rounded-lg text-white bg-gray-800"><i class="fa-solid fa-chart-pie w-5"></i> ড্যাশবোর্ড</a>
             <a href="#" onclick="switchTab('orders')" id="tab-btn-orders" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-clipboard-list w-5"></i> সকল অর্ডার <span id="pending-badge" class="ml-auto bg-brand text-[10px] font-bold px-2 py-0.5 rounded-full hidden text-white">0</span></a>
@@ -56,7 +60,10 @@
     <main class="flex-1 bg-gray-100 h-full overflow-y-auto custom-scroll relative flex flex-col w-full">
         <!-- Mobile Header inside Main -->
         <header class="md:hidden bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-30">
-            <div class="flex items-center gap-2"><i class="fa-solid fa-fire-burner text-brand text-lg"></i><h1 class="text-base font-bold text-gray-800">অ্যাডমিন প্যানেল</h1></div>
+            <div class="flex items-center gap-2 cursor-pointer hover:text-brand" onclick="switchTab('dashboard')">
+                <i class="fa-solid fa-fire-burner text-brand text-lg"></i>
+                <h1 class="text-base font-bold text-gray-800">অ্যাডমিন প্যানেল</h1>
+            </div>
             <button onclick="toggleSidebar()" class="text-gray-800 focus:outline-none"><i class="fa-solid fa-bars text-xl"></i></button>
         </header>
 
@@ -68,18 +75,34 @@
             <div id="tab-dashboard" class="tab-content active">
                 <div class="flex justify-between items-center mb-6"><h2 class="text-xl md:text-2xl font-bold text-gray-800">Overview</h2><button onclick="fetchDashboardData()" class="bg-white border shadow-sm px-3 py-1.5 rounded-md text-xs font-bold hover:bg-gray-50 text-gray-700"><i class="fa-solid fa-rotate-right mr-1"></i> Reload</button></div>
                 
-                <!-- Advanced Stats -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500"><p class="text-gray-500 text-xs font-bold mb-1">Total Customers</p><h3 id="stat-users" class="text-xl md:text-2xl font-bold text-gray-800">0</h3></div>
-                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-brand"><p class="text-gray-500 text-xs font-bold mb-1">Today's Sales</p><h3 id="stat-sales-today" class="text-xl md:text-2xl font-bold text-gray-800">৳ 0</h3></div>
-                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-green-500"><p class="text-gray-500 text-xs font-bold mb-1">This Month Sales</p><h3 id="stat-sales-month" class="text-xl md:text-2xl font-bold text-gray-800">৳ 0</h3></div>
-                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-purple-500"><p class="text-gray-500 text-xs font-bold mb-1">All Time Sales</p><h3 id="stat-sales-all" class="text-xl md:text-2xl font-bold text-gray-800">৳ 0</h3></div>
+                <!-- Advanced Stats (Updated with Today's Orders) -->
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-indigo-500"><p class="text-gray-500 text-[11px] font-bold mb-1 uppercase">Today's Orders</p><h3 id="stat-orders-today-count" class="text-xl md:text-2xl font-bold text-gray-800">0</h3></div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-brand"><p class="text-gray-500 text-[11px] font-bold mb-1 uppercase">Today's Sales</p><h3 id="stat-sales-today" class="text-xl md:text-2xl font-bold text-gray-800">৳ 0</h3></div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-green-500"><p class="text-gray-500 text-[11px] font-bold mb-1 uppercase">This Month Sales</p><h3 id="stat-sales-month" class="text-xl md:text-2xl font-bold text-gray-800">৳ 0</h3></div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-purple-500"><p class="text-gray-500 text-[11px] font-bold mb-1 uppercase">All Time Sales</p><h3 id="stat-sales-all" class="text-xl md:text-2xl font-bold text-gray-800">৳ 0</h3></div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500 md:col-span-1 col-span-2"><p class="text-gray-500 text-[11px] font-bold mb-1 uppercase">Total Customers</p><h3 id="stat-users" class="text-xl md:text-2xl font-bold text-gray-800">0</h3></div>
                 </div>
 
                 <div class="bg-white p-4 rounded-xl shadow-sm border mb-6 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
-                    <div class="flex-1"><p class="text-xs text-gray-500 font-bold mb-1"><i class="fa-solid fa-arrow-trend-up text-green-500 mr-1"></i> Best Selling Item</p><p id="stat-best-item" class="text-sm font-bold text-gray-800">-</p></div>
+                    <div class="flex-1"><p class="text-[10px] text-gray-500 font-bold mb-1 uppercase"><i class="fa-solid fa-arrow-trend-up text-green-500 mr-1"></i> Best Selling Item</p><p id="stat-best-item" class="text-sm font-bold text-gray-800">-</p></div>
                     <div class="hidden md:block w-px h-10 bg-gray-200"></div>
-                    <div class="flex-1"><p class="text-xs text-gray-500 font-bold mb-1"><i class="fa-solid fa-arrow-trend-down text-red-500 mr-1"></i> Least Selling Item</p><p id="stat-worst-item" class="text-sm font-bold text-gray-800">-</p></div>
+                    <div class="flex-1"><p class="text-[10px] text-gray-500 font-bold mb-1 uppercase"><i class="fa-solid fa-arrow-trend-down text-red-500 mr-1"></i> Least Selling Item</p><p id="stat-worst-item" class="text-sm font-bold text-gray-800">-</p></div>
+                </div>
+
+                <!-- Custom Date Report Tool (New Idea 3) -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border mb-6">
+                    <h3 class="text-sm font-bold mb-3 text-gray-800"><i class="fa-solid fa-calendar-check text-brand mr-1"></i> Custom Date Report</h3>
+                    <div class="flex flex-wrap gap-3 items-end">
+                        <div class="flex-1 min-w-[120px]"><label class="text-[10px] uppercase font-bold text-gray-500">From Date</label><input type="date" id="report-from" class="w-full px-3 py-1.5 border rounded-md text-sm outline-none focus:border-brand"></div>
+                        <div class="flex-1 min-w-[120px]"><label class="text-[10px] uppercase font-bold text-gray-500">To Date</label><input type="date" id="report-to" class="w-full px-3 py-1.5 border rounded-md text-sm outline-none focus:border-brand"></div>
+                        <button onclick="generateCustomReport()" class="w-full md:w-auto bg-gray-900 text-white px-5 py-1.5 rounded-md font-bold text-sm hover:bg-black transition-colors shadow">Generate</button>
+                    </div>
+                    <div id="custom-report-results" class="hidden mt-4 pt-4 border-t border-gray-100 grid grid-cols-3 gap-4">
+                        <div><p class="text-[10px] uppercase font-bold text-gray-500 mb-1">Total Orders</p><p id="rep-orders" class="text-xl font-bold text-gray-800">0</p></div>
+                        <div><p class="text-[10px] uppercase font-bold text-gray-500 mb-1">Total Sales</p><p id="rep-sales" class="text-xl font-bold text-brand">৳ 0</p></div>
+                        <div><p class="text-[10px] uppercase font-bold text-gray-500 mb-1">Top Item</p><p id="rep-item" class="text-xs font-bold text-gray-800 line-clamp-2">-</p></div>
+                    </div>
                 </div>
 
                 <h3 class="text-lg font-bold text-gray-800 mb-4">Recent Orders</h3>
@@ -88,20 +111,38 @@
 
             <!-- TAB: ALL ORDERS -->
             <div id="tab-orders" class="tab-content">
-                <h2 class="text-xl font-bold text-gray-800 mb-4">All Orders</h2>
-                <!-- Filter Section -->
-                <div class="bg-white p-4 rounded-xl border shadow-sm mb-6 flex flex-col md:flex-row gap-3 items-end md:items-center">
-                    <div class="w-full md:flex-1 relative">
-                        <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Search</label>
-                        <div class="relative">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">All Orders</h2>
+                    <button onclick="exportOrdersCSV()" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-md text-xs font-bold shadow transition-colors"><i class="fa-solid fa-file-excel mr-1"></i> Export CSV</button>
+                </div>
+                
+                <!-- Modern Search & Filter UI (Fixed) -->
+                <div class="bg-white p-4 rounded-xl border shadow-sm mb-6 transition-all duration-300">
+                    <div class="flex gap-2">
+                        <div class="relative flex-1">
                             <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" id="order-search" onkeyup="filterOrders()" placeholder="ID, Name, Phone..." class="w-full pl-9 pr-8 py-2 border rounded-md outline-none text-sm focus:border-brand">
-                            <button onclick="document.getElementById('order-search').value=''; filterOrders();" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500" title="Clear Search"><i class="fa-solid fa-times-circle"></i></button>
+                            <input type="text" id="order-search" onkeyup="filterOrders()" placeholder="অর্ডার আইডি, নাম বা ফোন নম্বর সার্চ করুন..." class="w-full pl-10 pr-8 py-2.5 border rounded-lg outline-none text-sm focus:border-brand bg-gray-50">
+                            <button onclick="document.getElementById('order-search').value=''; filterOrders();" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors" title="Clear Search"><i class="fa-solid fa-times-circle text-lg"></i></button>
+                        </div>
+                        <button onclick="document.getElementById('adv-filters').classList.toggle('hidden')" class="bg-white hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-lg border flex items-center justify-center transition-colors tooltip relative group shadow-sm">
+                            <i class="fa-solid fa-filter"></i>
+                            <span class="absolute top-full mt-2 w-max bg-gray-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Advanced Filters</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Advanced Filters (Hidden by Default) -->
+                    <div id="adv-filters" class="hidden mt-4 pt-4 border-t border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Filter by Area</label>
+                            <select id="order-filter-area" onchange="filterOrders()" class="w-full px-3 py-2 border rounded-md outline-none text-sm bg-white focus:border-brand">
+                                <option value="">All Areas</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Filter by Date</label>
+                            <input type="date" id="order-filter-date" onchange="filterOrders()" class="w-full px-3 py-2 border rounded-md outline-none text-sm bg-white focus:border-brand">
                         </div>
                     </div>
-                    <div class="w-full md:w-48"><label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Filter by Area</label><select id="order-filter-area" onchange="filterOrders()" class="w-full px-3 py-2 border rounded-md outline-none text-sm bg-white focus:border-brand"><option value="">All Areas</option></select></div>
-                    <div class="w-full md:w-40"><label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Filter by Date</label><input type="date" id="order-filter-date" onchange="filterOrders()" class="w-full px-3 py-2 border rounded-md outline-none text-sm bg-white focus:border-brand"></div>
-                    <button onclick="resetFilters()" class="w-full md:w-auto bg-gray-100 text-gray-600 hover:bg-gray-200 px-4 py-2 rounded-md font-bold text-sm border"><i class="fa-solid fa-rotate mr-1"></i> Reset</button>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="all-orders-grid"></div>
             </div>
@@ -134,9 +175,16 @@
 
             <!-- TAB: CUSTOMERS -->
             <div id="tab-customers" class="tab-content">
-                <h2 class="text-xl font-bold text-gray-800 mb-4">Customer Directory</h2>
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">Customer Directory</h2>
+                    <button onclick="exportCustomersCSV()" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-md text-xs font-bold shadow transition-colors"><i class="fa-solid fa-file-excel mr-1"></i> Export CSV</button>
+                </div>
                 <div class="bg-white rounded-xl shadow-sm border overflow-hidden flex flex-col h-[75vh]">
-                    <div class="p-3 border-b bg-gray-50"><input type="text" id="cust-search" onkeyup="renderCustomers()" placeholder="Search by name or phone..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
+                    <div class="p-3 border-b bg-gray-50 relative">
+                        <i class="fa-solid fa-search absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="cust-search" onkeyup="renderCustomers()" placeholder="Search by name or phone..." class="w-full pl-10 pr-8 py-2.5 border rounded-md text-sm outline-none focus:border-brand bg-white">
+                        <button onclick="document.getElementById('cust-search').value=''; renderCustomers();" class="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500"><i class="fa-solid fa-times-circle text-lg"></i></button>
+                    </div>
                     <div id="customers-list" class="flex-1 overflow-y-auto custom-scroll grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 content-start divide-y sm:divide-y-0 sm:gap-px bg-gray-200"></div>
                 </div>
             </div>
@@ -347,15 +395,18 @@
         }
 
         function getSalesStats() {
-            let today = 0, month = 0, all = 0; const now = new Date();
+            let today = 0, month = 0, all = 0, ordersToday = 0; const now = new Date();
             allOrders.forEach(o => {
+                const oDate = new Date(o.time);
+                if(oDate.toDateString() === now.toDateString()) ordersToday++;
+                
                 if(o.status && o.status.includes('বাতিল')) return;
-                const amt = Number(o.total) || 0; const oDate = new Date(o.time);
+                const amt = Number(o.total) || 0; 
                 all += amt;
                 if(oDate.getMonth() === now.getMonth() && oDate.getFullYear() === now.getFullYear()) month += amt;
                 if(oDate.toDateString() === now.toDateString()) today += amt;
             });
-            return { today, month, all };
+            return { today, month, all, ordersToday };
         }
 
         function getItemStats() {
@@ -426,7 +477,7 @@
             sel.innerHTML = '<option value="">All Areas</option>' + storeData.areas.map(a=>`<option value="${a.name}">${a.name}</option>`).join('');
         }
 
-        // --- ORDER NOTIFICATION SYSTEM ---
+        // --- ORDER NOTIFICATION & AUTO REFRESH SYSTEM ---
         function updateAdminNotifications() {
             const now = new Date();
             const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
@@ -485,6 +536,7 @@
             filterOrders();
         }
 
+        // Silent Auto Refresh Every 60 Seconds
         setInterval(async () => {
             if(document.getElementById('admin-login').style.display !== 'none') return;
             try {
@@ -492,10 +544,18 @@
                 const data = await res.json();
                 if(data.result === 'success') {
                     const freshOrders = data.data.filter(o => o && o.id);
-                    if(freshOrders.length > allOrders.length) { showToast("🔔 নতুন অর্ডার এসেছে!", false); try { new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3').play(); } catch(e) {} }
-                    allOrders = freshOrders; processCustomers(); cleanOldViewedOrders();
+                    if(freshOrders.length > allOrders.length) { 
+                        showToast("🔔 নতুন অর্ডার এসেছে!", false); 
+                        try { new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3').play(); } catch(e) {} 
+                    }
+                    // Silent Update without blocking UI
+                    allOrders = freshOrders; 
+                    processCustomers(); 
+                    cleanOldViewedOrders();
+                    
                     if(document.getElementById('tab-dashboard').classList.contains('active')) renderDashboard();
                     if(document.getElementById('tab-orders').classList.contains('active')) renderOrders();
+                    if(document.getElementById('tab-customers').classList.contains('active')) renderCustomers();
                     updateAdminNotifications();
                 }
             } catch(e){}
@@ -506,6 +566,7 @@
             processCustomers();
             document.getElementById('stat-users').textContent = Object.keys(customerMap).length;
             const sales = getSalesStats();
+            document.getElementById('stat-orders-today-count').textContent = sales.ordersToday;
             document.getElementById('stat-sales-today').textContent = `৳ ${sales.today}`;
             document.getElementById('stat-sales-month').textContent = `৳ ${sales.month}`;
             document.getElementById('stat-sales-all').textContent = `৳ ${sales.all}`;
@@ -521,12 +582,16 @@
             if(allOrders.length === 0) { container.innerHTML = '<p class="text-sm text-gray-500 bg-white p-4 rounded-lg border text-center">No recent orders</p>'; }
             else {
                 container.innerHTML = allOrders.slice(0, 8).map(o => {
+                    const tag = storeData.tags[o.phone];
+                    let tagHtml = '';
+                    if(tag === 'Good') tagHtml = '<span class="bg-green-100 text-green-700 px-1.5 py-0.5 rounded text-[9px] border border-green-200 ml-1">Good</span>';
+                    else if(tag === 'Bad') tagHtml = '<span class="bg-red-100 text-red-700 px-1.5 py-0.5 rounded text-[9px] border border-red-200 ml-1">Bad</span>';
+                    else if(tag === 'Regular') tagHtml = '<span class="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-[9px] border border-blue-200 ml-1">Reg</span>';
                     return `
                     <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex flex-col md:flex-row justify-between md:items-center gap-3 hover:border-brand/30 transition-colors">
                         <div class="flex-1">
-                            <div class="flex gap-2 items-center mb-1.5 border-b border-gray-50 pb-1.5"><span class="font-bold text-sm text-gray-800">${o.id}</span><span class="text-[10px] text-gray-400 bg-gray-100 px-1.5 rounded">${formatEnglishDate(o.time)}</span></div>
-                            <p class="text-xs text-gray-700 font-bold flex items-center mb-1.5">${o.name} ${getTagHtml(o.phone)} <a href="tel:${o.phone}" class="text-blue-500 hover:text-blue-700 ml-2 border-l pl-2 border-gray-300"><i class="fa-solid fa-phone"></i> ${o.phone}</a></p>
-                            <p class="text-[10px] text-gray-600 bg-orange-50/40 p-2 rounded-lg border border-orange-100 line-clamp-2" title="${o.details}"><span class="font-bold text-gray-400 uppercase tracking-wide mr-1 text-[9px]">Items:</span> ${o.details}</p>
+                            <div class="flex gap-2 items-center mb-1"><span class="font-bold text-sm text-gray-800">${o.id}</span><span class="text-[10px] text-gray-400 bg-gray-100 px-1.5 rounded">${formatEnglishDate(o.time)}</span></div>
+                            <p class="text-xs text-gray-600 font-bold flex items-center">${o.name} ${tagHtml} <a href="tel:${o.phone}" class="text-blue-500 hover:text-blue-700 ml-2 border-l pl-2 border-gray-300"><i class="fa-solid fa-phone"></i> ${o.phone}</a></p>
                         </div>
                         <div class="text-left md:text-right shrink-0 w-full md:w-48 bg-gray-50 md:bg-transparent p-2 md:p-0 rounded">
                             <p class="text-brand font-bold text-sm">৳ ${o.total}</p>
@@ -535,6 +600,40 @@
                     </div>`
                 }).join('');
             }
+        }
+
+        // Custom Date Report Logic
+        function generateCustomReport() {
+            const from = document.getElementById('report-from').value;
+            const to = document.getElementById('report-to').value;
+            if(!from || !to) return showToast("তারিখ সিলেক্ট করুন", true);
+
+            const fromDate = new Date(from).getTime();
+            const toDate = new Date(to).setHours(23,59,59,999);
+
+            let tOrders = 0; let tSales = 0; let itemCounts = {};
+
+            allOrders.forEach(o => {
+                const time = new Date(o.time).getTime();
+                if(time >= fromDate && time <= toDate) {
+                    tOrders++;
+                    if(o.status && !o.status.includes('বাতিল')) {
+                        tSales += Number(o.total) || 0;
+                        if(o.details) {
+                            let parts = o.details.split(',');
+                            parts.forEach(p => { let match = p.match(/(.*?)\((\d+)\)/); if(match) { let name = match[1].trim(); let qty = parseInt(match[2]); itemCounts[name] = (itemCounts[name] || 0) + qty; } });
+                        }
+                    }
+                }
+            });
+
+            let sorted = Object.entries(itemCounts).sort((a,b)=>b[1]-a[1]);
+            let bestItem = sorted.length > 0 ? `${sorted[0][0]} (${sorted[0][1]})` : '-';
+
+            document.getElementById('rep-orders').textContent = tOrders;
+            document.getElementById('rep-sales').textContent = `৳ ${tSales}`;
+            document.getElementById('rep-item').textContent = bestItem;
+            document.getElementById('custom-report-results').classList.remove('hidden');
         }
 
         function renderOrders() {
@@ -594,9 +693,36 @@
             try { 
                 await fetchPost({ action: 'updateOrderStatus', orderId: id, status: newStatus }); 
                 allOrders.find(o=>o.id===id).status=newStatus; showToast("স্ট্যাটাস আপডেট হয়েছে!"); 
-                renderDashboard(); 
-                renderOrders(); 
+                renderDashboard(); renderOrders(); updateAdminNotifications();
             } catch(e){} showLoading(false); 
+        }
+
+        // Export CSV logic
+        function downloadCSV(filename, text) {
+            const blob = new Blob([text], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url); link.setAttribute("download", filename);
+            link.style.visibility = 'hidden'; document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        }
+
+        function exportOrdersCSV() {
+            let csv = 'Order ID,Date,Name,Phone,Address,Items,Payment,Total,Status\n';
+            allOrders.forEach(o => {
+                let items = (o.details||'').replace(/,/g, ' | ').replace(/"/g, '""');
+                let addr = (o.address||'').replace(/,/g, ' - ').replace(/"/g, '""');
+                csv += `${o.id},${formatEnglishDate(o.time)},${o.name},${o.phone},"${addr}","${items}",${o.payment},${o.total},${o.status}\n`;
+            });
+            downloadCSV('Orders_Report.csv', csv);
+        }
+
+        function exportCustomersCSV() {
+            let csv = 'Name,Phone,Tag,Total Orders,Delivered,Total Spent\n';
+            for(let p in customerMap) {
+                let c = customerMap[p];
+                csv += `${c.name},${p},${c.tag||'None'},${c.totalOrders},${c.delivered},${c.spent}\n`;
+            }
+            downloadCSV('Customers_Report.csv', csv);
         }
 
         // --- CUSTOMER PROFILE SYSTEM ---
@@ -609,10 +735,15 @@
                 if(search && !c.name.toLowerCase().includes(search) && !phone.includes(search)) continue;
                 count++;
                 
+                let tagBadge = '';
+                if(c.tag === 'Good') tagBadge = '<span class="bg-green-100 text-green-700 px-1.5 py-0.5 rounded text-[9px] border border-green-200 ml-2">Good</span>';
+                if(c.tag === 'Bad') tagBadge = '<span class="bg-red-100 text-red-700 px-1.5 py-0.5 rounded text-[9px] border border-red-200 ml-2">Bad</span>';
+                if(c.tag === 'Regular') tagBadge = '<span class="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-[9px] border border-blue-200 ml-2">Reg</span>';
+
                 html += `
                     <div onclick="viewCustomer('${phone}')" class="p-4 bg-white cursor-pointer transition-colors hover:bg-orange-50/50">
                         <div class="flex justify-between items-center mb-1"><h4 class="font-bold text-sm text-gray-800 line-clamp-1">${c.name}</h4><span class="text-[10px] bg-gray-100 border px-1.5 py-0.5 rounded font-bold text-gray-600">${c.totalOrders} Orders</span></div>
-                        <p class="text-xs text-gray-500 font-bold flex items-center"><i class="fa-solid fa-phone mr-1 w-3"></i> ${phone} ${getTagHtml(phone)}</p>
+                        <p class="text-xs text-gray-500 font-bold flex items-center"><i class="fa-solid fa-phone mr-1 w-3"></i> ${phone} ${tagBadge}</p>
                     </div>`;
             }
             if(count === 0) html = '<div class="p-8 text-center text-sm text-gray-500 col-span-full">কোনো কাস্টমার পাওয়া যায়নি</div>';
@@ -648,18 +779,25 @@
             } catch(e){} showLoading(false);
         }
 
-        // --- MENU MANAGEMENT ---
+        // --- MENU MANAGEMENT (With Availability Toggle) ---
         function renderMenuAdmin() { 
             const grid = document.getElementById('admin-menu-grid');
             if(storeData.menu.length===0){ grid.innerHTML='<p class="text-sm col-span-full text-gray-500 text-center py-10 bg-white border rounded-xl">কোনো আইটেম নেই</p>'; return; }
             grid.innerHTML = storeData.menu.map(m => `
-                <div class="bg-white border rounded-xl p-3 shadow-sm flex flex-col hover:border-brand/30 transition-colors">
+                <div class="bg-white border rounded-xl p-3 shadow-sm flex flex-col hover:border-brand/30 transition-colors ${m.available === false ? 'opacity-60 grayscale' : ''}">
                     <div class="flex items-start gap-3 mb-2 border-b pb-2">
-                        <div class="w-16 h-16 rounded-lg bg-gray-50 border flex shrink-0 items-center justify-center overflow-hidden p-1">
+                        <div class="w-16 h-16 rounded-lg bg-gray-50 border flex shrink-0 items-center justify-center overflow-hidden p-1 relative">
                             <img src="${m.image}" onerror="this.src='https://placehold.co/100x100?text=No+Img'" class="w-full h-full object-contain">
+                            ${m.available === false ? '<span class="absolute inset-0 bg-black/50 text-white text-[8px] font-bold flex items-center justify-center text-center leading-tight">OUT OF<br>STOCK</span>' : ''}
                         </div>
                         <div class="flex-1">
-                            <h4 class="font-bold text-sm line-clamp-2 leading-snug">${m.name}</h4>
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-sm line-clamp-2 leading-snug">${m.name}</h4>
+                                <label class="relative inline-flex items-center cursor-pointer" title="Available/Out of Stock">
+                                    <input type="checkbox" class="sr-only peer" ${m.available !== false ? 'checked' : ''} onchange="toggleMenuStatus('${m.id}')">
+                                    <div class="w-7 h-4 bg-red-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-green-500"></div>
+                                </label>
+                            </div>
                             <p class="text-[10px] text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded inline-block mt-1 border">${m.category}</p>
                         </div>
                     </div>
@@ -673,13 +811,37 @@
                 </div>
             `).join(''); 
         }
+
+        async function toggleMenuStatus(id) {
+            const itemIndex = storeData.menu.findIndex(m => m.id === id);
+            if(itemIndex === -1) return;
+            const item = storeData.menu[itemIndex];
+            item.available = item.available === false ? true : false;
+            
+            showLoading(true);
+            try {
+                await fetchPost({action:'saveMenu', item: item, isEdit: true});
+                showToast(item.available ? "আইটেম চালু হয়েছে" : "Out of stock করা হয়েছে");
+                renderMenuAdmin();
+            } catch(e) {}
+            showLoading(false);
+        }
+
         function openMenuModal() { document.getElementById('menu-form').reset(); document.getElementById('m-id').value = 'f'+Date.now(); document.getElementById('menu-modal-title').textContent="Add Item"; document.getElementById('menu-modal').style.display='flex'; }
         function closeMenuModal() { document.getElementById('menu-modal').style.display='none'; }
         function editMenu(i) { document.getElementById('m-id').value=i.id; document.getElementById('m-name').value=i.name; document.getElementById('m-price').value=i.price; document.getElementById('m-cat').value=i.category; document.getElementById('m-image').value=i.image; document.getElementById('m-ing').value=i.ingredients; document.getElementById('menu-modal-title').textContent="Edit Item"; document.getElementById('menu-modal').style.display='flex'; }
-        async function saveMenuItem(e) { e.preventDefault(); const id=document.getElementById('m-id').value; const item={id, name:document.getElementById('m-name').value, price:document.getElementById('m-price').value, category:document.getElementById('m-cat').value, image:document.getElementById('m-image').value, ingredients:document.getElementById('m-ing').value}; const isEdit=storeData.menu.some(m=>m.id===id); showLoading(true); closeMenuModal(); try { await fetchPost({action:'saveMenu', item, isEdit}); if(isEdit){ storeData.menu[storeData.menu.findIndex(m=>m.id===id)]=item; } else storeData.menu.push(item); renderMenuAdmin(); showToast("সেভ হয়েছে!"); } catch(e){} showLoading(false); }
+        
+        async function saveMenuItem(e) { 
+            e.preventDefault(); const id=document.getElementById('m-id').value; 
+            const existingItem = storeData.menu.find(m => m.id === id);
+            const item={id, name:document.getElementById('m-name').value, price:document.getElementById('m-price').value, category:document.getElementById('m-cat').value, image:document.getElementById('m-image').value, ingredients:document.getElementById('m-ing').value, available: existingItem ? existingItem.available : true}; 
+            const isEdit = existingItem !== undefined; 
+            showLoading(true); closeMenuModal(); 
+            try { await fetchPost({action:'saveMenu', item, isEdit}); if(isEdit){ storeData.menu[storeData.menu.findIndex(m=>m.id===id)]=item; } else storeData.menu.push(item); renderMenuAdmin(); showToast("সেভ হয়েছে!"); } catch(e){} showLoading(false); 
+        }
         async function deleteMenu(id) { if(!confirm("Are you sure?")) return; showLoading(true); try { await fetchPost({action:'deleteMenu', id}); storeData.menu=storeData.menu.filter(m=>m.id!==id); renderMenuAdmin(); showToast("Deleted"); } catch(e){} showLoading(false); }
 
-        // --- CAROUSEL MANAGEMENT (MODAL) ---
+        // --- CAROUSEL MANAGEMENT (Fixed Delete+Update Issue) ---
         function renderCarouselAdmin() {
             const list = document.getElementById('carousel-list');
             if(storeData.carousel.length === 0) { list.innerHTML = '<p class="text-xs text-gray-500 text-center py-4">কোনো স্লাইড নেই</p>'; return; }
@@ -698,15 +860,19 @@
         function editCarousel(c) { document.getElementById('car-id').value=c.id; document.getElementById('car-title').value=c.title||''; document.getElementById('car-image').value=c.image; document.getElementById('slider-modal-title').textContent="Edit Slide"; document.getElementById('slider-submit-btn').textContent="Update Slide"; document.getElementById('slider-submit-btn').classList.replace('bg-gray-900', 'bg-blue-600'); document.getElementById('slider-modal').style.display='flex'; }
         
         async function saveCarousel(e) { 
-            e.preventDefault(); const id = document.getElementById('car-id').value || 'c'+Date.now(); const img = document.getElementById('car-image').value; const title = document.getElementById('car-title').value; const isEdit = document.getElementById('car-id').value !== ''; showLoading(true); closeSliderModal();
-            try { await fetchPost({ action:'saveCarousel', id:id, image:img, title:title, isEdit:isEdit }); 
-                if(isEdit) { const idx = storeData.carousel.findIndex(c => c.id === id); if(idx > -1) storeData.carousel[idx] = {id, title, image:img}; } 
-                else { storeData.carousel.push({id, title, image:img}); } renderCarouselAdmin(); showToast("স্লাইড আপডেট হয়েছে!"); 
+            e.preventDefault(); const id = document.getElementById('car-id').value; const img = document.getElementById('car-image').value; const title = document.getElementById('car-title').value; const isEdit = id !== ''; const finalId = isEdit ? id : 'c'+Date.now();
+            showLoading(true); closeSliderModal();
+            try { 
+                // To prevent duplication issue on backend, if it's an edit, we send a delete request first
+                if (isEdit) { await fetchPost({ action:'deleteCarousel', id: finalId }); }
+                await fetchPost({ action:'saveCarousel', id: finalId, image: img, title: title, isEdit: isEdit }); 
+                await fetchStoreData(); // Force pull fresh accurate data from backend
+                showToast("স্লাইড আপডেট হয়েছে!"); 
             } catch(e){} showLoading(false); 
         }
         async function deleteCarousel(id) { if(!confirm("Are you sure?")) return; showLoading(true); try { await fetchPost({ action:'deleteCarousel', id }); storeData.carousel = storeData.carousel.filter(c => c.id !== id); renderCarouselAdmin(); showToast("Deleted"); } catch(e){} showLoading(false); }
 
-        // --- AREA MANAGEMENT (MODAL) ---
+        // --- AREA MANAGEMENT ---
         function renderAreasAdmin() { 
             if(storeData.areas.length === 0) { document.getElementById('areas-table').innerHTML = '<tr><td colspan="3" class="p-4 text-center text-xs text-gray-500">কোনো এরিয়া নেই</td></tr>'; return; }
             document.getElementById('areas-table').innerHTML = storeData.areas.map(a => `<tr><td class="p-3 font-bold text-sm text-gray-800">${a.name}</td><td class="p-3 text-brand font-bold text-sm">৳ ${a.charge}</td><td class="p-3 text-right"><button onclick="editArea('${a.name}', '${a.charge}')" class="text-blue-600 bg-blue-50 hover:bg-blue-100 p-1.5 rounded mr-1"><i class="fa-solid fa-pen text-xs"></i></button> <button onclick="deleteArea('${a.name}')" class="text-red-600 bg-red-50 hover:bg-red-100 p-1.5 rounded"><i class="fa-solid fa-trash text-xs"></i></button></td></tr>`).join(''); 
@@ -718,7 +884,7 @@
         async function saveArea(e) { e.preventDefault(); const areaName=document.getElementById('area-name').value; const charge=document.getElementById('area-charge').value; showLoading(true); closeAreaModal(); try{ await fetchPost({action:'saveArea', areaName, charge}); const ex = storeData.areas.findIndex(a=>a.name===areaName); if(ex>-1) storeData.areas[ex].charge=charge; else storeData.areas.push({name:areaName, charge}); renderAreasAdmin(); showToast("সেভ হয়েছে!"); populateAreaFilter();}catch(e){} showLoading(false); }
         async function deleteArea(n) { if(!confirm("Are you sure?")) return; showLoading(true); try{ await fetchPost({action:'deleteArea', areaName:n}); storeData.areas=storeData.areas.filter(a=>a.name!==n); renderAreasAdmin(); showToast("Deleted"); populateAreaFilter();}catch(e){} showLoading(false); }
 
-        // --- NOTIFICATIONS MANAGEMENT (MODAL) ---
+        // --- NOTIFICATIONS MANAGEMENT ---
         async function fetchAdminNotifs() {
             const list = document.getElementById('admin-notif-list'); list.innerHTML = '<div class="flex justify-center items-center h-full"><i class="fa-solid fa-spinner fa-spin text-2xl text-gray-400"></i></div>';
             try {
