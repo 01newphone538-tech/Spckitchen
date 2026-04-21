@@ -244,7 +244,7 @@
                     <a id="cp-phone" href="#" class="text-sm text-blue-600 font-bold hover:underline"><i class="fa-solid fa-phone mr-1"></i><span></span></a>
                 </div>
                 <div class="flex flex-col items-end gap-2">
-                    <button onclick="document.getElementById('customer-modal').style.display='none'" class="text-gray-400 hover:text-red-500 bg-gray-100 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
+                    <button onclick="closeCustomerModal()" class="text-gray-400 hover:text-red-500 bg-gray-100 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
                     <select id="cp-tag" onchange="saveCustomerTag()" class="text-xs border border-gray-300 rounded px-2 py-1 outline-none bg-gray-50 font-bold text-gray-700 cursor-pointer focus:border-brand"><option value="">-- Set Tag --</option><option value="Regular">Regular</option><option value="Good">Good</option><option value="Bad">Bad</option></select>
                 </div>
             </div>
@@ -699,7 +699,7 @@
 
         // Export CSV logic
         function downloadCSV(filename, text) {
-            const blob = new Blob([text], { type: 'text/csv;charset=utf-8;' });
+            const blob = new Blob(['\uFEFF' + text], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             const url = URL.createObjectURL(blob);
             link.setAttribute("href", url); link.setAttribute("download", filename);
@@ -768,6 +768,11 @@
                     <div class="flex justify-between items-end"><p class="text-[10px] text-gray-500 uppercase font-bold">${o.payment.includes('Online')?'Online':'COD'}</p><p class="text-sm font-bold text-brand">৳ ${o.total}</p></div>
                 </div>
             `).join('');
+        }
+
+        function closeCustomerModal() {
+            document.getElementById('customer-modal').classList.add('hidden');
+            document.getElementById('customer-modal').classList.remove('flex');
         }
 
         async function saveCustomerTag() {
