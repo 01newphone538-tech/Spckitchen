@@ -21,6 +21,7 @@
 </head>
 <body class="h-screen flex overflow-hidden relative">
 
+    <!-- ADMIN LOGIN MODAL -->
     <div id="admin-login" class="fixed inset-0 bg-gray-900 z-[9999] flex items-center justify-center p-4">
         <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm text-center">
             <i class="fa-solid fa-user-shield text-5xl text-brand mb-4"></i><h2 class="text-2xl font-bold mb-6">অ্যাডমিন লগইন</h2>
@@ -29,8 +30,10 @@
         </div>
     </div>
 
+    <!-- Mobile Sidebar Overlay -->
     <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
 
+    <!-- SIDEBAR -->
     <aside id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 w-64 bg-gray-900 text-white flex flex-col transition-transform duration-300 z-50 shrink-0">
         <div class="p-5 flex items-center justify-between border-b border-gray-800">
             <div class="flex items-center gap-2"><i class="fa-solid fa-fire-burner text-brand text-xl"></i><h1 class="text-base font-bold">শেরপুর ক্লাউড কিচেন</h1></div>
@@ -49,7 +52,9 @@
         <div class="p-4 border-t border-gray-800"><button onclick="location.reload()" class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-gray-800 rounded-lg transition-colors"><i class="fa-solid fa-right-from-bracket"></i> লগআউট</button></div>
     </aside>
 
+    <!-- MAIN CONTENT -->
     <main class="flex-1 bg-gray-100 h-full overflow-y-auto custom-scroll relative flex flex-col w-full">
+        <!-- Mobile Header inside Main -->
         <header class="md:hidden bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-30">
             <div class="flex items-center gap-2"><i class="fa-solid fa-fire-burner text-brand text-lg"></i><h1 class="text-base font-bold text-gray-800">অ্যাডমিন প্যানেল</h1></div>
             <button onclick="toggleSidebar()" class="text-gray-800 focus:outline-none"><i class="fa-solid fa-bars text-xl"></i></button>
@@ -59,9 +64,11 @@
 
         <div class="p-4 md:p-8 max-w-7xl mx-auto pb-20 w-full flex-1">
             
+            <!-- TAB: DASHBOARD -->
             <div id="tab-dashboard" class="tab-content active">
                 <div class="flex justify-between items-center mb-6"><h2 class="text-xl md:text-2xl font-bold text-gray-800">Overview</h2><button onclick="fetchDashboardData()" class="bg-white border shadow-sm px-3 py-1.5 rounded-md text-xs font-bold hover:bg-gray-50 text-gray-700"><i class="fa-solid fa-rotate-right mr-1"></i> Reload</button></div>
                 
+                <!-- Advanced Stats -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500"><p class="text-gray-500 text-xs font-bold mb-1">Total Customers</p><h3 id="stat-users" class="text-xl md:text-2xl font-bold text-gray-800">0</h3></div>
                     <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-brand"><p class="text-gray-500 text-xs font-bold mb-1">Today's Sales</p><h3 id="stat-sales-today" class="text-xl md:text-2xl font-bold text-gray-800">৳ 0</h3></div>
@@ -79,88 +86,53 @@
                 <div class="space-y-3" id="recent-orders-list"></div>
             </div>
 
+            <!-- TAB: ALL ORDERS -->
             <div id="tab-orders" class="tab-content">
                 <h2 class="text-xl font-bold text-gray-800 mb-4">All Orders</h2>
-                <div class="bg-white p-4 rounded-xl border shadow-sm mb-6 transition-all duration-300">
-                    <div class="flex gap-2">
-                        <div class="relative flex-1">
+                <!-- Filter Section -->
+                <div class="bg-white p-4 rounded-xl border shadow-sm mb-6 flex flex-col md:flex-row gap-3 items-end md:items-center">
+                    <div class="w-full md:flex-1 relative">
+                        <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Search</label>
+                        <div class="relative">
                             <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" id="order-search" onkeyup="filterOrders()" placeholder="অর্ডার আইডি, নাম বা ফোন নম্বর সার্চ করুন..." class="w-full pl-10 pr-4 py-2 border rounded-lg outline-none text-sm focus:border-brand">
-                        </div>
-                        <button onclick="document.getElementById('adv-filters').classList.toggle('hidden')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg border flex items-center justify-center transition-colors tooltip relative group">
-                            <i class="fa-solid fa-filter"></i>
-                            <span class="absolute top-full mt-2 w-max bg-gray-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Advanced Filters</span>
-                        </button>
-                    </div>
-                    
-                    <div id="adv-filters" class="hidden mt-4 pt-4 border-t border-gray-100 grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <div>
-                            <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Filter by Area</label>
-                            <select id="order-filter-area" onchange="filterOrders()" class="w-full px-3 py-2 border rounded-md outline-none text-sm bg-white focus:border-brand">
-                                <option value="">All Areas</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Filter by Date</label>
-                            <input type="date" id="order-filter-date" onchange="filterOrders()" class="w-full px-3 py-2 border rounded-md outline-none text-sm bg-white focus:border-brand">
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Filter by Item Name</label>
-                            <input type="text" id="order-filter-item" onkeyup="filterOrders()" placeholder="e.g. Vanilla Cake..." class="w-full px-3 py-2 border rounded-md outline-none text-sm bg-white focus:border-brand">
-                        </div>
-                        <div class="md:col-span-3 flex justify-end">
-                            <button onclick="resetFilters()" class="text-xs text-brand font-bold hover:underline"><i class="fa-solid fa-times mr-1"></i> Clear Filters</button>
+                            <input type="text" id="order-search" onkeyup="filterOrders()" placeholder="ID, Name, Phone..." class="w-full pl-9 pr-8 py-2 border rounded-md outline-none text-sm focus:border-brand">
+                            <button onclick="document.getElementById('order-search').value=''; filterOrders();" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500" title="Clear Search"><i class="fa-solid fa-times-circle"></i></button>
                         </div>
                     </div>
+                    <div class="w-full md:w-48"><label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Filter by Area</label><select id="order-filter-area" onchange="filterOrders()" class="w-full px-3 py-2 border rounded-md outline-none text-sm bg-white focus:border-brand"><option value="">All Areas</option></select></div>
+                    <div class="w-full md:w-40"><label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Filter by Date</label><input type="date" id="order-filter-date" onchange="filterOrders()" class="w-full px-3 py-2 border rounded-md outline-none text-sm bg-white focus:border-brand"></div>
+                    <button onclick="resetFilters()" class="w-full md:w-auto bg-gray-100 text-gray-600 hover:bg-gray-200 px-4 py-2 rounded-md font-bold text-sm border"><i class="fa-solid fa-rotate mr-1"></i> Reset</button>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="all-orders-grid"></div>
             </div>
 
+            <!-- TAB: MENU -->
             <div id="tab-menu" class="tab-content">
                 <div class="flex justify-between items-center mb-6"><h2 class="text-xl font-bold text-gray-800">Menu Items</h2><button onclick="openMenuModal()" class="bg-brand text-white px-3 py-1.5 text-sm rounded-md font-bold shadow hover:bg-brand-dark transition-colors"><i class="fa-solid fa-plus mr-1"></i> Add New</button></div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="admin-menu-grid"></div>
             </div>
 
+            <!-- TAB: SLIDER -->
             <div id="tab-slider" class="tab-content">
-                <div class="flex justify-between items-center mb-6"><h2 class="text-xl font-bold text-gray-800">Homepage Slider</h2></div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white p-5 rounded-xl shadow-sm border h-fit">
-                        <h3 id="car-form-title" class="font-bold mb-4 text-sm text-gray-700">Add New Slide</h3>
-                        <form onsubmit="saveCarousel(event)" class="space-y-3">
-                            <input type="hidden" id="car-id">
-                            <input type="text" id="car-title" placeholder="Image Title (Optional)" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand">
-                            <input type="url" id="car-image" required placeholder="Image URL (Direct link)" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand">
-                            <div class="flex gap-2 pt-2">
-                                <button type="submit" class="flex-1 bg-gray-900 hover:bg-black transition-colors text-white py-2 px-4 rounded-md font-bold text-sm">Save Slide</button>
-                                <button type="button" onclick="resetCarouselForm()" class="bg-gray-100 border text-gray-700 hover:bg-gray-200 py-2 px-4 rounded-md text-sm font-bold transition-colors">Reset</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-sm border p-4">
-                        <h3 class="font-bold mb-4 text-sm text-gray-700">Current Slides</h3>
-                        <div id="carousel-list" class="space-y-3"></div>
-                    </div>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Homepage Slider</h2>
+                    <button onclick="openSliderModal()" class="bg-brand text-white px-3 py-1.5 text-sm rounded-md font-bold shadow hover:bg-brand-dark transition-colors"><i class="fa-solid fa-plus mr-1"></i> Add Slide</button>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border p-4">
+                    <div id="carousel-list" class="space-y-3"></div>
                 </div>
             </div>
 
+            <!-- TAB: AREAS -->
             <div id="tab-areas" class="tab-content">
-                <div class="flex justify-between items-center mb-6"><h2 class="text-xl font-bold text-gray-800">Delivery Areas</h2></div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white p-5 rounded-xl shadow-sm border h-fit">
-                        <h3 id="area-form-title" class="font-bold mb-4 text-sm text-gray-700">Add/Edit Area</h3>
-                        <form onsubmit="saveArea(event)" class="space-y-3">
-                            <input type="text" id="area-name" required placeholder="Area Name (e.g. Sherpur Sadar)" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand">
-                            <input type="number" id="area-charge" required placeholder="Delivery Charge (৳)" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand">
-                            <div class="flex gap-2 pt-2">
-                                <button type="submit" class="flex-1 bg-gray-900 hover:bg-black text-white py-2 rounded-md text-sm font-bold transition-colors">Save</button>
-                                <button type="button" onclick="resetAreaForm()" class="bg-gray-100 border text-gray-700 hover:bg-gray-200 py-2 px-4 rounded-md text-sm font-bold transition-colors">Reset</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-sm border overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-gray-50 border-b"><tr><th class="p-3 text-gray-600">Area</th><th class="p-3 text-gray-600">Charge</th><th class="p-3 text-right text-gray-600">Action</th></tr></thead><tbody id="areas-table" class="divide-y"></tbody></table></div>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Delivery Areas</h2>
+                    <button onclick="openAreaModal()" class="bg-brand text-white px-3 py-1.5 text-sm rounded-md font-bold shadow hover:bg-brand-dark transition-colors"><i class="fa-solid fa-plus mr-1"></i> Add Area</button>
                 </div>
+                <div class="bg-white rounded-xl shadow-sm border overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-gray-50 border-b"><tr><th class="p-3 text-gray-600">Area</th><th class="p-3 text-gray-600">Charge</th><th class="p-3 text-right text-gray-600">Action</th></tr></thead><tbody id="areas-table" class="divide-y"></tbody></table></div>
             </div>
 
+            <!-- TAB: CUSTOMERS -->
             <div id="tab-customers" class="tab-content">
                 <h2 class="text-xl font-bold text-gray-800 mb-4">Customer Directory</h2>
                 <div class="bg-white rounded-xl shadow-sm border overflow-hidden flex flex-col h-[75vh]">
@@ -169,30 +141,19 @@
                 </div>
             </div>
 
+            <!-- TAB: NOTIFICATIONS -->
             <div id="tab-notifications" class="tab-content">
-                <h2 class="text-xl font-bold text-gray-800 mb-6">Push Notifications</h2>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div class="bg-white p-5 rounded-xl shadow-sm border h-fit">
-                        <h3 id="notif-form-title" class="font-bold mb-4 border-b pb-2 text-sm text-gray-700">Send / Edit Message</h3>
-                        <form onsubmit="saveNotification(event)" class="space-y-3">
-                            <input type="hidden" id="n-id">
-                            <div><label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Target Audience</label><select id="notif-target" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand bg-white"><option value="All">All Users</option><option value="custom">Specific Phone Number...</option></select></div>
-                            <input type="tel" id="notif-custom-phone" placeholder="Enter Phone Number (01...)" class="w-full px-3 py-2 border rounded-md text-sm hidden outline-none focus:border-brand">
-                            <div><label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Message Title</label><input type="text" id="notif-title" required placeholder="Offer Title" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
-                            <div><label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Message Details</label><textarea id="notif-message" required placeholder="Write the details here..." rows="3" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></textarea></div>
-                            <div class="flex gap-2 pt-2">
-                                <button type="submit" class="flex-1 bg-brand hover:bg-brand-dark text-white font-bold py-2.5 rounded-md text-sm transition-colors shadow">Save / Send</button>
-                                <button type="button" onclick="resetNotifForm()" class="bg-gray-100 border text-gray-700 hover:bg-gray-200 font-bold py-2.5 px-4 rounded-md text-sm transition-colors">Reset</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-sm border overflow-hidden flex flex-col h-[550px]">
-                        <h3 class="font-bold p-4 border-b bg-gray-50 text-sm text-gray-700 flex justify-between items-center">History <button onclick="fetchAdminNotifs()" class="text-xs text-brand hover:underline font-bold"><i class="fa-solid fa-rotate-right"></i> Reload</button></h3>
-                        <div id="admin-notif-list" class="p-4 space-y-3 overflow-y-auto custom-scroll flex-1 bg-gray-50"></div>
-                    </div>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Push Notifications</h2>
+                    <button onclick="openNotifModal()" class="bg-brand text-white px-3 py-1.5 text-sm rounded-md font-bold shadow hover:bg-brand-dark transition-colors"><i class="fa-solid fa-paper-plane mr-1"></i> Send New</button>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border overflow-hidden flex flex-col h-[70vh]">
+                    <h3 class="font-bold p-4 border-b bg-gray-50 text-sm text-gray-700 flex justify-between items-center">History <button onclick="fetchAdminNotifs()" class="text-xs text-brand hover:underline font-bold"><i class="fa-solid fa-rotate-right mr-1"></i> Reload</button></h3>
+                    <div id="admin-notif-list" class="p-4 space-y-3 overflow-y-auto custom-scroll flex-1 bg-gray-50"></div>
                 </div>
             </div>
 
+            <!-- TAB: SETTINGS -->
             <div id="tab-settings" class="tab-content">
                 <h2 class="text-xl font-bold text-gray-800 mb-6">System Settings</h2>
                 <div class="bg-white p-6 rounded-xl shadow-sm border max-w-lg space-y-5">
@@ -204,11 +165,13 @@
         </div>
     </main>
 
+    <!-- FLOATING NOTIFICATION BELL -->
     <button onclick="toggleAdminOrderNotif()" class="fixed bottom-6 right-6 md:bottom-10 md:right-10 bg-white border border-gray-200 text-brand shadow-xl w-14 h-14 rounded-full flex items-center justify-center z-[9000] hover:bg-gray-50 hover:scale-105 transition-all">
         <i class="fa-solid fa-bell text-2xl"></i>
         <span id="new-order-badge" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold h-6 w-6 flex items-center justify-center rounded-full border-2 border-white hidden">0</span>
     </button>
 
+    <!-- ADMIN ORDER NOTIFICATIONS PANEL -->
     <div id="admin-order-notif-panel" class="fixed right-0 top-0 h-full w-80 max-w-full bg-white shadow-2xl z-[10000] transform translate-x-full transition-transform duration-300 flex flex-col border-l">
         <div class="p-4 bg-gray-900 text-white flex justify-between items-center shadow-md">
             <h3 class="font-bold text-sm"><i class="fa-solid fa-bell text-brand mr-2 text-lg"></i> আজকের নতুন অর্ডার</h3>
@@ -218,9 +181,13 @@
             <i class="fa-regular fa-clock mr-1"></i> রাত ১২টার পর নোটিফিকেশন অটোমেটিক মুছে যাবে
         </div>
         <div id="admin-order-notif-list" class="flex-1 overflow-y-auto bg-gray-50 p-3 space-y-3 custom-scroll">
-            </div>
+            <!-- Notifications load here -->
+        </div>
     </div>
 
+    <!-- MODALS SECTION -->
+    
+    <!-- CUSTOMER PROFILE MODAL -->
     <div id="customer-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-gray-100 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-[fadeIn_0.2s_ease-out]">
             <div class="p-4 border-b flex justify-between items-start bg-white">
@@ -229,7 +196,7 @@
                     <a id="cp-phone" href="#" class="text-sm text-blue-600 font-bold hover:underline"><i class="fa-solid fa-phone mr-1"></i><span></span></a>
                 </div>
                 <div class="flex flex-col items-end gap-2">
-                    <button onclick="closeCustomerModal()" class="text-gray-400 hover:text-red-500 bg-gray-100 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
+                    <button onclick="document.getElementById('customer-modal').style.display='none'" class="text-gray-400 hover:text-red-500 bg-gray-100 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
                     <select id="cp-tag" onchange="saveCustomerTag()" class="text-xs border border-gray-300 rounded px-2 py-1 outline-none bg-gray-50 font-bold text-gray-700 cursor-pointer focus:border-brand"><option value="">-- Set Tag --</option><option value="Regular">Regular</option><option value="Good">Good</option><option value="Bad">Bad</option></select>
                 </div>
             </div>
@@ -243,6 +210,7 @@
         </div>
     </div>
 
+    <!-- MENU MODAL -->
     <div id="menu-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md flex flex-col animate-[fadeIn_0.2s_ease-out]">
             <div class="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-xl"><h2 id="menu-modal-title" class="text-lg font-bold text-gray-800">Add Item</h2><button onclick="closeMenuModal()" class="text-gray-400 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50"><i class="fa-solid fa-times"></i></button></div>
@@ -251,13 +219,8 @@
                     <input type="hidden" id="m-id">
                     <div><label class="text-[10px] font-bold text-gray-500 uppercase">Item Name</label><input type="text" id="m-name" required placeholder="e.g. Kacchi Biryani" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
                     <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold text-gray-500 uppercase">Price</label><input type="number" id="m-price" required placeholder="৳" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div><div><label class="text-[10px] font-bold text-gray-500 uppercase">Category</label><input type="text" id="m-cat" required placeholder="e.g. Main Course" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div></div>
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label>
-                        <input type="url" id="m-image" required placeholder="https://..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand">
-                        <p class="text-xs mt-1 text-right"><a href="https://postimages.org/" target="_blank" class="text-blue-500 font-bold hover:underline">
-    <i class="fa-solid fa-cloud-arrow-up"></i> ছবি লিংক তৈরি করার জন্য এখানে ক্লিক করুন
-</a></p>
-                    </div>
+                    <div><label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label><input type="url" id="m-image" required placeholder="https://..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand">
+                    <p class="text-xs mt-1 text-right"><a href="https://postimages.org/" target="_blank" class="text-blue-500 font-bold hover:underline"><i class="fa-solid fa-cloud-arrow-up"></i> ছবি লিংক তৈরি করার জন্য এখানে ক্লিক করুন</a></p></div>
                     <div><label class="text-[10px] font-bold text-gray-500 uppercase">Details/Ingredients</label><textarea id="m-ing" required rows="2" placeholder="..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></textarea></div>
                     <button type="submit" class="w-full bg-brand hover:bg-brand-dark text-white font-bold py-2.5 rounded-md text-sm transition-colors mt-2 shadow">Save Item</button>
                 </form>
@@ -265,6 +228,57 @@
         </div>
     </div>
 
+    <!-- SLIDER MODAL -->
+    <div id="slider-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md flex flex-col animate-[fadeIn_0.2s_ease-out]">
+            <div class="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-xl"><h2 id="slider-modal-title" class="text-lg font-bold text-gray-800">Add Slide</h2><button onclick="closeSliderModal()" class="text-gray-400 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50"><i class="fa-solid fa-times"></i></button></div>
+            <div class="p-5">
+                <form id="slider-form" onsubmit="saveCarousel(event)" class="space-y-4">
+                    <input type="hidden" id="car-id">
+                    <div><label class="text-[10px] font-bold text-gray-500 uppercase">Image Title (Optional)</label><input type="text" id="car-title" placeholder="e.g. Special Offer" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label>
+                        <input type="url" id="car-image" required placeholder="https://..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand">
+                        <p class="text-xs mt-1 text-right"><a href="https://postimages.org/" target="_blank" class="text-blue-500 font-bold hover:underline"><i class="fa-solid fa-cloud-arrow-up"></i> ছবি লিংক তৈরি করার জন্য এখানে ক্লিক করুন</a></p>
+                    </div>
+                    <button type="submit" id="slider-submit-btn" class="w-full bg-gray-900 hover:bg-black text-white font-bold py-2.5 rounded-md text-sm transition-colors mt-2 shadow">Save Slide</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- AREA MODAL -->
+    <div id="area-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md flex flex-col animate-[fadeIn_0.2s_ease-out]">
+            <div class="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-xl"><h2 id="area-modal-title" class="text-lg font-bold text-gray-800">Add Area</h2><button onclick="closeAreaModal()" class="text-gray-400 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50"><i class="fa-solid fa-times"></i></button></div>
+            <div class="p-5">
+                <form id="area-form" onsubmit="saveArea(event)" class="space-y-4">
+                    <div><label class="text-[10px] font-bold text-gray-500 uppercase">Area Name</label><input type="text" id="area-name" required placeholder="e.g. Sherpur Sadar" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
+                    <div><label class="text-[10px] font-bold text-gray-500 uppercase">Delivery Charge (৳)</label><input type="number" id="area-charge" required placeholder="৳" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
+                    <button type="submit" id="area-submit-btn" class="w-full bg-gray-900 hover:bg-black text-white font-bold py-2.5 rounded-md text-sm transition-colors mt-2 shadow">Save Area</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION MODAL -->
+    <div id="notif-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md flex flex-col animate-[fadeIn_0.2s_ease-out]">
+            <div class="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-xl"><h2 id="notif-modal-title" class="text-lg font-bold text-gray-800">Send Message</h2><button onclick="closeNotifModal()" class="text-gray-400 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50"><i class="fa-solid fa-times"></i></button></div>
+            <div class="p-5">
+                <form id="notif-form" onsubmit="saveNotification(event)" class="space-y-4">
+                    <input type="hidden" id="n-id">
+                    <div><label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Target Audience</label><select id="notif-target" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand bg-white"><option value="All">All Users</option><option value="custom">Specific Phone Number...</option></select></div>
+                    <input type="tel" id="notif-custom-phone" placeholder="Enter Phone Number (01...)" class="w-full px-3 py-2 border rounded-md text-sm hidden outline-none focus:border-brand">
+                    <div><label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Message Title</label><input type="text" id="notif-title" required placeholder="Offer Title" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
+                    <div><label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Message Details</label><textarea id="notif-message" required placeholder="Write the details here..." rows="3" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></textarea></div>
+                    <button type="submit" id="notif-submit-btn" class="w-full bg-brand hover:bg-brand-dark text-white font-bold py-2.5 rounded-md text-sm transition-colors shadow">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
     <div id="toast" class="fixed top-5 md:top-10 left-1/2 transform -translate-x-1/2 text-white px-5 py-3 rounded-lg shadow-2xl flex items-center gap-3 z-[10000] transition-all duration-300 opacity-0 -translate-y-10 pointer-events-none text-sm font-bold"></div>
 
     <script>
@@ -412,19 +426,16 @@
             sel.innerHTML = '<option value="">All Areas</option>' + storeData.areas.map(a=>`<option value="${a.name}">${a.name}</option>`).join('');
         }
 
-        // --- NEW ORDER NOTIFICATION SYSTEM ---
+        // --- ORDER NOTIFICATION SYSTEM ---
         function updateAdminNotifications() {
             const now = new Date();
             const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-
-            // Filter for today's orders only (Reset automatically at 12 AM)
             const todaysOrders = allOrders.filter(o => new Date(o.time).getTime() >= todayStart).sort((a, b) => new Date(b.time) - new Date(a.time));
 
             const list = document.getElementById('admin-order-notif-list');
             const badge = document.getElementById('new-order-badge');
 
-            let unreadCount = 0;
-            let html = '';
+            let unreadCount = 0; let html = '';
 
             if(todaysOrders.length === 0) {
                 html = '<div class="h-full flex flex-col items-center justify-center text-gray-400 opacity-60 pt-10"><i class="fa-solid fa-box-open text-5xl mb-3"></i><p class="text-sm font-bold">আজকের কোনো নতুন অর্ডার নেই</p></div>';
@@ -437,7 +448,10 @@
                     <div onclick="viewOrderFromNotif('${o.id}')" class="p-3 bg-white rounded-xl border shadow-sm cursor-pointer hover:border-brand/50 transition-all ${isUnread ? 'border-l-4 border-l-brand bg-orange-50/20' : ''}">
                         <div class="flex justify-between items-start mb-1.5 border-b pb-1">
                             <span class="font-bold text-xs text-gray-800">${o.id} <span class="${isUnread?'inline-block':'hidden'} bg-red-500 text-white text-[8px] px-1 rounded ml-1 tracking-wider shadow-sm">NEW</span></span>
-                            <span class="text-[9px] text-gray-500 font-medium"><i class="fa-regular fa-clock mr-1"></i>${formatEnglishDate(o.time, false)}</span>
+                            <div class="flex flex-col items-end">
+                                <span class="text-[9px] text-gray-500 font-medium mb-1"><i class="fa-regular fa-clock mr-1"></i>${formatEnglishDate(o.time, false)}</span>
+                                <span class="text-[8px] px-1.5 py-0.5 rounded border font-bold ${getStatusClass(o.status)}">${o.status}</span>
+                            </div>
                         </div>
                         <p class="text-xs font-bold text-gray-800 flex items-center mb-1"><i class="fa-solid fa-user text-gray-400 mr-1.5 w-3"></i> ${o.name}</p>
                         <p class="text-[10px] text-gray-600 line-clamp-2"><span class="font-bold uppercase text-gray-400 mr-1">Items:</span> ${o.details}</p>
@@ -455,19 +469,11 @@
             const panel = document.getElementById('admin-order-notif-panel');
             if(panel.classList.contains('translate-x-full')) {
                 panel.classList.remove('translate-x-full');
-                
-                // Mark all today's orders as read
                 const todayStart = new Date().setHours(0,0,0,0);
-                allOrders.forEach(o => {
-                    if(new Date(o.time).getTime() >= todayStart && !viewedOrders.includes(o.id)) {
-                        viewedOrders.push(o.id);
-                    }
-                });
+                allOrders.forEach(o => { if(new Date(o.time).getTime() >= todayStart && !viewedOrders.includes(o.id)) viewedOrders.push(o.id); });
                 localStorage.setItem('adminViewedOrders', JSON.stringify(viewedOrders));
                 updateAdminNotifications(); 
-            } else {
-                panel.classList.add('translate-x-full');
-            }
+            } else { panel.classList.add('translate-x-full'); }
         }
 
         function viewOrderFromNotif(orderId) {
@@ -476,35 +482,24 @@
             document.getElementById('order-search').value = orderId;
             document.getElementById('order-filter-area').value = '';
             document.getElementById('order-filter-date').value = '';
-            document.getElementById('order-filter-item').value = '';
             filterOrders();
         }
 
-        // Background Polling Check for New Orders every 60s
         setInterval(async () => {
-            if(document.getElementById('admin-login').style.display !== 'none') return; // only run if logged in
+            if(document.getElementById('admin-login').style.display !== 'none') return;
             try {
                 const res = await fetch(`${scriptURL}?action=getAllOrders`);
                 const data = await res.json();
                 if(data.result === 'success') {
                     const freshOrders = data.data.filter(o => o && o.id);
-                    if(freshOrders.length > allOrders.length) {
-                        // We have new orders!
-                        showToast("🔔 নতুন অর্ডার এসেছে!", false);
-                        try { new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3').play(); } catch(e) {}
-                    }
-                    allOrders = freshOrders;
-                    processCustomers();
-                    cleanOldViewedOrders();
-                    
+                    if(freshOrders.length > allOrders.length) { showToast("🔔 নতুন অর্ডার এসেছে!", false); try { new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3').play(); } catch(e) {} }
+                    allOrders = freshOrders; processCustomers(); cleanOldViewedOrders();
                     if(document.getElementById('tab-dashboard').classList.contains('active')) renderDashboard();
                     if(document.getElementById('tab-orders').classList.contains('active')) renderOrders();
-                    
                     updateAdminNotifications();
                 }
             } catch(e){}
-        }, 60000); // Checks every 1 minute
-
+        }, 60000);
 
         // --- ADMIN RENDERS ---
         function renderDashboard() {
@@ -525,7 +520,8 @@
             const container = document.getElementById('recent-orders-list');
             if(allOrders.length === 0) { container.innerHTML = '<p class="text-sm text-gray-500 bg-white p-4 rounded-lg border text-center">No recent orders</p>'; }
             else {
-                container.innerHTML = allOrders.slice(0, 8).map(o => `
+                container.innerHTML = allOrders.slice(0, 8).map(o => {
+                    return `
                     <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex flex-col md:flex-row justify-between md:items-center gap-3 hover:border-brand/30 transition-colors">
                         <div class="flex-1">
                             <div class="flex gap-2 items-center mb-1.5 border-b border-gray-50 pb-1.5"><span class="font-bold text-sm text-gray-800">${o.id}</span><span class="text-[10px] text-gray-400 bg-gray-100 px-1.5 rounded">${formatEnglishDate(o.time)}</span></div>
@@ -537,7 +533,7 @@
                             ${getStatusDropdown(o.id, o.status)}
                         </div>
                     </div>`
-                ).join('');
+                }).join('');
             }
         }
 
@@ -546,14 +542,12 @@
             const search = document.getElementById('order-search').value.toLowerCase();
             const filterArea = document.getElementById('order-filter-area').value.toLowerCase();
             const filterDate = document.getElementById('order-filter-date').value; 
-            const filterItem = document.getElementById('order-filter-item').value.toLowerCase();
             
             let filtered = allOrders; 
             
             if(search) filtered = filtered.filter(o => String(o.id||'').toLowerCase().includes(search) || String(o.phone||'').includes(search) || String(o.name||'').toLowerCase().includes(search) || String(o.address||'').toLowerCase().includes(search));
             if(filterArea) filtered = filtered.filter(o => String(o.address||'').toLowerCase().includes(`[${filterArea}]`));
             if(filterDate) filtered = filtered.filter(o => formatEnglishDate(o.time, true) === filterDate);
-            if(filterItem) filtered = filtered.filter(o => String(o.details||'').toLowerCase().includes(filterItem));
 
             if(filtered.length === 0) { container.innerHTML = '<p class="text-center py-10 col-span-full text-sm text-gray-500 bg-white border rounded-xl">কোনো অর্ডার পাওয়া যায়নি</p>'; return; }
             
@@ -565,7 +559,7 @@
                             <span class="px-2 py-1 rounded text-[10px] border font-bold shadow-sm ${getStatusClass(o.status)}">${o.status || 'Pending'}</span>
                         </div>
                         <div class="mb-3 space-y-1.5">
-                            <p class="text-sm font-bold text-gray-800 flex items-center"><i class="fa-solid fa-user text-gray-400 mr-2 w-3"></i> <span>${o.name}</span> ${getTagHtml(o.phone)}</p>
+                            <p class="text-sm font-bold text-gray-800 flex items-start"><i class="fa-solid fa-user text-gray-400 mt-1 mr-2 w-3"></i> <span>${o.name}</span></p>
                             <p class="text-xs text-gray-600 flex items-start"><i class="fa-solid fa-phone text-gray-400 mt-0.5 mr-2 w-3"></i> <a href="tel:${o.phone}" class="text-blue-600 hover:underline font-bold">${o.phone}</a></p>
                             <p class="text-xs text-gray-600 flex items-start"><i class="fa-solid fa-location-dot text-gray-400 mt-0.5 mr-2 w-3"></i> <span class="leading-relaxed">${o.address}</span></p>
                         </div>
@@ -586,13 +580,7 @@
         }
         
         function filterOrders() { renderOrders(); }
-        function resetFilters() { 
-            document.getElementById('order-search').value=''; 
-            document.getElementById('order-filter-area').value=''; 
-            document.getElementById('order-filter-date').value=''; 
-            document.getElementById('order-filter-item').value=''; 
-            renderOrders(); 
-        }
+        function resetFilters() { document.getElementById('order-search').value=''; document.getElementById('order-filter-area').value=''; document.getElementById('order-filter-date').value=''; renderOrders(); }
         
         function getStatusClass(s) { 
             if(s==='ডেলিভারি সম্পন্ন হয়েছে') return 'text-green-700 bg-green-50 border-green-200'; 
@@ -621,15 +609,10 @@
                 if(search && !c.name.toLowerCase().includes(search) && !phone.includes(search)) continue;
                 count++;
                 
-                let tagBadge = '';
-                if(c.tag === 'Good') tagBadge = '<span class="bg-green-100 text-green-700 px-1.5 py-0.5 rounded text-[9px] border border-green-200 ml-2">Good</span>';
-                if(c.tag === 'Bad') tagBadge = '<span class="bg-red-100 text-red-700 px-1.5 py-0.5 rounded text-[9px] border border-red-200 ml-2">Bad</span>';
-                if(c.tag === 'Regular') tagBadge = '<span class="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-[9px] border border-blue-200 ml-2">Reg</span>';
-
                 html += `
                     <div onclick="viewCustomer('${phone}')" class="p-4 bg-white cursor-pointer transition-colors hover:bg-orange-50/50">
                         <div class="flex justify-between items-center mb-1"><h4 class="font-bold text-sm text-gray-800 line-clamp-1">${c.name}</h4><span class="text-[10px] bg-gray-100 border px-1.5 py-0.5 rounded font-bold text-gray-600">${c.totalOrders} Orders</span></div>
-                        <p class="text-xs text-gray-500 font-bold flex items-center"><i class="fa-solid fa-phone mr-1 w-3"></i> ${phone} ${tagBadge}</p>
+                        <p class="text-xs text-gray-500 font-bold flex items-center"><i class="fa-solid fa-phone mr-1 w-3"></i> ${phone} ${getTagHtml(phone)}</p>
                     </div>`;
             }
             if(count === 0) html = '<div class="p-8 text-center text-sm text-gray-500 col-span-full">কোনো কাস্টমার পাওয়া যায়নি</div>';
@@ -656,21 +639,16 @@
             `).join('');
         }
 
-        function closeCustomerModal() {
-            document.getElementById('customer-modal').classList.add('hidden'); 
-            document.getElementById('customer-modal').classList.remove('flex');
-        }
-
         async function saveCustomerTag() {
             if(!currentViewedPhone) return; const tag = document.getElementById('cp-tag').value; showLoading(true);
             try {
                 await fetchPost({ action: 'saveCustomerTag', phone: currentViewedPhone, tag: tag });
                 customerMap[currentViewedPhone].tag = tag; storeData.tags[currentViewedPhone] = tag;
-                renderCustomers(); renderDashboard(); renderOrders(); showToast("ট্যাগ সেভ হয়েছে!");
+                renderCustomers(); renderDashboard(); showToast("ট্যাগ সেভ হয়েছে!");
             } catch(e){} showLoading(false);
         }
 
-        // --- MENU & IMAGE MANAGEMENT ---
+        // --- MENU MANAGEMENT ---
         function renderMenuAdmin() { 
             const grid = document.getElementById('admin-menu-grid');
             if(storeData.menu.length===0){ grid.innerHTML='<p class="text-sm col-span-full text-gray-500 text-center py-10 bg-white border rounded-xl">কোনো আইটেম নেই</p>'; return; }
@@ -701,10 +679,7 @@
         async function saveMenuItem(e) { e.preventDefault(); const id=document.getElementById('m-id').value; const item={id, name:document.getElementById('m-name').value, price:document.getElementById('m-price').value, category:document.getElementById('m-cat').value, image:document.getElementById('m-image').value, ingredients:document.getElementById('m-ing').value}; const isEdit=storeData.menu.some(m=>m.id===id); showLoading(true); closeMenuModal(); try { await fetchPost({action:'saveMenu', item, isEdit}); if(isEdit){ storeData.menu[storeData.menu.findIndex(m=>m.id===id)]=item; } else storeData.menu.push(item); renderMenuAdmin(); showToast("সেভ হয়েছে!"); } catch(e){} showLoading(false); }
         async function deleteMenu(id) { if(!confirm("Are you sure?")) return; showLoading(true); try { await fetchPost({action:'deleteMenu', id}); storeData.menu=storeData.menu.filter(m=>m.id!==id); renderMenuAdmin(); showToast("Deleted"); } catch(e){} showLoading(false); }
 
-        function openImageUploader() { document.getElementById('iframe-modal').classList.remove('hidden'); document.getElementById('iframe-modal').classList.add('flex'); }
-        function closeImageUploader() { document.getElementById('iframe-modal').classList.add('hidden'); document.getElementById('iframe-modal').classList.remove('flex'); }
-
-        // --- CAROUSEL MANAGEMENT ---
+        // --- CAROUSEL MANAGEMENT (MODAL) ---
         function renderCarouselAdmin() {
             const list = document.getElementById('carousel-list');
             if(storeData.carousel.length === 0) { list.innerHTML = '<p class="text-xs text-gray-500 text-center py-4">কোনো স্লাইড নেই</p>'; return; }
@@ -718,63 +693,32 @@
                 </div>
             `).join('');
         }
-        function editCarousel(c) {
-            document.getElementById('car-id').value = c.id;
-            document.getElementById('car-title').value = c.title || '';
-            document.getElementById('car-image').value = c.image;
-            document.getElementById('car-form-title').textContent = "Edit Slide";
-            document.querySelector('#tab-slider button[type="submit"]').textContent = "Update Slide";
-            document.querySelector('#tab-slider button[type="submit"]').classList.replace('bg-gray-900', 'bg-blue-600');
-        }
-        function resetCarouselForm() {
-            document.getElementById('car-id').value = '';
-            document.getElementById('car-title').value = '';
-            document.getElementById('car-image').value = '';
-            document.getElementById('car-form-title').textContent = "Add New Slide";
-            const btn = document.querySelector('#tab-slider button[type="submit"]');
-            btn.textContent = "Save Slide"; btn.classList.replace('bg-blue-600', 'bg-gray-900');
-        }
+        function openSliderModal() { document.getElementById('slider-form').reset(); document.getElementById('car-id').value = ''; document.getElementById('slider-modal-title').textContent="Add Slide"; document.getElementById('slider-submit-btn').textContent = "Save Slide"; document.getElementById('slider-submit-btn').classList.replace('bg-blue-600', 'bg-gray-900'); document.getElementById('slider-modal').style.display='flex'; }
+        function closeSliderModal() { document.getElementById('slider-modal').style.display='none'; }
+        function editCarousel(c) { document.getElementById('car-id').value=c.id; document.getElementById('car-title').value=c.title||''; document.getElementById('car-image').value=c.image; document.getElementById('slider-modal-title').textContent="Edit Slide"; document.getElementById('slider-submit-btn').textContent="Update Slide"; document.getElementById('slider-submit-btn').classList.replace('bg-gray-900', 'bg-blue-600'); document.getElementById('slider-modal').style.display='flex'; }
+        
         async function saveCarousel(e) { 
-            e.preventDefault(); 
-            const id = document.getElementById('car-id').value || 'c'+Date.now();
-            const img = document.getElementById('car-image').value; 
-            const title = document.getElementById('car-title').value; 
-            const isEdit = document.getElementById('car-id').value !== '';
-            showLoading(true); 
-            try { 
-                await fetchPost({ action:'saveCarousel', id:id, image:img, title:title, isEdit:isEdit }); 
-                if(isEdit) {
-                    const idx = storeData.carousel.findIndex(c => c.id === id);
-                    if(idx > -1) storeData.carousel[idx] = {id, title, image:img};
-                } else {
-                    storeData.carousel.push({id, title, image:img});
-                }
-                resetCarouselForm();
-                renderCarouselAdmin();
-                showToast("স্লাইড আপডেট হয়েছে!"); 
+            e.preventDefault(); const id = document.getElementById('car-id').value || 'c'+Date.now(); const img = document.getElementById('car-image').value; const title = document.getElementById('car-title').value; const isEdit = document.getElementById('car-id').value !== ''; showLoading(true); closeSliderModal();
+            try { await fetchPost({ action:'saveCarousel', id:id, image:img, title:title, isEdit:isEdit }); 
+                if(isEdit) { const idx = storeData.carousel.findIndex(c => c.id === id); if(idx > -1) storeData.carousel[idx] = {id, title, image:img}; } 
+                else { storeData.carousel.push({id, title, image:img}); } renderCarouselAdmin(); showToast("স্লাইড আপডেট হয়েছে!"); 
             } catch(e){} showLoading(false); 
         }
         async function deleteCarousel(id) { if(!confirm("Are you sure?")) return; showLoading(true); try { await fetchPost({ action:'deleteCarousel', id }); storeData.carousel = storeData.carousel.filter(c => c.id !== id); renderCarouselAdmin(); showToast("Deleted"); } catch(e){} showLoading(false); }
 
-        // --- AREA MANAGEMENT ---
+        // --- AREA MANAGEMENT (MODAL) ---
         function renderAreasAdmin() { 
-            const btn = document.querySelector('#tab-areas button[type="submit"]');
-            btn.textContent = "Save Area"; btn.classList.replace('bg-blue-600', 'bg-gray-900'); document.getElementById('area-form-title').textContent = "Add Area";
-            
             if(storeData.areas.length === 0) { document.getElementById('areas-table').innerHTML = '<tr><td colspan="3" class="p-4 text-center text-xs text-gray-500">কোনো এরিয়া নেই</td></tr>'; return; }
-            
             document.getElementById('areas-table').innerHTML = storeData.areas.map(a => `<tr><td class="p-3 font-bold text-sm text-gray-800">${a.name}</td><td class="p-3 text-brand font-bold text-sm">৳ ${a.charge}</td><td class="p-3 text-right"><button onclick="editArea('${a.name}', '${a.charge}')" class="text-blue-600 bg-blue-50 hover:bg-blue-100 p-1.5 rounded mr-1"><i class="fa-solid fa-pen text-xs"></i></button> <button onclick="deleteArea('${a.name}')" class="text-red-600 bg-red-50 hover:bg-red-100 p-1.5 rounded"><i class="fa-solid fa-trash text-xs"></i></button></td></tr>`).join(''); 
         }
-        function editArea(name, charge) { document.getElementById('area-name').value = name; document.getElementById('area-name').readOnly = true; document.getElementById('area-charge').value = charge; document.getElementById('area-form-title').textContent = "Update Area Charge"; const btn = document.querySelector('#tab-areas button[type="submit"]'); btn.textContent = "Update"; btn.classList.replace('bg-gray-900', 'bg-blue-600'); }
-        function resetAreaForm() { document.getElementById('area-name').value = ''; document.getElementById('area-name').readOnly = false; document.getElementById('area-charge').value = ''; renderAreasAdmin(); }
-        async function saveArea(e) { e.preventDefault(); const areaName=document.getElementById('area-name').value; const charge=document.getElementById('area-charge').value; showLoading(true); try{ await fetchPost({action:'saveArea', areaName, charge}); const ex = storeData.areas.findIndex(a=>a.name===areaName); if(ex>-1) storeData.areas[ex].charge=charge; else storeData.areas.push({name:areaName, charge}); resetAreaForm(); showToast("সেভ হয়েছে!"); populateAreaFilter();}catch(e){} showLoading(false); }
+        function openAreaModal() { document.getElementById('area-form').reset(); document.getElementById('area-name').readOnly = false; document.getElementById('area-modal-title').textContent="Add Area"; document.getElementById('area-submit-btn').textContent = "Save Area"; document.getElementById('area-submit-btn').classList.replace('bg-blue-600', 'bg-gray-900'); document.getElementById('area-modal').style.display='flex'; }
+        function closeAreaModal() { document.getElementById('area-modal').style.display='none'; }
+        function editArea(name, charge) { document.getElementById('area-name').value = name; document.getElementById('area-name').readOnly = true; document.getElementById('area-charge').value = charge; document.getElementById('area-modal-title').textContent = "Update Area Charge"; document.getElementById('area-submit-btn').textContent = "Update Area"; document.getElementById('area-submit-btn').classList.replace('bg-gray-900', 'bg-blue-600'); document.getElementById('area-modal').style.display='flex'; }
+        
+        async function saveArea(e) { e.preventDefault(); const areaName=document.getElementById('area-name').value; const charge=document.getElementById('area-charge').value; showLoading(true); closeAreaModal(); try{ await fetchPost({action:'saveArea', areaName, charge}); const ex = storeData.areas.findIndex(a=>a.name===areaName); if(ex>-1) storeData.areas[ex].charge=charge; else storeData.areas.push({name:areaName, charge}); renderAreasAdmin(); showToast("সেভ হয়েছে!"); populateAreaFilter();}catch(e){} showLoading(false); }
         async function deleteArea(n) { if(!confirm("Are you sure?")) return; showLoading(true); try{ await fetchPost({action:'deleteArea', areaName:n}); storeData.areas=storeData.areas.filter(a=>a.name!==n); renderAreasAdmin(); showToast("Deleted"); populateAreaFilter();}catch(e){} showLoading(false); }
 
-        // --- SETTINGS ---
-        function renderSettings() { document.getElementById('set-admin-phone').value=storeData.settings.AdminPhone||''; document.getElementById('set-promo-text').value=storeData.settings.PromoText||''; document.getElementById('set-free-del').value=storeData.settings.FreeDeliveryThreshold||''; }
-        async function saveSetting(k, id) { const v=document.getElementById(id).value; showLoading(true); try{ await fetchPost({action:'saveSettings', key:k, value:v}); storeData.settings[k]=v; showToast("Saved!");}catch(e){} showLoading(false); }
-
-        // --- ADMIN NOTIFICATIONS ---
+        // --- NOTIFICATIONS MANAGEMENT (MODAL) ---
         async function fetchAdminNotifs() {
             const list = document.getElementById('admin-notif-list'); list.innerHTML = '<div class="flex justify-center items-center h-full"><i class="fa-solid fa-spinner fa-spin text-2xl text-gray-400"></i></div>';
             try {
@@ -799,21 +743,27 @@
         }
 
         document.getElementById('notif-target').addEventListener('change', function(e) { document.getElementById('notif-custom-phone').style.display = e.target.value === 'custom' ? 'block' : 'none'; });
+        function openNotifModal() { document.getElementById('notif-form').reset(); document.getElementById('n-id').value = ''; document.getElementById('notif-target').value = 'All'; document.getElementById('notif-custom-phone').style.display = 'none'; document.getElementById('notif-modal-title').textContent="Send Message"; document.getElementById('notif-submit-btn').textContent = "Send Message"; document.getElementById('notif-modal').style.display='flex'; }
+        function closeNotifModal() { document.getElementById('notif-modal').style.display='none'; }
+        
         function editNotif(n) {
             document.getElementById('n-id').value = n.id; document.getElementById('notif-title').value = n.title; document.getElementById('notif-message').value = n.message;
             if(n.target === 'All' || n.target === 'all') { document.getElementById('notif-target').value = 'All'; document.getElementById('notif-custom-phone').style.display = 'none'; } else { document.getElementById('notif-target').value = 'custom'; document.getElementById('notif-custom-phone').value = n.target; document.getElementById('notif-custom-phone').style.display = 'block'; }
-            document.getElementById('notif-form-title').textContent = "Update Message"; document.querySelector('#tab-notifications button[type="submit"]').textContent = "Update";
+            document.getElementById('notif-modal-title').textContent = "Update Message"; document.getElementById('notif-submit-btn').textContent = "Update Message"; document.getElementById('notif-modal').style.display='flex';
         }
-        function resetNotifForm() {
-            document.getElementById('n-id').value = ''; document.getElementById('notif-title').value = ''; document.getElementById('notif-message').value = ''; document.getElementById('notif-target').value = 'All'; document.getElementById('notif-custom-phone').style.display = 'none'; document.getElementById('notif-form-title').textContent = "Send New Message"; document.querySelector('#tab-notifications button[type="submit"]').innerHTML = 'Save / Send';
-        }
+        
         async function saveNotification(e) {
             e.preventDefault(); const id = document.getElementById('n-id').value; const isEdit = id !== ''; const targetType = document.getElementById('notif-target').value;
             const target = targetType === 'custom' ? document.getElementById('notif-custom-phone').value : 'All'; const title = document.getElementById('notif-title').value; const message = document.getElementById('notif-message').value;
             if(targetType === 'custom' && !target) return showToast("নম্বর দিন", true);
-            showLoading(true); try { await fetchPost({ action: 'saveNotification', isEdit, id, target, title, message }); showToast(isEdit ? "আপডেট হয়েছে!" : "পাঠানো হয়েছে!"); resetNotifForm(); fetchAdminNotifs(); } catch(e){} showLoading(false);
+            showLoading(true); closeNotifModal(); try { await fetchPost({ action: 'saveNotification', isEdit, id, target, title, message }); showToast(isEdit ? "আপডেট হয়েছে!" : "পাঠানো হয়েছে!"); fetchAdminNotifs(); } catch(e){} showLoading(false);
         }
         async function deleteNotification(id) { if(!confirm("Are you sure?")) return; showLoading(true); try { await fetchPost({ action: 'deleteNotification', id }); showToast("Deleted!"); fetchAdminNotifs(); } catch(e){} showLoading(false); }
+
+        // --- SETTINGS ---
+        function renderSettings() { document.getElementById('set-admin-phone').value=storeData.settings.AdminPhone||''; document.getElementById('set-promo-text').value=storeData.settings.PromoText||''; document.getElementById('set-free-del').value=storeData.settings.FreeDeliveryThreshold||''; }
+        async function saveSetting(k, id) { const v=document.getElementById(id).value; showLoading(true); try{ await fetchPost({action:'saveSettings', key:k, value:v}); storeData.settings[k]=v; showToast("Saved!");}catch(e){} showLoading(false); }
+
     </script>
 </body>
 </html>
