@@ -24,19 +24,16 @@
     <div id="admin-login" class="fixed inset-0 bg-gray-900 z-[9999] flex items-center justify-center p-4">
         <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm text-center">
             <i class="fa-solid fa-user-shield text-5xl text-brand mb-4"></i><h2 class="text-2xl font-bold mb-6">অ্যাডমিন লগইন</h2>
-            <input type="password" id="admin-pass" placeholder="পাসওয়ার্ড (test)" class="w-full px-4 py-3 border rounded-lg mb-4 outline-none focus:ring-2 focus:ring-brand">
-            <button onclick="checkAdmin()" class="w-full bg-gray-900 text-white font-bold py-3 rounded-lg hover:bg-brand transition-colors">প্রবেশ করুন</button>
+            <input type="password" id="admin-pass" placeholder="পাসওয়ার্ড লিখুন..." class="w-full px-4 py-3 border rounded-lg mb-4 outline-none focus:ring-2 focus:ring-brand">
+            <button id="admin-login-btn" onclick="checkAdmin()" class="w-full bg-gray-900 text-white font-bold py-3 rounded-lg hover:bg-brand transition-colors">প্রবেশ করুন</button>
         </div>
     </div>
 
-    <!-- Mobile Sidebar Overlay -->
     <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
 
-    <!-- SIDEBAR -->
     <aside id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 w-64 bg-gray-900 text-white flex flex-col transition-transform duration-300 z-50 shrink-0">
-        <!-- Logo Header -->
         <div class="p-5 flex items-center justify-between border-b border-gray-800">
-            <div class="flex items-center gap-2 cursor-pointer hover:text-brand transition-colors" onclick="switchTab('dashboard')" title="Go to Dashboard">
+            <div class="flex items-center gap-2 cursor-pointer hover:text-brand transition-colors" onclick="switchTab('dashboard')">
                 <i class="fa-solid fa-fire-burner text-brand text-xl"></i>
                 <h1 class="text-base font-bold">শেরপুর ক্লাউড কিচেন</h1>
             </div>
@@ -48,7 +45,6 @@
             <a href="#" onclick="switchTab('orders')" id="tab-btn-orders" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-clipboard-list w-5"></i> সকল অর্ডার <span id="pending-badge" class="ml-auto bg-brand text-[10px] font-bold px-2 py-0.5 rounded-full hidden text-white">0</span></a>
             <a href="#" onclick="switchTab('menu')" id="tab-btn-menu" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-burger w-5"></i> মেনু কন্ট্রোল</a>
             <a href="#" onclick="switchTab('offers')" id="tab-btn-offers" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-tags w-5"></i> স্পেশাল অফার</a>
-            <a href="#" onclick="switchTab('slider')" id="tab-btn-slider" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-images w-5"></i> স্লাইডার (Carousel)</a>
             <a href="#" onclick="switchTab('areas')" id="tab-btn-areas" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-map-location-dot w-5"></i> ডেলিভারি এরিয়া</a>
             <a href="#" onclick="switchTab('customers')" id="tab-btn-customers" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-users w-5"></i> কাস্টমার লিস্ট</a>
             <a href="#" onclick="switchTab('notifications')" id="tab-btn-notifications" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-bullhorn w-5"></i> নোটিফিকেশন</a>
@@ -57,9 +53,7 @@
         <div class="p-4 border-t border-gray-800"><button onclick="location.reload()" class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-gray-800 rounded-lg transition-colors"><i class="fa-solid fa-right-from-bracket"></i> লগআউট</button></div>
     </aside>
 
-    <!-- MAIN CONTENT -->
     <main class="flex-1 bg-gray-100 h-full overflow-y-auto custom-scroll relative flex flex-col w-full">
-        <!-- Mobile Header -->
         <header class="md:hidden bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-30">
             <div class="flex items-center gap-2 cursor-pointer hover:text-brand" onclick="switchTab('dashboard')">
                 <i class="fa-solid fa-fire-burner text-brand text-lg"></i>
@@ -72,11 +66,9 @@
 
         <div class="p-4 md:p-8 max-w-7xl mx-auto pb-20 w-full flex-1">
             
-            <!-- TAB: DASHBOARD -->
             <div id="tab-dashboard" class="tab-content active">
                 <div class="flex justify-between items-center mb-6"><h2 class="text-xl md:text-2xl font-bold text-gray-800">Overview</h2><button onclick="fetchDashboardData()" class="bg-white border shadow-sm px-3 py-1.5 rounded-md text-xs font-bold hover:bg-gray-50 text-gray-700"><i class="fa-solid fa-rotate-right mr-1"></i> Reload</button></div>
                 
-                <!-- Advanced Stats -->
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
                     <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-indigo-500"><p class="text-gray-500 text-[11px] font-bold mb-1 uppercase">Today's Orders</p><h3 id="stat-orders-today-count" class="text-xl md:text-2xl font-bold text-gray-800">0</h3></div>
                     <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-brand"><p class="text-gray-500 text-[11px] font-bold mb-1 uppercase">Today's Sales</p><h3 id="stat-sales-today" class="text-xl md:text-2xl font-bold text-gray-800">৳ 0</h3></div>
@@ -95,7 +87,6 @@
                 <div class="space-y-3" id="recent-orders-list"></div>
             </div>
 
-            <!-- TAB: ALL ORDERS -->
             <div id="tab-orders" class="tab-content">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-bold text-gray-800">All Orders</h2>
@@ -107,37 +98,24 @@
                         <div class="relative flex-1">
                             <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                             <input type="text" id="order-search" onkeyup="filterOrders()" placeholder="অর্ডার আইডি, নাম বা ফোন নম্বর সার্চ করুন..." class="w-full pl-10 pr-8 py-2.5 border rounded-lg outline-none text-sm focus:border-brand bg-gray-50">
-                            <button onclick="document.getElementById('order-search').value=''; filterOrders();" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors" title="Clear Search"><i class="fa-solid fa-times-circle text-lg"></i></button>
+                            <button onclick="document.getElementById('order-search').value=''; filterOrders();" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors"><i class="fa-solid fa-times-circle text-lg"></i></button>
                         </div>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="all-orders-grid"></div>
             </div>
 
-            <!-- TAB: MENU -->
             <div id="tab-menu" class="tab-content">
                 <div class="flex justify-between items-center mb-6"><h2 class="text-xl font-bold text-gray-800">Menu Items</h2><button onclick="openMenuModal()" class="bg-brand text-white px-3 py-1.5 text-sm rounded-md font-bold shadow hover:bg-brand-dark transition-colors"><i class="fa-solid fa-plus mr-1"></i> Add New</button></div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="admin-menu-grid"></div>
             </div>
 
-            <!-- TAB: OFFERS -->
+            <!-- Offers Tab (Slider removed) -->
             <div id="tab-offers" class="tab-content">
                 <div class="flex justify-between items-center mb-6"><h2 class="text-xl font-bold text-gray-800">Special Offers</h2><button onclick="openOfferModal()" class="bg-brand text-white px-3 py-1.5 text-sm rounded-md font-bold shadow hover:bg-brand-dark transition-colors"><i class="fa-solid fa-plus mr-1"></i> Add Offer</button></div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="admin-offers-grid"></div>
             </div>
 
-            <!-- TAB: SLIDER -->
-            <div id="tab-slider" class="tab-content">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-bold text-gray-800">Homepage Slider</h2>
-                    <button onclick="openSliderModal()" class="bg-brand text-white px-3 py-1.5 text-sm rounded-md font-bold shadow hover:bg-brand-dark transition-colors"><i class="fa-solid fa-plus mr-1"></i> Add Slide</button>
-                </div>
-                <div class="bg-white rounded-xl shadow-sm border p-4">
-                    <div id="carousel-list" class="space-y-3"></div>
-                </div>
-            </div>
-
-            <!-- TAB: AREAS -->
             <div id="tab-areas" class="tab-content">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-xl font-bold text-gray-800">Delivery Areas</h2>
@@ -146,7 +124,6 @@
                 <div class="bg-white rounded-xl shadow-sm border overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-gray-50 border-b"><tr><th class="p-3 text-gray-600">Area</th><th class="p-3 text-gray-600">Charge</th><th class="p-3 text-right text-gray-600">Action</th></tr></thead><tbody id="areas-table" class="divide-y"></tbody></table></div>
             </div>
 
-            <!-- TAB: CUSTOMERS -->
             <div id="tab-customers" class="tab-content">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-bold text-gray-800">Customer Directory</h2>
@@ -161,7 +138,6 @@
                 </div>
             </div>
 
-            <!-- TAB: NOTIFICATIONS -->
             <div id="tab-notifications" class="tab-content">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-xl font-bold text-gray-800">Push Notifications</h2>
@@ -173,18 +149,29 @@
                 </div>
             </div>
 
-            <!-- TAB: SETTINGS -->
             <div id="tab-settings" class="tab-content">
                 <h2 class="text-xl font-bold text-gray-800 mb-6">System Settings</h2>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6">
-                    <!-- Contact Settings -->
+                    
                     <div class="bg-white p-6 rounded-xl shadow-sm border space-y-5">
-                        <h3 class="font-bold text-gray-800 border-b pb-2 mb-4"><i class="fa-solid fa-address-book text-brand mr-2"></i>Contact Numbers</h3>
+                        <h3 class="font-bold text-gray-800 border-b pb-2 mb-4"><i class="fa-solid fa-address-book text-brand mr-2"></i>Contact & Operation</h3>
+                        
+                        <!-- রেস্টুরেন্ট Open/Close বাটন ফিচার যুক্ত করা হলো -->
+                        <div class="bg-orange-50 p-3 rounded-lg border border-orange-100 mb-3">
+                            <label class="block text-sm font-extrabold text-gray-900 mb-2"><i class="fa-solid fa-store mr-1"></i> Restaurant Status (রেস্টুরেন্ট চালু/বন্ধ)</label>
+                            <div class="flex gap-2">
+                                <select id="set-is-open" class="flex-1 px-3 py-2 border rounded-md text-sm font-bold outline-none focus:border-brand">
+                                    <option value="true">Open (চালু আছে)</option>
+                                    <option value="false">Closed (বন্ধ আছে)</option>
+                                </select>
+                                <button onclick="saveSetting('IsOpen', 'set-is-open')" class="bg-gray-900 hover:bg-black transition-colors text-white px-4 rounded-md text-sm font-bold">Save</button>
+                            </div>
+                        </div>
+
                         <div><label class="block text-xs font-bold text-gray-700 mb-1">Calling Number</label><div class="flex gap-2"><input type="tel" id="set-admin-phone" class="flex-1 px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"><button onclick="saveSetting('AdminPhone', 'set-admin-phone')" class="bg-gray-900 hover:bg-black transition-colors text-white px-4 rounded-md text-sm font-bold">Save</button></div></div>
                         <div><label class="block text-xs font-bold text-gray-700 mb-1">WhatsApp Number</label><div class="flex gap-2"><input type="tel" id="set-whatsapp" class="flex-1 px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"><button onclick="saveSetting('WhatsAppNumber', 'set-whatsapp')" class="bg-gray-900 hover:bg-black transition-colors text-white px-4 rounded-md text-sm font-bold">Save</button></div></div>
                     </div>
                     
-                    <!-- Payment Account Settings -->
                     <div class="bg-white p-6 rounded-xl shadow-sm border space-y-5">
                         <h3 class="font-bold text-gray-800 border-b pb-2 mb-4"><i class="fa-solid fa-money-bill-transfer text-brand mr-2"></i>Payment Accounts</h3>
                         <div><label class="block text-xs font-bold text-gray-700 mb-1">bKash Number (Personal)</label><div class="flex gap-2"><input type="tel" id="set-bkash" class="flex-1 px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"><button onclick="saveSetting('BkashNumber', 'set-bkash')" class="bg-gray-900 hover:bg-black transition-colors text-white px-4 rounded-md text-sm font-bold">Save</button></div></div>
@@ -192,16 +179,13 @@
                         <div><label class="block text-xs font-bold text-gray-700 mb-1">Rocket Number (Personal)</label><div class="flex gap-2"><input type="tel" id="set-rocket" class="flex-1 px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"><button onclick="saveSetting('RocketNumber', 'set-rocket')" class="bg-gray-900 hover:bg-black transition-colors text-white px-4 rounded-md text-sm font-bold">Save</button></div></div>
                     </div>
 
-                    <!-- General & Security Settings -->
                     <div class="bg-white p-6 rounded-xl shadow-sm border lg:col-span-2 space-y-5">
                         <h3 class="font-bold text-gray-800 border-b pb-2 mb-4"><i class="fa-solid fa-gear text-brand mr-2"></i>General & Security</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div><label class="block text-xs font-bold text-gray-700 mb-1">Top Announcement Marquee</label><div class="flex gap-2"><input type="text" id="set-promo-text" class="flex-1 px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"><button onclick="saveSetting('PromoText', 'set-promo-text')" class="bg-gray-900 hover:bg-black transition-colors text-white px-4 rounded-md text-sm font-bold">Save</button></div></div>
                             <div><label class="block text-xs font-bold text-gray-700 mb-1">Free Delivery Target Amount (৳)</label><div class="flex gap-2"><input type="number" id="set-free-del" class="flex-1 px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"><button onclick="saveSetting('FreeDeliveryThreshold', 'set-free-del')" class="bg-gray-900 hover:bg-black transition-colors text-white px-4 rounded-md text-sm font-bold">Save</button></div></div>
                             
-                            <!-- Blocked Users Input -->
                             <div><label class="block text-xs font-bold text-red-600 mb-1">Blocked Phone Numbers (Anti-Spam)</label><div class="flex gap-2"><input type="text" id="set-blocked" placeholder="017..., 018... (Comma separated)" class="flex-1 px-3 py-2 border border-red-200 rounded-md text-sm outline-none focus:border-red-500 bg-red-50"><button onclick="saveSetting('BlockedUsers', 'set-blocked')" class="bg-red-600 hover:bg-red-700 transition-colors text-white px-4 rounded-md text-sm font-bold">Block</button></div></div>
-                            <!-- Coupons Input -->
                             <div><label class="block text-xs font-bold text-green-600 mb-1">Discount Coupons (JSON Format)</label><div class="flex gap-2"><input type="text" id="set-coupons" placeholder='{"SAVE20": 20, "NEW50": 50}' class="flex-1 px-3 py-2 border border-green-200 rounded-md text-sm outline-none focus:border-green-500 bg-green-50"><button onclick="saveSetting('Coupons', 'set-coupons')" class="bg-green-600 hover:bg-green-700 transition-colors text-white px-4 rounded-md text-sm font-bold">Save</button></div></div>
                         </div>
                     </div>
@@ -210,26 +194,19 @@
         </div>
     </main>
 
-    <!-- FLOATING NOTIFICATION BELL -->
     <button onclick="toggleAdminOrderNotif()" class="fixed bottom-6 right-6 md:bottom-10 md:right-10 bg-white border border-gray-200 text-brand shadow-xl w-14 h-14 rounded-full flex items-center justify-center z-[9000] hover:bg-gray-50 hover:scale-105 transition-all">
         <i class="fa-solid fa-bell text-2xl"></i>
         <span id="new-order-badge" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold h-6 w-6 flex items-center justify-center rounded-full border-2 border-white hidden">0</span>
     </button>
 
-    <!-- ADMIN ORDER NOTIFICATIONS PANEL -->
     <div id="admin-order-notif-panel" class="fixed right-0 top-0 h-full w-80 max-w-full bg-white shadow-2xl z-[10000] transform translate-x-full transition-transform duration-300 flex flex-col border-l">
         <div class="p-4 bg-gray-900 text-white flex justify-between items-center shadow-md">
             <h3 class="font-bold text-sm"><i class="fa-solid fa-bell text-brand mr-2 text-lg"></i> আজকের নতুন অর্ডার</h3>
             <button onclick="toggleAdminOrderNotif()" class="text-gray-300 hover:text-white w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
         </div>
-        <div id="admin-order-notif-list" class="flex-1 overflow-y-auto bg-gray-50 p-3 space-y-3 custom-scroll">
-            <!-- Notifications load here -->
-        </div>
+        <div id="admin-order-notif-list" class="flex-1 overflow-y-auto bg-gray-50 p-3 space-y-3 custom-scroll"></div>
     </div>
 
-    <!-- MODALS SECTION -->
-    
-    <!-- CUSTOMER PROFILE MODAL -->
     <div id="customer-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-gray-100 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-[fadeIn_0.2s_ease-out]">
             <div class="p-4 border-b flex justify-between items-start bg-white">
@@ -251,7 +228,7 @@
         </div>
     </div>
 
-    <!-- MENU MODAL -->
+    <!-- MENU MODAL - Category Dropdown Added -->
     <div id="menu-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md flex flex-col animate-[fadeIn_0.2s_ease-out]">
             <div class="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-xl"><h2 id="menu-modal-title" class="text-lg font-bold text-gray-800">Add Item</h2><button onclick="closeMenuModal()" class="text-gray-400 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50"><i class="fa-solid fa-times"></i></button></div>
@@ -259,7 +236,21 @@
                 <form id="menu-form" onsubmit="saveMenuItem(event)" class="space-y-3">
                     <input type="hidden" id="m-id">
                     <div><label class="text-[10px] font-bold text-gray-500 uppercase">Item Name</label><input type="text" id="m-name" required placeholder="e.g. Kacchi Biryani" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
-                    <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold text-gray-500 uppercase">Price</label><input type="number" id="m-price" required placeholder="৳" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div><div><label class="text-[10px] font-bold text-gray-500 uppercase">Category</label><input type="text" id="m-cat" required placeholder="e.g. Main Course" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div></div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div><label class="text-[10px] font-bold text-gray-500 uppercase">Price</label><input type="number" id="m-price" required placeholder="৳" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-500 uppercase">Category</label>
+                            <input list="category-options" id="m-cat" required placeholder="সিলেক্ট বা টাইপ করুন..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand">
+                            <datalist id="category-options">
+                                <option value="বিরিয়ানি">
+                                <option value="ফাস্ট ফুড">
+                                <option value="ড্রিংকস">
+                                <option value="ডেজার্ট">
+                                <option value="পিৎজা">
+                                <option value="অন্যান্য">
+                            </datalist>
+                        </div>
+                    </div>
                     <div><label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label><input type="url" id="m-image" required placeholder="https://..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
                     <div><label class="text-[10px] font-bold text-gray-500 uppercase">Details/Ingredients</label><textarea id="m-ing" required rows="2" placeholder="..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></textarea></div>
                     <button type="submit" class="w-full bg-brand hover:bg-brand-dark text-white font-bold py-2.5 rounded-md text-sm transition-colors mt-2 shadow">Save Item</button>
@@ -280,21 +271,6 @@
                     <div><label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label><input type="url" id="o-image" required placeholder="https://..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
                     <div><label class="text-[10px] font-bold text-gray-500 uppercase">Description</label><textarea id="o-desc" required rows="2" placeholder="..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></textarea></div>
                     <button type="submit" class="w-full bg-brand hover:bg-brand-dark text-white font-bold py-2.5 rounded-md text-sm transition-colors mt-2 shadow">Save Offer</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- SLIDER MODAL -->
-    <div id="slider-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md flex flex-col animate-[fadeIn_0.2s_ease-out]">
-            <div class="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-xl"><h2 id="slider-modal-title" class="text-lg font-bold text-gray-800">Add Slide</h2><button onclick="closeSliderModal()" class="text-gray-400 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50"><i class="fa-solid fa-times"></i></button></div>
-            <div class="p-5">
-                <form id="slider-form" onsubmit="saveCarousel(event)" class="space-y-4">
-                    <input type="hidden" id="car-id">
-                    <div><label class="text-[10px] font-bold text-gray-500 uppercase">Image Title (Optional)</label><input type="text" id="car-title" placeholder="e.g. Special Offer" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
-                    <div><label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label><input type="url" id="car-image" required placeholder="https://..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
-                    <button type="submit" id="slider-submit-btn" class="w-full bg-gray-900 hover:bg-black text-white font-bold py-2.5 rounded-md text-sm transition-colors mt-2 shadow">Save Slide</button>
                 </form>
             </div>
         </div>
@@ -331,14 +307,12 @@
         </div>
     </div>
 
-    <!-- TOAST -->
     <div id="toast" class="fixed top-5 md:top-10 left-1/2 transform -translate-x-1/2 text-white px-5 py-3 rounded-lg shadow-2xl flex items-center gap-3 z-[10000] transition-all duration-300 opacity-0 -translate-y-10 pointer-events-none text-sm font-bold"></div>
 
     <script>
-        // Update this URL if you create a new deployment, otherwise keep it same
         const scriptURL = 'https://script.google.com/macros/s/AKfycbx1iS5LzeMkdknCemQk7ihWCLqoeUWcgirTDBRJKahmyMo442W1EOi6fEwYSS9N25GE/exec';
         
-        let allOrders = []; let storeData = { menu: [], areas: [], offers: [], settings: {}, carousel: [], tags: {} };
+        let allOrders = []; let storeData = { menu: [], areas: [], offers: [], settings: {}, tags: {} };
         let customerMap = {}; 
         let viewedOrders = JSON.parse(localStorage.getItem('adminViewedOrders') || '[]');
         
@@ -354,7 +328,30 @@
             }
         }
 
-        function checkAdmin() { if(document.getElementById('admin-pass').value === 'test') { document.getElementById('admin-login').style.display = 'none'; fetchDashboardData(); } else alert("Incorrect Password!"); }
+        // অ্যাডমিন সিকিউরিটি ফিক্স: এখন সরাসরি এপিআই থেকে চেক হবে
+        async function checkAdmin() { 
+            const pass = document.getElementById('admin-pass').value;
+            if(!pass) return alert('পাসওয়ার্ড দিন!');
+            
+            const btn = document.getElementById('admin-login-btn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Checking...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetchPost({ action: 'adminLogin', password: pass });
+                const data = await res.json();
+                if(data.result === 'success') {
+                    document.getElementById('admin-login').style.display = 'none'; 
+                    fetchDashboardData();
+                } else {
+                    alert("Incorrect Password!");
+                }
+            } catch(e) {
+                alert("Server Connection Error!");
+            }
+            btn.innerHTML = 'প্রবেশ করুন';
+            btn.disabled = false;
+        }
         
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -368,7 +365,6 @@
             if(tabId === 'areas' && storeData.areas.length === 0) fetchStoreData();
             if(tabId === 'offers' && storeData.offers.length === 0) fetchStoreData();
             if(tabId === 'settings') renderSettings();
-            if(tabId === 'slider') renderCarouselAdmin();
             if(tabId === 'customers') renderCustomers(); 
             if(tabId === 'notifications') fetchAdminNotifs();
         }
@@ -461,16 +457,14 @@
                 const res = await fetch(`${scriptURL}?action=getStoreData`); const data = await res.json(); 
                 if(data.result === 'success') { 
                     storeData = data.data; 
-                    if(!storeData.carousel) storeData.carousel = [];
                     if(!storeData.tags) storeData.tags = {};
                     if(!storeData.settings) storeData.settings = {};
                     if(!storeData.offers) storeData.offers = [];
-                    renderMenuAdmin(); renderOffersAdmin(); renderAreasAdmin(); renderSettings(); renderCarouselAdmin(); 
+                    renderMenuAdmin(); renderOffersAdmin(); renderAreasAdmin(); renderSettings(); 
                 } 
             } catch(e){} 
         }
 
-        // --- ORDER NOTIFICATION & AUTO REFRESH SYSTEM ---
         function updateAdminNotifications() {
             const now = new Date();
             const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
@@ -546,7 +540,6 @@
             } catch(e){}
         }, 60000);
 
-        // --- ADMIN RENDERS ---
         function renderDashboard() {
             processCustomers();
             document.getElementById('stat-users').textContent = Object.keys(customerMap).length;
@@ -665,7 +658,6 @@
             downloadCSV('Customers_Report.csv', csv);
         }
 
-        // --- CUSTOMER PROFILE SYSTEM ---
         function renderCustomers() {
             const list = document.getElementById('customers-list');
             const search = document.getElementById('cust-search').value.toLowerCase();
@@ -757,7 +749,6 @@
         }
         async function deleteMenu(id) { if(!confirm("Are you sure?")) return; showLoading(true); try { await fetchPost({action:'deleteMenu', id}); storeData.menu=storeData.menu.filter(m=>m.id!==id); renderMenuAdmin(); showToast("Deleted"); } catch(e){} showLoading(false); }
 
-        // --- OFFERS MANAGEMENT ---
         function renderOffersAdmin() {
             const grid = document.getElementById('admin-offers-grid');
             if(storeData.offers.length===0){ grid.innerHTML='<p class="text-sm col-span-full text-gray-500 text-center py-10 bg-white border rounded-xl">কোনো অফার নেই</p>'; return; }
@@ -780,24 +771,6 @@
         }
         async function deleteOffer(id) { if(!confirm("Are you sure?")) return; showLoading(true); try { await fetchPost({action:'deleteOffer', id}); storeData.offers=storeData.offers.filter(m=>m.id!==id); renderOffersAdmin(); showToast("Deleted"); } catch(e){} showLoading(false); }
 
-        // --- CAROUSEL MANAGEMENT ---
-        function renderCarouselAdmin() {
-            const list = document.getElementById('carousel-list');
-            if(storeData.carousel.length === 0) { list.innerHTML = '<p class="text-xs text-gray-500 text-center py-4">কোনো স্লাইড নেই</p>'; return; }
-            list.innerHTML = storeData.carousel.map(c => `
-                <div class="flex items-center justify-between bg-gray-50 p-2 rounded-lg border">
-                    <div class="flex gap-3 items-center"><img src="${c.image}" class="h-12 w-20 object-cover rounded shadow-sm border"><span class="text-xs font-bold text-gray-700 line-clamp-1">${c.title || '(No Title)'}</span></div>
-                    <div class="flex gap-2"><button onclick='editCarousel(${JSON.stringify(c).replace(/'/g, "&#39;")})' class="text-blue-500 hover:text-blue-700 hover:bg-blue-50 w-8 h-8 rounded-md flex items-center justify-center transition-colors"><i class="fa-solid fa-pen text-xs"></i></button><button onclick="deleteCarousel('${c.id}')" class="text-red-500 hover:text-red-700 hover:bg-red-50 w-8 h-8 rounded-md flex items-center justify-center transition-colors"><i class="fa-solid fa-trash text-xs"></i></button></div>
-                </div>
-            `).join('');
-        }
-        function openSliderModal() { document.getElementById('slider-form').reset(); document.getElementById('car-id').value = ''; document.getElementById('slider-modal-title').textContent="Add Slide"; document.getElementById('slider-submit-btn').textContent = "Save Slide"; document.getElementById('slider-submit-btn').classList.replace('bg-blue-600', 'bg-gray-900'); document.getElementById('slider-modal').style.display='flex'; }
-        function closeSliderModal() { document.getElementById('slider-modal').style.display='none'; }
-        function editCarousel(c) { document.getElementById('car-id').value=c.id; document.getElementById('car-title').value=c.title||''; document.getElementById('car-image').value=c.image; document.getElementById('slider-modal-title').textContent="Edit Slide"; document.getElementById('slider-submit-btn').textContent="Update Slide"; document.getElementById('slider-submit-btn').classList.replace('bg-gray-900', 'bg-blue-600'); document.getElementById('slider-modal').style.display='flex'; }
-        async function saveCarousel(e) { e.preventDefault(); const id = document.getElementById('car-id').value; const isEdit = id !== ''; const finalId = isEdit ? id : 'C-'+Date.now(); showLoading(true); closeSliderModal(); try { if (isEdit) { await fetchPost({ action:'deleteCarousel', id: finalId }); } await fetchPost({ action:'saveCarousel', id: finalId, image: document.getElementById('car-image').value, title: document.getElementById('car-title').value, isEdit: isEdit }); await fetchStoreData(); showToast("স্লাইড আপডেট হয়েছে!"); } catch(e){} showLoading(false); }
-        async function deleteCarousel(id) { if(!confirm("Are you sure?")) return; showLoading(true); try { await fetchPost({ action:'deleteCarousel', id }); storeData.carousel = storeData.carousel.filter(c => c.id !== id); renderCarouselAdmin(); showToast("Deleted"); } catch(e){} showLoading(false); }
-
-        // --- AREA MANAGEMENT ---
         function renderAreasAdmin() { 
             if(storeData.areas.length === 0) { document.getElementById('areas-table').innerHTML = '<tr><td colspan="3" class="p-4 text-center text-xs text-gray-500">কোনো এরিয়া নেই</td></tr>'; return; }
             document.getElementById('areas-table').innerHTML = storeData.areas.map(a => `<tr><td class="p-3 font-bold text-sm text-gray-800">${a.name}</td><td class="p-3 text-brand font-bold text-sm">৳ ${a.charge}</td><td class="p-3 text-right"><button onclick="editArea('${a.name}', '${a.charge}')" class="text-blue-600 bg-blue-50 hover:bg-blue-100 p-1.5 rounded mr-1"><i class="fa-solid fa-pen text-xs"></i></button> <button onclick="deleteArea('${a.name}')" class="text-red-600 bg-red-50 hover:bg-red-100 p-1.5 rounded"><i class="fa-solid fa-trash text-xs"></i></button></td></tr>`).join(''); 
@@ -808,7 +781,6 @@
         async function saveArea(e) { e.preventDefault(); const areaName=document.getElementById('area-name').value; const charge=document.getElementById('area-charge').value; showLoading(true); closeAreaModal(); try{ await fetchPost({action:'saveArea', areaName, charge}); const ex = storeData.areas.findIndex(a=>a.name===areaName); if(ex>-1) storeData.areas[ex].charge=charge; else storeData.areas.push({name:areaName, charge}); renderAreasAdmin(); showToast("সেভ হয়েছে!");}catch(e){} showLoading(false); }
         async function deleteArea(n) { if(!confirm("Are you sure?")) return; showLoading(true); try{ await fetchPost({action:'deleteArea', areaName:n}); storeData.areas=storeData.areas.filter(a=>a.name!==n); renderAreasAdmin(); showToast("Deleted"); }catch(e){} showLoading(false); }
 
-        // --- NOTIFICATIONS MANAGEMENT ---
         async function fetchAdminNotifs() {
             const list = document.getElementById('admin-notif-list'); list.innerHTML = '<div class="flex justify-center items-center h-full"><i class="fa-solid fa-spinner fa-spin text-2xl text-gray-400"></i></div>';
             try {
@@ -844,8 +816,8 @@
         }
         async function deleteNotification(id) { if(!confirm("Are you sure?")) return; showLoading(true); try { await fetchPost({ action: 'deleteNotification', id }); showToast("Deleted!"); fetchAdminNotifs(); } catch(e){} showLoading(false); }
 
-        // --- SETTINGS ---
         function renderSettings() { 
+            document.getElementById('set-is-open').value = storeData.settings.IsOpen || 'true';
             document.getElementById('set-admin-phone').value=storeData.settings.AdminPhone||''; 
             document.getElementById('set-whatsapp').value=storeData.settings.WhatsAppNumber||''; 
             document.getElementById('set-bkash').value=storeData.settings.BkashNumber||''; 
@@ -855,7 +827,6 @@
             document.getElementById('set-free-del').value=storeData.settings.FreeDeliveryThreshold||''; 
             document.getElementById('set-blocked').value=storeData.settings.BlockedUsers||''; 
             
-            // Show stringified version of Coupons
             let couponStr = "";
             if(storeData.settings.Coupons) {
                 if(typeof storeData.settings.Coupons === 'object') couponStr = JSON.stringify(storeData.settings.Coupons);
@@ -867,7 +838,6 @@
         async function saveSetting(k, id) { 
             let v = document.getElementById(id).value; 
             
-            // Validate JSON if saving Coupons
             if(k === 'Coupons' && v.trim() !== '') {
                 try { JSON.parse(v); } catch(e) { return showToast("ভুল কুপন ফরম্যাট! সঠিক JSON দিন।", true); }
             }
@@ -875,11 +845,8 @@
             showLoading(true); 
             try{ 
                 await fetchPost({action:'saveSettings', key:k, value:v}); 
-                
-                // Update local storage representation
                 if(k === 'Coupons' && v.trim() !== '') storeData.settings[k] = JSON.parse(v);
                 else storeData.settings[k] = v;
-                
                 showToast("Saved!");
             } catch(e){} 
             showLoading(false); 
