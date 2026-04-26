@@ -34,7 +34,7 @@
 
     <!-- SIDEBAR -->
     <aside id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 w-64 bg-gray-900 text-white flex flex-col transition-transform duration-300 z-50 shrink-0">
-        <!-- Logo Header (Clickable to Dashboard) -->
+        <!-- Logo Header -->
         <div class="p-5 flex items-center justify-between border-b border-gray-800">
             <div class="flex items-center gap-2 cursor-pointer hover:text-brand transition-colors" onclick="switchTab('dashboard')" title="Go to Dashboard">
                 <i class="fa-solid fa-fire-burner text-brand text-xl"></i>
@@ -47,6 +47,7 @@
             <a href="#" onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="flex items-center gap-3 px-4 py-3 rounded-lg text-white bg-gray-800"><i class="fa-solid fa-chart-pie w-5"></i> ড্যাশবোর্ড</a>
             <a href="#" onclick="switchTab('orders')" id="tab-btn-orders" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-clipboard-list w-5"></i> সকল অর্ডার <span id="pending-badge" class="ml-auto bg-brand text-[10px] font-bold px-2 py-0.5 rounded-full hidden text-white">0</span></a>
             <a href="#" onclick="switchTab('menu')" id="tab-btn-menu" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-burger w-5"></i> মেনু কন্ট্রোল</a>
+            <a href="#" onclick="switchTab('offers')" id="tab-btn-offers" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-tags w-5"></i> স্পেশাল অফার</a>
             <a href="#" onclick="switchTab('slider')" id="tab-btn-slider" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-images w-5"></i> স্লাইডার (Carousel)</a>
             <a href="#" onclick="switchTab('areas')" id="tab-btn-areas" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-map-location-dot w-5"></i> ডেলিভারি এরিয়া</a>
             <a href="#" onclick="switchTab('customers')" id="tab-btn-customers" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800"><i class="fa-solid fa-users w-5"></i> কাস্টমার লিস্ট</a>
@@ -58,7 +59,7 @@
 
     <!-- MAIN CONTENT -->
     <main class="flex-1 bg-gray-100 h-full overflow-y-auto custom-scroll relative flex flex-col w-full">
-        <!-- Mobile Header inside Main -->
+        <!-- Mobile Header -->
         <header class="md:hidden bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-30">
             <div class="flex items-center gap-2 cursor-pointer hover:text-brand" onclick="switchTab('dashboard')">
                 <i class="fa-solid fa-fire-burner text-brand text-lg"></i>
@@ -90,21 +91,6 @@
                     <div class="flex-1"><p class="text-[10px] text-gray-500 font-bold mb-1 uppercase"><i class="fa-solid fa-arrow-trend-down text-red-500 mr-1"></i> Least Selling Item</p><p id="stat-worst-item" class="text-sm font-bold text-gray-800">-</p></div>
                 </div>
 
-                <!-- Custom Date Report Tool -->
-                <div class="bg-white p-4 rounded-xl shadow-sm border mb-6">
-                    <h3 class="text-sm font-bold mb-3 text-gray-800"><i class="fa-solid fa-calendar-check text-brand mr-1"></i> Custom Date Report</h3>
-                    <div class="flex flex-wrap gap-3 items-end">
-                        <div class="flex-1 min-w-[120px]"><label class="text-[10px] uppercase font-bold text-gray-500">From Date</label><input type="date" id="report-from" class="w-full px-3 py-1.5 border rounded-md text-sm outline-none focus:border-brand"></div>
-                        <div class="flex-1 min-w-[120px]"><label class="text-[10px] uppercase font-bold text-gray-500">To Date</label><input type="date" id="report-to" class="w-full px-3 py-1.5 border rounded-md text-sm outline-none focus:border-brand"></div>
-                        <button onclick="generateCustomReport()" class="w-full md:w-auto bg-gray-900 text-white px-5 py-1.5 rounded-md font-bold text-sm hover:bg-black transition-colors shadow">Generate</button>
-                    </div>
-                    <div id="custom-report-results" class="hidden mt-4 pt-4 border-t border-gray-100 grid grid-cols-3 gap-4">
-                        <div><p class="text-[10px] uppercase font-bold text-gray-500 mb-1">Total Orders</p><p id="rep-orders" class="text-xl font-bold text-gray-800">0</p></div>
-                        <div><p class="text-[10px] uppercase font-bold text-gray-500 mb-1">Total Sales</p><p id="rep-sales" class="text-xl font-bold text-brand">৳ 0</p></div>
-                        <div><p class="text-[10px] uppercase font-bold text-gray-500 mb-1">Top Item</p><p id="rep-item" class="text-xs font-bold text-gray-800 line-clamp-2">-</p></div>
-                    </div>
-                </div>
-
                 <h3 class="text-lg font-bold text-gray-800 mb-4">Recent Orders</h3>
                 <div class="space-y-3" id="recent-orders-list"></div>
             </div>
@@ -116,31 +102,12 @@
                     <button onclick="exportOrdersCSV()" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-md text-xs font-bold shadow transition-colors"><i class="fa-solid fa-file-excel mr-1"></i> Export CSV</button>
                 </div>
                 
-                <!-- Modern Search & Filter UI -->
                 <div class="bg-white p-4 rounded-xl border shadow-sm mb-6 transition-all duration-300">
                     <div class="flex gap-2">
                         <div class="relative flex-1">
                             <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                             <input type="text" id="order-search" onkeyup="filterOrders()" placeholder="অর্ডার আইডি, নাম বা ফোন নম্বর সার্চ করুন..." class="w-full pl-10 pr-8 py-2.5 border rounded-lg outline-none text-sm focus:border-brand bg-gray-50">
                             <button onclick="document.getElementById('order-search').value=''; filterOrders();" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors" title="Clear Search"><i class="fa-solid fa-times-circle text-lg"></i></button>
-                        </div>
-                        <button onclick="document.getElementById('adv-filters').classList.toggle('hidden')" class="bg-white hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-lg border flex items-center justify-center transition-colors tooltip relative group shadow-sm">
-                            <i class="fa-solid fa-filter"></i>
-                            <span class="absolute top-full mt-2 w-max bg-gray-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Advanced Filters</span>
-                        </button>
-                    </div>
-                    
-                    <!-- Advanced Filters (Hidden by Default) -->
-                    <div id="adv-filters" class="hidden mt-4 pt-4 border-t border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div>
-                            <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Filter by Area</label>
-                            <select id="order-filter-area" onchange="filterOrders()" class="w-full px-3 py-2 border rounded-md outline-none text-sm bg-white focus:border-brand">
-                                <option value="">All Areas</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Filter by Date</label>
-                            <input type="date" id="order-filter-date" onchange="filterOrders()" class="w-full px-3 py-2 border rounded-md outline-none text-sm bg-white focus:border-brand">
                         </div>
                     </div>
                 </div>
@@ -151,6 +118,12 @@
             <div id="tab-menu" class="tab-content">
                 <div class="flex justify-between items-center mb-6"><h2 class="text-xl font-bold text-gray-800">Menu Items</h2><button onclick="openMenuModal()" class="bg-brand text-white px-3 py-1.5 text-sm rounded-md font-bold shadow hover:bg-brand-dark transition-colors"><i class="fa-solid fa-plus mr-1"></i> Add New</button></div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="admin-menu-grid"></div>
+            </div>
+
+            <!-- TAB: OFFERS -->
+            <div id="tab-offers" class="tab-content">
+                <div class="flex justify-between items-center mb-6"><h2 class="text-xl font-bold text-gray-800">Special Offers</h2><button onclick="openOfferModal()" class="bg-brand text-white px-3 py-1.5 text-sm rounded-md font-bold shadow hover:bg-brand-dark transition-colors"><i class="fa-solid fa-plus mr-1"></i> Add Offer</button></div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="admin-offers-grid"></div>
             </div>
 
             <!-- TAB: SLIDER -->
@@ -183,7 +156,6 @@
                     <div class="p-3 border-b bg-gray-50 relative">
                         <i class="fa-solid fa-search absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                         <input type="text" id="cust-search" onkeyup="renderCustomers()" placeholder="Search by name or phone..." class="w-full pl-10 pr-8 py-2.5 border rounded-md text-sm outline-none focus:border-brand bg-white">
-                        <button onclick="document.getElementById('cust-search').value=''; renderCustomers();" class="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500"><i class="fa-solid fa-times-circle text-lg"></i></button>
                     </div>
                     <div id="customers-list" class="flex-1 overflow-y-auto custom-scroll grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 content-start divide-y sm:divide-y-0 sm:gap-px bg-gray-200"></div>
                 </div>
@@ -220,12 +192,17 @@
                         <div><label class="block text-xs font-bold text-gray-700 mb-1">Rocket Number (Personal)</label><div class="flex gap-2"><input type="tel" id="set-rocket" class="flex-1 px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"><button onclick="saveSetting('RocketNumber', 'set-rocket')" class="bg-gray-900 hover:bg-black transition-colors text-white px-4 rounded-md text-sm font-bold">Save</button></div></div>
                     </div>
 
-                    <!-- General Settings -->
+                    <!-- General & Security Settings -->
                     <div class="bg-white p-6 rounded-xl shadow-sm border lg:col-span-2 space-y-5">
-                        <h3 class="font-bold text-gray-800 border-b pb-2 mb-4"><i class="fa-solid fa-gear text-brand mr-2"></i>General Settings</h3>
+                        <h3 class="font-bold text-gray-800 border-b pb-2 mb-4"><i class="fa-solid fa-gear text-brand mr-2"></i>General & Security</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div><label class="block text-xs font-bold text-gray-700 mb-1">Top Announcement Marquee</label><div class="flex gap-2"><input type="text" id="set-promo-text" class="flex-1 px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"><button onclick="saveSetting('PromoText', 'set-promo-text')" class="bg-gray-900 hover:bg-black transition-colors text-white px-4 rounded-md text-sm font-bold">Save</button></div></div>
                             <div><label class="block text-xs font-bold text-gray-700 mb-1">Free Delivery Target Amount (৳)</label><div class="flex gap-2"><input type="number" id="set-free-del" class="flex-1 px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"><button onclick="saveSetting('FreeDeliveryThreshold', 'set-free-del')" class="bg-gray-900 hover:bg-black transition-colors text-white px-4 rounded-md text-sm font-bold">Save</button></div></div>
+                            
+                            <!-- Blocked Users Input -->
+                            <div><label class="block text-xs font-bold text-red-600 mb-1">Blocked Phone Numbers (Anti-Spam)</label><div class="flex gap-2"><input type="text" id="set-blocked" placeholder="017..., 018... (Comma separated)" class="flex-1 px-3 py-2 border border-red-200 rounded-md text-sm outline-none focus:border-red-500 bg-red-50"><button onclick="saveSetting('BlockedUsers', 'set-blocked')" class="bg-red-600 hover:bg-red-700 transition-colors text-white px-4 rounded-md text-sm font-bold">Block</button></div></div>
+                            <!-- Coupons Input -->
+                            <div><label class="block text-xs font-bold text-green-600 mb-1">Discount Coupons (JSON Format)</label><div class="flex gap-2"><input type="text" id="set-coupons" placeholder='{"SAVE20": 20, "NEW50": 50}' class="flex-1 px-3 py-2 border border-green-200 rounded-md text-sm outline-none focus:border-green-500 bg-green-50"><button onclick="saveSetting('Coupons', 'set-coupons')" class="bg-green-600 hover:bg-green-700 transition-colors text-white px-4 rounded-md text-sm font-bold">Save</button></div></div>
                         </div>
                     </div>
                 </div>
@@ -244,9 +221,6 @@
         <div class="p-4 bg-gray-900 text-white flex justify-between items-center shadow-md">
             <h3 class="font-bold text-sm"><i class="fa-solid fa-bell text-brand mr-2 text-lg"></i> আজকের নতুন অর্ডার</h3>
             <button onclick="toggleAdminOrderNotif()" class="text-gray-300 hover:text-white w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center transition-colors"><i class="fa-solid fa-times"></i></button>
-        </div>
-        <div class="p-2 bg-brand/10 border-b border-brand/20 text-[10px] text-center text-brand font-bold">
-            <i class="fa-regular fa-clock mr-1"></i> রাত ১২টার পর নোটিফিকেশন অটোমেটিক মুছে যাবে
         </div>
         <div id="admin-order-notif-list" class="flex-1 overflow-y-auto bg-gray-50 p-3 space-y-3 custom-scroll">
             <!-- Notifications load here -->
@@ -273,7 +247,6 @@
                 <div class="p-3 text-center"><p class="text-[10px] text-gray-500 font-bold uppercase mb-0.5">Delivered</p><p id="cp-delivered" class="text-xl font-bold text-green-600">0</p></div>
                 <div class="p-3 text-center"><p class="text-[10px] text-gray-500 font-bold uppercase mb-0.5">Total Spent</p><p id="cp-spent" class="text-xl font-bold text-brand">0</p></div>
             </div>
-            <div class="p-3 bg-gray-200 text-xs font-bold text-gray-600 border-b border-gray-300 shadow-inner">Order History:</div>
             <div id="cp-order-history" class="flex-1 overflow-y-auto p-4 space-y-3 custom-scroll bg-gray-50"></div>
         </div>
     </div>
@@ -287,10 +260,26 @@
                     <input type="hidden" id="m-id">
                     <div><label class="text-[10px] font-bold text-gray-500 uppercase">Item Name</label><input type="text" id="m-name" required placeholder="e.g. Kacchi Biryani" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
                     <div class="grid grid-cols-2 gap-3"><div><label class="text-[10px] font-bold text-gray-500 uppercase">Price</label><input type="number" id="m-price" required placeholder="৳" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div><div><label class="text-[10px] font-bold text-gray-500 uppercase">Category</label><input type="text" id="m-cat" required placeholder="e.g. Main Course" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div></div>
-                    <div><label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label><input type="url" id="m-image" required placeholder="https://..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand">
-                    <p class="text-xs mt-1 text-right"><a href="https://postimages.org/" target="_blank" class="text-blue-500 font-bold hover:underline"><i class="fa-solid fa-cloud-arrow-up"></i> ছবি লিংক তৈরি করার জন্য এখানে ক্লিক করুন</a></p></div>
+                    <div><label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label><input type="url" id="m-image" required placeholder="https://..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
                     <div><label class="text-[10px] font-bold text-gray-500 uppercase">Details/Ingredients</label><textarea id="m-ing" required rows="2" placeholder="..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></textarea></div>
                     <button type="submit" class="w-full bg-brand hover:bg-brand-dark text-white font-bold py-2.5 rounded-md text-sm transition-colors mt-2 shadow">Save Item</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- OFFER MODAL -->
+    <div id="offer-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md flex flex-col animate-[fadeIn_0.2s_ease-out]">
+            <div class="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-xl"><h2 id="offer-modal-title" class="text-lg font-bold text-gray-800">Add Offer</h2><button onclick="closeOfferModal()" class="text-gray-400 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50"><i class="fa-solid fa-times"></i></button></div>
+            <div class="p-5 overflow-y-auto">
+                <form id="offer-form" onsubmit="saveOfferItem(event)" class="space-y-3">
+                    <input type="hidden" id="o-id">
+                    <div><label class="text-[10px] font-bold text-gray-500 uppercase">Offer Title</label><input type="text" id="o-title" required placeholder="e.g. 50% Off Biryani" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
+                    <div><label class="text-[10px] font-bold text-gray-500 uppercase">Price</label><input type="number" id="o-price" required placeholder="৳" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
+                    <div><label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label><input type="url" id="o-image" required placeholder="https://..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
+                    <div><label class="text-[10px] font-bold text-gray-500 uppercase">Description</label><textarea id="o-desc" required rows="2" placeholder="..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></textarea></div>
+                    <button type="submit" class="w-full bg-brand hover:bg-brand-dark text-white font-bold py-2.5 rounded-md text-sm transition-colors mt-2 shadow">Save Offer</button>
                 </form>
             </div>
         </div>
@@ -304,11 +293,7 @@
                 <form id="slider-form" onsubmit="saveCarousel(event)" class="space-y-4">
                     <input type="hidden" id="car-id">
                     <div><label class="text-[10px] font-bold text-gray-500 uppercase">Image Title (Optional)</label><input type="text" id="car-title" placeholder="e.g. Special Offer" class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
-                    <div>
-                        <label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label>
-                        <input type="url" id="car-image" required placeholder="https://..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand">
-                        <p class="text-xs mt-1 text-right"><a href="https://postimages.org/" target="_blank" class="text-blue-500 font-bold hover:underline"><i class="fa-solid fa-cloud-arrow-up"></i> ছবি লিংক তৈরি করার জন্য এখানে ক্লিক করুন</a></p>
-                    </div>
+                    <div><label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label><input type="url" id="car-image" required placeholder="https://..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand"></div>
                     <button type="submit" id="slider-submit-btn" class="w-full bg-gray-900 hover:bg-black text-white font-bold py-2.5 rounded-md text-sm transition-colors mt-2 shadow">Save Slide</button>
                 </form>
             </div>
@@ -350,8 +335,10 @@
     <div id="toast" class="fixed top-5 md:top-10 left-1/2 transform -translate-x-1/2 text-white px-5 py-3 rounded-lg shadow-2xl flex items-center gap-3 z-[10000] transition-all duration-300 opacity-0 -translate-y-10 pointer-events-none text-sm font-bold"></div>
 
     <script>
+        // Update this URL if you create a new deployment, otherwise keep it same
         const scriptURL = 'https://script.google.com/macros/s/AKfycbx1iS5LzeMkdknCemQk7ihWCLqoeUWcgirTDBRJKahmyMo442W1EOi6fEwYSS9N25GE/exec';
-        let allOrders = []; let storeData = { menu: [], areas: [], settings: {}, carousel: [], tags: {} };
+        
+        let allOrders = []; let storeData = { menu: [], areas: [], offers: [], settings: {}, carousel: [], tags: {} };
         let customerMap = {}; 
         let viewedOrders = JSON.parse(localStorage.getItem('adminViewedOrders') || '[]');
         
@@ -375,12 +362,11 @@
             document.getElementById('tab-' + tabId).classList.add('active');
             document.getElementById('tab-btn-' + tabId).classList.add('bg-gray-800', 'text-white');
             
-            // Auto close mobile menu safely
-            const sb = document.getElementById('sidebar');
-            if(!sb.classList.contains('-translate-x-full') && window.innerWidth < 768) { toggleSidebar(); }
+            if(!document.getElementById('sidebar').classList.contains('-translate-x-full') && window.innerWidth < 768) { toggleSidebar(); }
 
             if(tabId === 'menu' && storeData.menu.length === 0) fetchStoreData();
             if(tabId === 'areas' && storeData.areas.length === 0) fetchStoreData();
+            if(tabId === 'offers' && storeData.offers.length === 0) fetchStoreData();
             if(tabId === 'settings') renderSettings();
             if(tabId === 'slider') renderCarouselAdmin();
             if(tabId === 'customers') renderCustomers(); 
@@ -400,18 +386,10 @@
         }
 
         function getStatusDropdown(id, currentStatus) {
-            const statuses = ['পেন্ডিং', 'আপনার অর্ডার তৈরি হচ্ছে', 'বৃষ্টির কারণে দেরি হচ্ছে', 'ডেলিভারি ম্যান পথে আছে', 'ডেলিভারি সম্পন্ন হয়েছে', 'আপনার অর্ডারটি বাতিল করা হয়েছে'];
+            const statuses = ['পেন্ডিং', 'খাবার তৈরি হচ্ছে', 'বৃষ্টির জন্য দেরি হচ্ছে', 'ডেলিভারি ম্যান পথে আছে', 'সম্পূর্ণ হয়েছে', 'আপনার অর্ডারটি বাতিল করা হয়েছে'];
             return `<select onchange="updateStatus('${id}', this.value)" class="w-full mt-2 px-2 py-1.5 border border-gray-300 rounded bg-gray-50 text-[11px] font-bold text-gray-700 outline-none cursor-pointer focus:border-brand hover:bg-white transition-colors">
                 ${statuses.map(s => `<option value="${s}" ${currentStatus===s?'selected':''}>${s}</option>`).join('')}
             </select>`;
-        }
-
-        function getTagHtml(phone) {
-            const tag = storeData.tags[phone];
-            if(tag === 'Good') return '<span class="bg-green-100 text-green-700 px-1.5 py-0.5 rounded text-[9px] border border-green-200 ml-1">Good</span>';
-            if(tag === 'Bad') return '<span class="bg-red-100 text-red-700 px-1.5 py-0.5 rounded text-[9px] border border-red-200 ml-1">Bad</span>';
-            if(tag === 'Regular') return '<span class="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-[9px] border border-blue-200 ml-1">Reg</span>';
-            return '';
         }
 
         function getSalesStats() {
@@ -419,7 +397,6 @@
             allOrders.forEach(o => {
                 const oDate = new Date(o.time);
                 if(oDate.toDateString() === now.toDateString()) ordersToday++;
-                
                 if(o.status && o.status.includes('বাতিল')) return;
                 const amt = Number(o.total) || 0; 
                 all += amt;
@@ -450,7 +427,7 @@
             allOrders.forEach(o => {
                 if(!customerMap[o.phone]) customerMap[o.phone] = { name: o.name, phone: o.phone, totalOrders: 0, delivered: 0, cancelled: 0, spent: 0, orders: [], tag: storeData.tags[o.phone] || '' };
                 customerMap[o.phone].totalOrders++; customerMap[o.phone].orders.push(o);
-                if(o.status === 'ডেলিভারি সম্পন্ন হয়েছে') { customerMap[o.phone].delivered++; customerMap[o.phone].spent += Number(o.total||0); }
+                if(o.status === 'সম্পূর্ণ হয়েছে' || o.status === 'ডেলিভারি সম্পন্ন হয়েছে') { customerMap[o.phone].delivered++; customerMap[o.phone].spent += Number(o.total||0); }
                 if(o.status === 'আপনার অর্ডারটি বাতিল করা হয়েছে') customerMap[o.phone].cancelled++;
                 if(!customerMap[o.phone].name) customerMap[o.phone].name = o.name;
             });
@@ -473,7 +450,6 @@
                     processCustomers();
                     cleanOldViewedOrders();
                     renderDashboard(); 
-                    populateAreaFilter();
                     renderOrders(); 
                     updateAdminNotifications();
                 } 
@@ -488,14 +464,10 @@
                     if(!storeData.carousel) storeData.carousel = [];
                     if(!storeData.tags) storeData.tags = {};
                     if(!storeData.settings) storeData.settings = {};
-                    renderMenuAdmin(); renderAreasAdmin(); renderSettings(); renderCarouselAdmin(); populateAreaFilter();
+                    if(!storeData.offers) storeData.offers = [];
+                    renderMenuAdmin(); renderOffersAdmin(); renderAreasAdmin(); renderSettings(); renderCarouselAdmin(); 
                 } 
             } catch(e){} 
-        }
-
-        function populateAreaFilter() {
-            const sel = document.getElementById('order-filter-area');
-            sel.innerHTML = '<option value="">All Areas</option>' + storeData.areas.map(a=>`<option value="${a.name}">${a.name}</option>`).join('');
         }
 
         // --- ORDER NOTIFICATION & AUTO REFRESH SYSTEM ---
@@ -522,7 +494,7 @@
                             <span class="font-bold text-xs text-gray-800">${o.id} <span class="${isUnread?'inline-block':'hidden'} bg-red-500 text-white text-[8px] px-1 rounded ml-1 tracking-wider shadow-sm">NEW</span></span>
                             <div class="flex flex-col items-end">
                                 <span class="text-[9px] text-gray-500 font-medium mb-1"><i class="fa-regular fa-clock mr-1"></i>${formatEnglishDate(o.time, false)}</span>
-                                <span class="text-[8px] px-1.5 py-0.5 rounded border font-bold ${getStatusClass(o.status)}">${o.status}</span>
+                                <span class="text-[8px] px-1.5 py-0.5 rounded border font-bold text-gray-700 bg-gray-100">${o.status}</span>
                             </div>
                         </div>
                         <p class="text-xs font-bold text-gray-800 flex items-center mb-1"><i class="fa-solid fa-user text-gray-400 mr-1.5 w-3"></i> ${o.name}</p>
@@ -549,15 +521,10 @@
         }
 
         function viewOrderFromNotif(orderId) {
-            toggleAdminOrderNotif();
-            switchTab('orders');
-            document.getElementById('order-search').value = orderId;
-            document.getElementById('order-filter-area').value = '';
-            document.getElementById('order-filter-date').value = '';
-            filterOrders();
+            toggleAdminOrderNotif(); switchTab('orders');
+            document.getElementById('order-search').value = orderId; filterOrders();
         }
 
-        // Silent Auto Refresh Every 60 Seconds
         setInterval(async () => {
             if(document.getElementById('admin-login').style.display !== 'none') return;
             try {
@@ -569,9 +536,7 @@
                         showToast("🔔 নতুন অর্ডার এসেছে!", false); 
                         try { new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3').play(); } catch(e) {} 
                     }
-                    allOrders = freshOrders; 
-                    processCustomers(); 
-                    cleanOldViewedOrders();
+                    allOrders = freshOrders; processCustomers(); cleanOldViewedOrders();
                     
                     if(document.getElementById('tab-dashboard').classList.contains('active')) renderDashboard();
                     if(document.getElementById('tab-orders').classList.contains('active')) renderOrders();
@@ -592,8 +557,7 @@
             document.getElementById('stat-sales-all').textContent = `৳ ${sales.all}`;
 
             const items = getItemStats();
-            document.getElementById('stat-best-item').textContent = items.best;
-            document.getElementById('stat-worst-item').textContent = items.worst;
+            document.getElementById('stat-best-item').textContent = items.best; document.getElementById('stat-worst-item').textContent = items.worst;
 
             const pending = allOrders.filter(o => o.status === 'পেন্ডিং').length;
             document.getElementById('pending-badge').textContent = pending; document.getElementById('pending-badge').style.display = pending > 0 ? 'inline' : 'none';
@@ -602,8 +566,7 @@
             if(allOrders.length === 0) { container.innerHTML = '<p class="text-sm text-gray-500 bg-white p-4 rounded-lg border text-center">No recent orders</p>'; }
             else {
                 container.innerHTML = allOrders.slice(0, 8).map(o => {
-                    const tag = storeData.tags[o.phone];
-                    let tagHtml = '';
+                    const tag = storeData.tags[o.phone]; let tagHtml = '';
                     if(tag === 'Good') tagHtml = '<span class="bg-green-100 text-green-700 px-1.5 py-0.5 rounded text-[9px] border border-green-200 ml-1">Good</span>';
                     else if(tag === 'Bad') tagHtml = '<span class="bg-red-100 text-red-700 px-1.5 py-0.5 rounded text-[9px] border border-red-200 ml-1">Bad</span>';
                     else if(tag === 'Regular') tagHtml = '<span class="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-[9px] border border-blue-200 ml-1">Reg</span>';
@@ -623,51 +586,12 @@
             }
         }
 
-        // Custom Date Report Logic
-        function generateCustomReport() {
-            const from = document.getElementById('report-from').value;
-            const to = document.getElementById('report-to').value;
-            if(!from || !to) return showToast("তারিখ সিলেক্ট করুন", true);
-
-            const fromDate = new Date(from).getTime();
-            const toDate = new Date(to).setHours(23,59,59,999);
-
-            let tOrders = 0; let tSales = 0; let itemCounts = {};
-
-            allOrders.forEach(o => {
-                const time = new Date(o.time).getTime();
-                if(time >= fromDate && time <= toDate) {
-                    tOrders++;
-                    if(o.status && !o.status.includes('বাতিল')) {
-                        tSales += Number(o.total) || 0;
-                        if(o.details) {
-                            let parts = o.details.split(',');
-                            parts.forEach(p => { let match = p.match(/(.*?)\((\d+)\)/); if(match) { let name = match[1].trim(); let qty = parseInt(match[2]); itemCounts[name] = (itemCounts[name] || 0) + qty; } });
-                        }
-                    }
-                }
-            });
-
-            let sorted = Object.entries(itemCounts).sort((a,b)=>b[1]-a[1]);
-            let bestItem = sorted.length > 0 ? `${sorted[0][0]} (${sorted[0][1]})` : '-';
-
-            document.getElementById('rep-orders').textContent = tOrders;
-            document.getElementById('rep-sales').textContent = `৳ ${tSales}`;
-            document.getElementById('rep-item').textContent = bestItem;
-            document.getElementById('custom-report-results').classList.remove('hidden');
-        }
-
         function renderOrders() {
             const container = document.getElementById('all-orders-grid');
             const search = document.getElementById('order-search').value.toLowerCase();
-            const filterArea = document.getElementById('order-filter-area').value.toLowerCase();
-            const filterDate = document.getElementById('order-filter-date').value; 
-            
             let filtered = allOrders; 
             
             if(search) filtered = filtered.filter(o => String(o.id||'').toLowerCase().includes(search) || String(o.phone||'').includes(search) || String(o.name||'').toLowerCase().includes(search) || String(o.address||'').toLowerCase().includes(search));
-            if(filterArea) filtered = filtered.filter(o => String(o.address||'').toLowerCase().includes(`[${filterArea}]`));
-            if(filterDate) filtered = filtered.filter(o => formatEnglishDate(o.time, true) === filterDate);
 
             if(filtered.length === 0) { container.innerHTML = '<p class="text-center py-10 col-span-full text-sm text-gray-500 bg-white border rounded-xl">কোনো অর্ডার পাওয়া যায়নি</p>'; return; }
             
@@ -700,10 +624,9 @@
         }
         
         function filterOrders() { renderOrders(); }
-        function resetFilters() { document.getElementById('order-search').value=''; document.getElementById('order-filter-area').value=''; document.getElementById('order-filter-date').value=''; renderOrders(); }
         
         function getStatusClass(s) { 
-            if(s==='ডেলিভারি সম্পন্ন হয়েছে') return 'text-green-700 bg-green-50 border-green-200'; 
+            if(s==='সম্পূর্ণ হয়েছে' || s==='ডেলিভারি সম্পন্ন হয়েছে') return 'text-green-700 bg-green-50 border-green-200'; 
             if(s==='আপনার অর্ডারটি বাতিল করা হয়েছে') return 'text-red-700 bg-red-50 border-red-200'; 
             if(s==='পেন্ডিং') return 'text-gray-700 bg-gray-100 border-gray-300'; 
             return 'text-orange-700 bg-orange-50 border-orange-200'; 
@@ -718,7 +641,6 @@
             } catch(e){} showLoading(false); 
         }
 
-        // Export CSV logic
         function downloadCSV(filename, text) {
             const blob = new Blob(['\uFEFF' + text], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
@@ -739,10 +661,7 @@
 
         function exportCustomersCSV() {
             let csv = 'Name,Phone,Tag,Total Orders,Delivered,Total Spent\n';
-            for(let p in customerMap) {
-                let c = customerMap[p];
-                csv += `${c.name},${p},${c.tag||'None'},${c.totalOrders},${c.delivered},${c.spent}\n`;
-            }
+            for(let p in customerMap) { let c = customerMap[p]; csv += `${c.name},${p},${c.tag||'None'},${c.totalOrders},${c.delivered},${c.spent}\n`; }
             downloadCSV('Customers_Report.csv', csv);
         }
 
@@ -775,10 +694,7 @@
         function viewCustomer(phone) {
             currentViewedPhone = phone; const c = customerMap[phone];
             document.getElementById('customer-modal').classList.remove('hidden'); document.getElementById('customer-modal').classList.add('flex');
-            
-            document.getElementById('cp-name').textContent = c.name;
-            document.getElementById('cp-phone').querySelector('span').textContent = phone;
-            document.getElementById('cp-phone').href = `tel:${phone}`; document.getElementById('cp-tag').value = c.tag || '';
+            document.getElementById('cp-name').textContent = c.name; document.getElementById('cp-phone').querySelector('span').textContent = phone; document.getElementById('cp-phone').href = `tel:${phone}`; document.getElementById('cp-tag').value = c.tag || '';
             document.getElementById('cp-total-orders').textContent = c.totalOrders; document.getElementById('cp-delivered').textContent = c.delivered; document.getElementById('cp-spent').textContent = `৳ ${c.spent}`;
 
             document.getElementById('cp-order-history').innerHTML = c.orders.map(o => `
@@ -791,21 +707,14 @@
             `).join('');
         }
 
-        function closeCustomerModal() {
-            document.getElementById('customer-modal').classList.add('hidden');
-            document.getElementById('customer-modal').classList.remove('flex');
-        }
+        function closeCustomerModal() { document.getElementById('customer-modal').classList.add('hidden'); document.getElementById('customer-modal').classList.remove('flex'); }
 
         async function saveCustomerTag() {
             if(!currentViewedPhone) return; const tag = document.getElementById('cp-tag').value; showLoading(true);
-            try {
-                await fetchPost({ action: 'saveCustomerTag', phone: currentViewedPhone, tag: tag });
-                customerMap[currentViewedPhone].tag = tag; storeData.tags[currentViewedPhone] = tag;
-                renderCustomers(); renderDashboard(); renderOrders(); showToast("ট্যাগ সেভ হয়েছে!");
-            } catch(e){} showLoading(false);
+            try { await fetchPost({ action: 'saveCustomerTag', phone: currentViewedPhone, tag: tag }); customerMap[currentViewedPhone].tag = tag; storeData.tags[currentViewedPhone] = tag; renderCustomers(); renderDashboard(); renderOrders(); showToast("ট্যাগ সেভ হয়েছে!"); } catch(e){} showLoading(false);
         }
 
-        // --- MENU MANAGEMENT (With Availability Toggle) ---
+        // --- MENU MANAGEMENT ---
         function renderMenuAdmin() { 
             const grid = document.getElementById('admin-menu-grid');
             if(storeData.menu.length===0){ grid.innerHTML='<p class="text-sm col-span-full text-gray-500 text-center py-10 bg-white border rounded-xl">কোনো আইটেম নেই</p>'; return; }
@@ -817,8 +726,7 @@
                             ${m.available === false ? '<span class="absolute inset-0 bg-black/50 text-white text-[8px] font-bold flex items-center justify-center text-center leading-tight">OUT OF<br>STOCK</span>' : ''}
                         </div>
                         <div class="flex-1">
-                            <div class="flex justify-between items-start">
-                                <h4 class="font-bold text-sm line-clamp-2 leading-snug">${m.name}</h4>
+                            <div class="flex justify-between items-start"><h4 class="font-bold text-sm line-clamp-2 leading-snug">${m.name}</h4>
                                 <label class="relative inline-flex items-center cursor-pointer" title="Available/Out of Stock">
                                     <input type="checkbox" class="sr-only peer" ${m.available !== false ? 'checked' : ''} onchange="toggleMenuStatus('${m.id}')">
                                     <div class="w-7 h-4 bg-red-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-green-500"></div>
@@ -827,75 +735,66 @@
                             <p class="text-[10px] text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded inline-block mt-1 border">${m.category}</p>
                         </div>
                     </div>
-                    <div class="flex justify-between items-end mt-auto pt-1">
-                        <p class="text-brand font-bold text-lg">৳ ${m.price}</p>
-                        <div class="flex gap-2">
-                            <button onclick='editMenu(${JSON.stringify(m).replace(/'/g, "&#39;")})' class="text-blue-600 bg-blue-50 hover:bg-blue-100 p-1.5 rounded-md text-xs font-bold transition-colors border border-blue-100"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="deleteMenu('${m.id}')" class="text-red-600 bg-red-50 hover:bg-red-100 p-1.5 rounded-md text-xs font-bold transition-colors border border-red-100"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
+                    <div class="flex justify-between items-end mt-auto pt-1"><p class="text-brand font-bold text-lg">৳ ${m.price}</p><div class="flex gap-2"><button onclick='editMenu(${JSON.stringify(m).replace(/'/g, "&#39;")})' class="text-blue-600 bg-blue-50 hover:bg-blue-100 p-1.5 rounded-md text-xs font-bold transition-colors border border-blue-100"><i class="fa-solid fa-pen"></i></button><button onclick="deleteMenu('${m.id}')" class="text-red-600 bg-red-50 hover:bg-red-100 p-1.5 rounded-md text-xs font-bold transition-colors border border-red-100"><i class="fa-solid fa-trash"></i></button></div></div>
                 </div>
             `).join(''); 
         }
 
         async function toggleMenuStatus(id) {
-            const itemIndex = storeData.menu.findIndex(m => m.id === id);
-            if(itemIndex === -1) return;
-            const item = storeData.menu[itemIndex];
-            item.available = item.available === false ? true : false;
-            
-            showLoading(true);
-            try {
-                await fetchPost({action:'saveMenu', item: item, isEdit: true});
-                showToast(item.available ? "আইটেম চালু হয়েছে" : "Out of stock করা হয়েছে");
-                renderMenuAdmin();
-            } catch(e) {}
-            showLoading(false);
+            const itemIndex = storeData.menu.findIndex(m => m.id === id); if(itemIndex === -1) return;
+            const item = storeData.menu[itemIndex]; item.available = item.available === false ? true : false;
+            showLoading(true); try { await fetchPost({action:'saveMenu', item: item, isEdit: true}); showToast(item.available ? "আইটেম চালু হয়েছে" : "Out of stock করা হয়েছে"); renderMenuAdmin(); } catch(e) {} showLoading(false);
         }
 
         function openMenuModal() { document.getElementById('menu-form').reset(); document.getElementById('m-id').value = 'f'+Date.now(); document.getElementById('menu-modal-title').textContent="Add Item"; document.getElementById('menu-modal').style.display='flex'; }
         function closeMenuModal() { document.getElementById('menu-modal').style.display='none'; }
         function editMenu(i) { document.getElementById('m-id').value=i.id; document.getElementById('m-name').value=i.name; document.getElementById('m-price').value=i.price; document.getElementById('m-cat').value=i.category; document.getElementById('m-image').value=i.image; document.getElementById('m-ing').value=i.ingredients; document.getElementById('menu-modal-title').textContent="Edit Item"; document.getElementById('menu-modal').style.display='flex'; }
-        
         async function saveMenuItem(e) { 
-            e.preventDefault(); const id=document.getElementById('m-id').value; 
-            const existingItem = storeData.menu.find(m => m.id === id);
+            e.preventDefault(); const id=document.getElementById('m-id').value; const existingItem = storeData.menu.find(m => m.id === id);
             const item={id, name:document.getElementById('m-name').value, price:document.getElementById('m-price').value, category:document.getElementById('m-cat').value, image:document.getElementById('m-image').value, ingredients:document.getElementById('m-ing').value, available: existingItem ? existingItem.available : true}; 
-            const isEdit = existingItem !== undefined; 
-            showLoading(true); closeMenuModal(); 
+            const isEdit = existingItem !== undefined; showLoading(true); closeMenuModal(); 
             try { await fetchPost({action:'saveMenu', item, isEdit}); if(isEdit){ storeData.menu[storeData.menu.findIndex(m=>m.id===id)]=item; } else storeData.menu.push(item); renderMenuAdmin(); showToast("সেভ হয়েছে!"); } catch(e){} showLoading(false); 
         }
         async function deleteMenu(id) { if(!confirm("Are you sure?")) return; showLoading(true); try { await fetchPost({action:'deleteMenu', id}); storeData.menu=storeData.menu.filter(m=>m.id!==id); renderMenuAdmin(); showToast("Deleted"); } catch(e){} showLoading(false); }
 
-        // --- CAROUSEL MANAGEMENT (Fixed Delete+Update Issue) ---
+        // --- OFFERS MANAGEMENT ---
+        function renderOffersAdmin() {
+            const grid = document.getElementById('admin-offers-grid');
+            if(storeData.offers.length===0){ grid.innerHTML='<p class="text-sm col-span-full text-gray-500 text-center py-10 bg-white border rounded-xl">কোনো অফার নেই</p>'; return; }
+            grid.innerHTML = storeData.offers.map(o => `
+                <div class="bg-white border rounded-xl p-3 shadow-sm flex flex-col hover:border-brand/30 transition-colors">
+                    <div class="flex items-start gap-3 mb-2 border-b pb-2">
+                        <img src="${o.image}" class="w-16 h-16 rounded-lg object-cover bg-gray-50 border">
+                        <div class="flex-1"><h4 class="font-bold text-sm line-clamp-2">${o.title}</h4><p class="text-[10px] text-gray-500 line-clamp-2 mt-1">${o.description}</p></div>
+                    </div>
+                    <div class="flex justify-between items-end mt-auto pt-1"><p class="text-brand font-bold text-lg">৳ ${o.price}</p><div class="flex gap-2"><button onclick='editOffer(${JSON.stringify(o).replace(/'/g, "&#39;")})' class="text-blue-600 bg-blue-50 hover:bg-blue-100 p-1.5 rounded-md text-xs font-bold transition-colors border border-blue-100"><i class="fa-solid fa-pen"></i></button><button onclick="deleteOffer('${o.id}')" class="text-red-600 bg-red-50 hover:bg-red-100 p-1.5 rounded-md text-xs font-bold transition-colors border border-red-100"><i class="fa-solid fa-trash"></i></button></div></div>
+                </div>`).join('');
+        }
+        function openOfferModal() { document.getElementById('offer-form').reset(); document.getElementById('o-id').value = 'O-'+Date.now(); document.getElementById('offer-modal-title').textContent="Add Offer"; document.getElementById('offer-modal').style.display='flex'; }
+        function closeOfferModal() { document.getElementById('offer-modal').style.display='none'; }
+        function editOffer(o) { document.getElementById('o-id').value=o.id; document.getElementById('o-title').value=o.title; document.getElementById('o-price').value=o.price; document.getElementById('o-desc').value=o.description; document.getElementById('o-image').value=o.image; document.getElementById('offer-modal-title').textContent="Edit Offer"; document.getElementById('offer-modal').style.display='flex'; }
+        async function saveOfferItem(e) {
+            e.preventDefault(); const id=document.getElementById('o-id').value; const isEdit = storeData.offers.find(m => m.id === id) !== undefined;
+            const item={id, title:document.getElementById('o-title').value, price:document.getElementById('o-price').value, description:document.getElementById('o-desc').value, image:document.getElementById('o-image').value}; 
+            showLoading(true); closeOfferModal(); try { await fetchPost({action:'saveOffer', item, isEdit}); if(isEdit){ storeData.offers[storeData.offers.findIndex(m=>m.id===id)]=item; } else storeData.offers.push(item); renderOffersAdmin(); showToast("সেভ হয়েছে!"); } catch(e){} showLoading(false);
+        }
+        async function deleteOffer(id) { if(!confirm("Are you sure?")) return; showLoading(true); try { await fetchPost({action:'deleteOffer', id}); storeData.offers=storeData.offers.filter(m=>m.id!==id); renderOffersAdmin(); showToast("Deleted"); } catch(e){} showLoading(false); }
+
+        // --- CAROUSEL MANAGEMENT ---
         function renderCarouselAdmin() {
             const list = document.getElementById('carousel-list');
             if(storeData.carousel.length === 0) { list.innerHTML = '<p class="text-xs text-gray-500 text-center py-4">কোনো স্লাইড নেই</p>'; return; }
             list.innerHTML = storeData.carousel.map(c => `
                 <div class="flex items-center justify-between bg-gray-50 p-2 rounded-lg border">
                     <div class="flex gap-3 items-center"><img src="${c.image}" class="h-12 w-20 object-cover rounded shadow-sm border"><span class="text-xs font-bold text-gray-700 line-clamp-1">${c.title || '(No Title)'}</span></div>
-                    <div class="flex gap-2">
-                        <button onclick='editCarousel(${JSON.stringify(c).replace(/'/g, "&#39;")})' class="text-blue-500 hover:text-blue-700 hover:bg-blue-50 w-8 h-8 rounded-md flex items-center justify-center transition-colors"><i class="fa-solid fa-pen text-xs"></i></button>
-                        <button onclick="deleteCarousel('${c.id}')" class="text-red-500 hover:text-red-700 hover:bg-red-50 w-8 h-8 rounded-md flex items-center justify-center transition-colors"><i class="fa-solid fa-trash text-xs"></i></button>
-                    </div>
+                    <div class="flex gap-2"><button onclick='editCarousel(${JSON.stringify(c).replace(/'/g, "&#39;")})' class="text-blue-500 hover:text-blue-700 hover:bg-blue-50 w-8 h-8 rounded-md flex items-center justify-center transition-colors"><i class="fa-solid fa-pen text-xs"></i></button><button onclick="deleteCarousel('${c.id}')" class="text-red-500 hover:text-red-700 hover:bg-red-50 w-8 h-8 rounded-md flex items-center justify-center transition-colors"><i class="fa-solid fa-trash text-xs"></i></button></div>
                 </div>
             `).join('');
         }
         function openSliderModal() { document.getElementById('slider-form').reset(); document.getElementById('car-id').value = ''; document.getElementById('slider-modal-title').textContent="Add Slide"; document.getElementById('slider-submit-btn').textContent = "Save Slide"; document.getElementById('slider-submit-btn').classList.replace('bg-blue-600', 'bg-gray-900'); document.getElementById('slider-modal').style.display='flex'; }
         function closeSliderModal() { document.getElementById('slider-modal').style.display='none'; }
         function editCarousel(c) { document.getElementById('car-id').value=c.id; document.getElementById('car-title').value=c.title||''; document.getElementById('car-image').value=c.image; document.getElementById('slider-modal-title').textContent="Edit Slide"; document.getElementById('slider-submit-btn').textContent="Update Slide"; document.getElementById('slider-submit-btn').classList.replace('bg-gray-900', 'bg-blue-600'); document.getElementById('slider-modal').style.display='flex'; }
-        
-        async function saveCarousel(e) { 
-            e.preventDefault(); const id = document.getElementById('car-id').value; const img = document.getElementById('car-image').value; const title = document.getElementById('car-title').value; const isEdit = id !== ''; const finalId = isEdit ? id : 'c'+Date.now();
-            showLoading(true); closeSliderModal();
-            try { 
-                // To prevent duplication issue on backend, if it's an edit, we send a delete request first
-                if (isEdit) { await fetchPost({ action:'deleteCarousel', id: finalId }); }
-                await fetchPost({ action:'saveCarousel', id: finalId, image: img, title: title, isEdit: isEdit }); 
-                await fetchStoreData(); // Force pull fresh accurate data from backend
-                showToast("স্লাইড আপডেট হয়েছে!"); 
-            } catch(e){} showLoading(false); 
-        }
+        async function saveCarousel(e) { e.preventDefault(); const id = document.getElementById('car-id').value; const isEdit = id !== ''; const finalId = isEdit ? id : 'C-'+Date.now(); showLoading(true); closeSliderModal(); try { if (isEdit) { await fetchPost({ action:'deleteCarousel', id: finalId }); } await fetchPost({ action:'saveCarousel', id: finalId, image: document.getElementById('car-image').value, title: document.getElementById('car-title').value, isEdit: isEdit }); await fetchStoreData(); showToast("স্লাইড আপডেট হয়েছে!"); } catch(e){} showLoading(false); }
         async function deleteCarousel(id) { if(!confirm("Are you sure?")) return; showLoading(true); try { await fetchPost({ action:'deleteCarousel', id }); storeData.carousel = storeData.carousel.filter(c => c.id !== id); renderCarouselAdmin(); showToast("Deleted"); } catch(e){} showLoading(false); }
 
         // --- AREA MANAGEMENT ---
@@ -906,9 +805,8 @@
         function openAreaModal() { document.getElementById('area-form').reset(); document.getElementById('area-name').readOnly = false; document.getElementById('area-modal-title').textContent="Add Area"; document.getElementById('area-submit-btn').textContent = "Save Area"; document.getElementById('area-submit-btn').classList.replace('bg-blue-600', 'bg-gray-900'); document.getElementById('area-modal').style.display='flex'; }
         function closeAreaModal() { document.getElementById('area-modal').style.display='none'; }
         function editArea(name, charge) { document.getElementById('area-name').value = name; document.getElementById('area-name').readOnly = true; document.getElementById('area-charge').value = charge; document.getElementById('area-modal-title').textContent = "Update Area Charge"; document.getElementById('area-submit-btn').textContent = "Update Area"; document.getElementById('area-submit-btn').classList.replace('bg-gray-900', 'bg-blue-600'); document.getElementById('area-modal').style.display='flex'; }
-        
-        async function saveArea(e) { e.preventDefault(); const areaName=document.getElementById('area-name').value; const charge=document.getElementById('area-charge').value; showLoading(true); closeAreaModal(); try{ await fetchPost({action:'saveArea', areaName, charge}); const ex = storeData.areas.findIndex(a=>a.name===areaName); if(ex>-1) storeData.areas[ex].charge=charge; else storeData.areas.push({name:areaName, charge}); renderAreasAdmin(); showToast("সেভ হয়েছে!"); populateAreaFilter();}catch(e){} showLoading(false); }
-        async function deleteArea(n) { if(!confirm("Are you sure?")) return; showLoading(true); try{ await fetchPost({action:'deleteArea', areaName:n}); storeData.areas=storeData.areas.filter(a=>a.name!==n); renderAreasAdmin(); showToast("Deleted"); populateAreaFilter();}catch(e){} showLoading(false); }
+        async function saveArea(e) { e.preventDefault(); const areaName=document.getElementById('area-name').value; const charge=document.getElementById('area-charge').value; showLoading(true); closeAreaModal(); try{ await fetchPost({action:'saveArea', areaName, charge}); const ex = storeData.areas.findIndex(a=>a.name===areaName); if(ex>-1) storeData.areas[ex].charge=charge; else storeData.areas.push({name:areaName, charge}); renderAreasAdmin(); showToast("সেভ হয়েছে!");}catch(e){} showLoading(false); }
+        async function deleteArea(n) { if(!confirm("Are you sure?")) return; showLoading(true); try{ await fetchPost({action:'deleteArea', areaName:n}); storeData.areas=storeData.areas.filter(a=>a.name!==n); renderAreasAdmin(); showToast("Deleted"); }catch(e){} showLoading(false); }
 
         // --- NOTIFICATIONS MANAGEMENT ---
         async function fetchAdminNotifs() {
@@ -923,10 +821,7 @@
                             <p class="text-xs text-gray-600 mb-3 bg-gray-50 p-2 rounded border">${n.message}</p>
                             <div class="flex justify-between items-center pt-2">
                                 <span class="text-[10px] text-gray-400 font-medium"><i class="fa-regular fa-clock mr-1"></i>${formatEnglishDate(n.date)}</span>
-                                <div class="flex gap-2">
-                                    <button onclick='editNotif(${JSON.stringify(n).replace(/'/g, "&#39;")})' class="text-blue-600 hover:bg-blue-50 px-2 py-1 rounded text-[11px] font-bold border border-transparent hover:border-blue-200 transition-colors"><i class="fa-solid fa-pen mr-1"></i> Edit</button>
-                                    <button onclick="deleteNotification('${n.id}')" class="text-red-600 hover:bg-red-50 px-2 py-1 rounded text-[11px] font-bold border border-transparent hover:border-red-200 transition-colors"><i class="fa-solid fa-trash mr-1"></i> Delete</button>
-                                </div>
+                                <div class="flex gap-2"><button onclick='editNotif(${JSON.stringify(n).replace(/'/g, "&#39;")})' class="text-blue-600 hover:bg-blue-50 px-2 py-1 rounded text-[11px] font-bold border border-transparent hover:border-blue-200 transition-colors"><i class="fa-solid fa-pen mr-1"></i> Edit</button><button onclick="deleteNotification('${n.id}')" class="text-red-600 hover:bg-red-50 px-2 py-1 rounded text-[11px] font-bold border border-transparent hover:border-red-200 transition-colors"><i class="fa-solid fa-trash mr-1"></i> Delete</button></div>
                             </div>
                         </div>
                     `).join('');
@@ -937,18 +832,15 @@
         document.getElementById('notif-target').addEventListener('change', function(e) { document.getElementById('notif-custom-phone').style.display = e.target.value === 'custom' ? 'block' : 'none'; });
         function openNotifModal() { document.getElementById('notif-form').reset(); document.getElementById('n-id').value = ''; document.getElementById('notif-target').value = 'All'; document.getElementById('notif-custom-phone').style.display = 'none'; document.getElementById('notif-modal-title').textContent="Send Message"; document.getElementById('notif-submit-btn').textContent = "Send Message"; document.getElementById('notif-modal').style.display='flex'; }
         function closeNotifModal() { document.getElementById('notif-modal').style.display='none'; }
-        
         function editNotif(n) {
             document.getElementById('n-id').value = n.id; document.getElementById('notif-title').value = n.title; document.getElementById('notif-message').value = n.message;
             if(n.target === 'All' || n.target === 'all') { document.getElementById('notif-target').value = 'All'; document.getElementById('notif-custom-phone').style.display = 'none'; } else { document.getElementById('notif-target').value = 'custom'; document.getElementById('notif-custom-phone').value = n.target; document.getElementById('notif-custom-phone').style.display = 'block'; }
             document.getElementById('notif-modal-title').textContent = "Update Message"; document.getElementById('notif-submit-btn').textContent = "Update Message"; document.getElementById('notif-modal').style.display='flex';
         }
-        
         async function saveNotification(e) {
             e.preventDefault(); const id = document.getElementById('n-id').value; const isEdit = id !== ''; const targetType = document.getElementById('notif-target').value;
             const target = targetType === 'custom' ? document.getElementById('notif-custom-phone').value : 'All'; const title = document.getElementById('notif-title').value; const message = document.getElementById('notif-message').value;
-            if(targetType === 'custom' && !target) return showToast("নম্বর দিন", true);
-            showLoading(true); closeNotifModal(); try { await fetchPost({ action: 'saveNotification', isEdit, id, target, title, message }); showToast(isEdit ? "আপডেট হয়েছে!" : "পাঠানো হয়েছে!"); fetchAdminNotifs(); } catch(e){} showLoading(false);
+            if(targetType === 'custom' && !target) return showToast("নম্বর দিন", true); showLoading(true); closeNotifModal(); try { await fetchPost({ action: 'saveNotification', isEdit, id, target, title, message }); showToast(isEdit ? "আপডেট হয়েছে!" : "পাঠানো হয়েছে!"); fetchAdminNotifs(); } catch(e){} showLoading(false);
         }
         async function deleteNotification(id) { if(!confirm("Are you sure?")) return; showLoading(true); try { await fetchPost({ action: 'deleteNotification', id }); showToast("Deleted!"); fetchAdminNotifs(); } catch(e){} showLoading(false); }
 
@@ -961,9 +853,37 @@
             document.getElementById('set-rocket').value=storeData.settings.RocketNumber||''; 
             document.getElementById('set-promo-text').value=storeData.settings.PromoText||''; 
             document.getElementById('set-free-del').value=storeData.settings.FreeDeliveryThreshold||''; 
+            document.getElementById('set-blocked').value=storeData.settings.BlockedUsers||''; 
+            
+            // Show stringified version of Coupons
+            let couponStr = "";
+            if(storeData.settings.Coupons) {
+                if(typeof storeData.settings.Coupons === 'object') couponStr = JSON.stringify(storeData.settings.Coupons);
+                else couponStr = storeData.settings.Coupons;
+            }
+            document.getElementById('set-coupons').value = couponStr; 
         }
-        async function saveSetting(k, id) { const v=document.getElementById(id).value; showLoading(true); try{ await fetchPost({action:'saveSettings', key:k, value:v}); storeData.settings[k]=v; showToast("Saved!");}catch(e){} showLoading(false); }
-
+        
+        async function saveSetting(k, id) { 
+            let v = document.getElementById(id).value; 
+            
+            // Validate JSON if saving Coupons
+            if(k === 'Coupons' && v.trim() !== '') {
+                try { JSON.parse(v); } catch(e) { return showToast("ভুল কুপন ফরম্যাট! সঠিক JSON দিন।", true); }
+            }
+            
+            showLoading(true); 
+            try{ 
+                await fetchPost({action:'saveSettings', key:k, value:v}); 
+                
+                // Update local storage representation
+                if(k === 'Coupons' && v.trim() !== '') storeData.settings[k] = JSON.parse(v);
+                else storeData.settings[k] = v;
+                
+                showToast("Saved!");
+            } catch(e){} 
+            showLoading(false); 
+        }
     </script>
 </body>
-                                                                                                                                                                                                                                                                               </html>
+</html>
