@@ -20,7 +20,6 @@
 </head>
 <body class="h-screen flex overflow-hidden relative">
 
-    <!-- ADMIN LOGIN MODAL -->
     <div id="admin-login" class="fixed inset-0 bg-gray-900 z-[9999] flex items-center justify-center p-4">
         <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm text-center">
             <i class="fa-solid fa-user-shield text-5xl text-brand mb-4"></i><h2 class="text-2xl font-bold mb-6">অ্যাডমিন লগইন</h2>
@@ -33,7 +32,7 @@
 
     <aside id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 w-64 bg-gray-900 text-white flex flex-col transition-transform duration-300 z-50 shrink-0">
         <div class="p-5 flex items-center justify-between border-b border-gray-800">
-            <div class="flex items-center gap-2 cursor-pointer hover:text-brand transition-colors" onclick="switchTab('dashboard')">
+            <div class="flex items-center gap-2 cursor-pointer hover:text-brand transition-colors" onclick="switchTab('dashboard')" title="Go to Dashboard">
                 <i class="fa-solid fa-fire-burner text-brand text-xl"></i>
                 <h1 class="text-base font-bold">শেরপুর ক্লাউড কিচেন</h1>
             </div>
@@ -98,7 +97,7 @@
                         <div class="relative flex-1">
                             <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                             <input type="text" id="order-search" onkeyup="filterOrders()" placeholder="অর্ডার আইডি, নাম বা ফোন নম্বর সার্চ করুন..." class="w-full pl-10 pr-8 py-2.5 border rounded-lg outline-none text-sm focus:border-brand bg-gray-50">
-                            <button onclick="document.getElementById('order-search').value=''; filterOrders();" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors"><i class="fa-solid fa-times-circle text-lg"></i></button>
+                            <button onclick="document.getElementById('order-search').value=''; filterOrders();" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors" title="Clear Search"><i class="fa-solid fa-times-circle text-lg"></i></button>
                         </div>
                     </div>
                 </div>
@@ -110,7 +109,6 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="admin-menu-grid"></div>
             </div>
 
-            <!-- Offers Tab (Slider removed) -->
             <div id="tab-offers" class="tab-content">
                 <div class="flex justify-between items-center mb-6"><h2 class="text-xl font-bold text-gray-800">Special Offers</h2><button onclick="openOfferModal()" class="bg-brand text-white px-3 py-1.5 text-sm rounded-md font-bold shadow hover:bg-brand-dark transition-colors"><i class="fa-solid fa-plus mr-1"></i> Add Offer</button></div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="admin-offers-grid"></div>
@@ -152,11 +150,9 @@
             <div id="tab-settings" class="tab-content">
                 <h2 class="text-xl font-bold text-gray-800 mb-6">System Settings</h2>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6">
-                    
                     <div class="bg-white p-6 rounded-xl shadow-sm border space-y-5">
                         <h3 class="font-bold text-gray-800 border-b pb-2 mb-4"><i class="fa-solid fa-address-book text-brand mr-2"></i>Contact & Operation</h3>
                         
-                        <!-- রেস্টুরেন্ট Open/Close বাটন ফিচার যুক্ত করা হলো -->
                         <div class="bg-orange-50 p-3 rounded-lg border border-orange-100 mb-3">
                             <label class="block text-sm font-extrabold text-gray-900 mb-2"><i class="fa-solid fa-store mr-1"></i> Restaurant Status (রেস্টুরেন্ট চালু/বন্ধ)</label>
                             <div class="flex gap-2">
@@ -228,7 +224,7 @@
         </div>
     </div>
 
-    <!-- MENU MODAL - Category Dropdown Added -->
+    <!-- MENU MODAL - Category Dropdown Updated -->
     <div id="menu-modal" class="fixed inset-0 bg-black/60 z-[9999] hidden items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md flex flex-col animate-[fadeIn_0.2s_ease-out]">
             <div class="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-xl"><h2 id="menu-modal-title" class="text-lg font-bold text-gray-800">Add Item</h2><button onclick="closeMenuModal()" class="text-gray-400 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50"><i class="fa-solid fa-times"></i></button></div>
@@ -242,12 +238,12 @@
                             <label class="text-[10px] font-bold text-gray-500 uppercase">Category</label>
                             <input list="category-options" id="m-cat" required placeholder="সিলেক্ট বা টাইপ করুন..." class="w-full px-3 py-2 border rounded-md text-sm outline-none focus:border-brand">
                             <datalist id="category-options">
-                                <option value="বিরিয়ানি">
+                                <option value="মেইন ডিশ">
+                                <option value="সাইড ডিশ">
                                 <option value="ফাস্ট ফুড">
-                                <option value="ড্রিংকস">
                                 <option value="ডেজার্ট">
-                                <option value="পিৎজা">
-                                <option value="অন্যান্য">
+                                <option value="কেইক">
+                                <option value="SPC কিচেন স্পেশাল">
                             </datalist>
                         </div>
                     </div>
@@ -328,7 +324,6 @@
             }
         }
 
-        // অ্যাডমিন সিকিউরিটি ফিক্স: এখন সরাসরি এপিআই থেকে চেক হবে
         async function checkAdmin() { 
             const pass = document.getElementById('admin-pass').value;
             if(!pass) return alert('পাসওয়ার্ড দিন!');
@@ -706,7 +701,6 @@
             try { await fetchPost({ action: 'saveCustomerTag', phone: currentViewedPhone, tag: tag }); customerMap[currentViewedPhone].tag = tag; storeData.tags[currentViewedPhone] = tag; renderCustomers(); renderDashboard(); renderOrders(); showToast("ট্যাগ সেভ হয়েছে!"); } catch(e){} showLoading(false);
         }
 
-        // --- MENU MANAGEMENT ---
         function renderMenuAdmin() { 
             const grid = document.getElementById('admin-menu-grid');
             if(storeData.menu.length===0){ grid.innerHTML='<p class="text-sm col-span-full text-gray-500 text-center py-10 bg-white border rounded-xl">কোনো আইটেম নেই</p>'; return; }
@@ -755,7 +749,7 @@
             grid.innerHTML = storeData.offers.map(o => `
                 <div class="bg-white border rounded-xl p-3 shadow-sm flex flex-col hover:border-brand/30 transition-colors">
                     <div class="flex items-start gap-3 mb-2 border-b pb-2">
-                        <img src="${o.image}" class="w-16 h-16 rounded-lg object-cover bg-gray-50 border">
+                        <img src="${o.image}" class="w-16 h-16 rounded-lg object-contain bg-gray-50 border">
                         <div class="flex-1"><h4 class="font-bold text-sm line-clamp-2">${o.title}</h4><p class="text-[10px] text-gray-500 line-clamp-2 mt-1">${o.description}</p></div>
                     </div>
                     <div class="flex justify-between items-end mt-auto pt-1"><p class="text-brand font-bold text-lg">৳ ${o.price}</p><div class="flex gap-2"><button onclick='editOffer(${JSON.stringify(o).replace(/'/g, "&#39;")})' class="text-blue-600 bg-blue-50 hover:bg-blue-100 p-1.5 rounded-md text-xs font-bold transition-colors border border-blue-100"><i class="fa-solid fa-pen"></i></button><button onclick="deleteOffer('${o.id}')" class="text-red-600 bg-red-50 hover:bg-red-100 p-1.5 rounded-md text-xs font-bold transition-colors border border-red-100"><i class="fa-solid fa-trash"></i></button></div></div>
@@ -845,8 +839,10 @@
             showLoading(true); 
             try{ 
                 await fetchPost({action:'saveSettings', key:k, value:v}); 
+                
                 if(k === 'Coupons' && v.trim() !== '') storeData.settings[k] = JSON.parse(v);
                 else storeData.settings[k] = v;
+                
                 showToast("Saved!");
             } catch(e){} 
             showLoading(false); 
