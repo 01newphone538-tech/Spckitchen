@@ -12,33 +12,43 @@
         body { font-family: 'Hind Siliguri', sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
         .custom-scroll::-webkit-scrollbar { display: none; }
         .custom-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        
         .card { background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; transition: transform 0.2s; }
         .card:active { transform: scale(0.98); }
+        
         .input { border-radius: 14px; background: #ffffff; border: 1px solid #e2e8f0; padding: 14px 16px; width: 100%; outline: none; font-weight: 600; transition: all 0.2s; color: #0f172a;}
         .input:focus { border-color: #ea580c; background: #fff; box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.1); }
+        
         .btn-primary { background: #ea580c; color: white; border-radius: 14px; padding: 14px; font-weight: 700; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25); display: inline-flex; align-items: center; justify-content: center; width: 100%; transition: all 0.2s; cursor: pointer; }
         .btn-primary:active:not(:disabled) { transform: scale(0.96); box-shadow: 0 2px 6px rgba(234, 88, 12, 0.2); }
         .btn-primary:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; transform: none; }
+        
         .btn-dark { background: #0f172a; color: white; border-radius: 14px; padding: 14px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; width: 100%; cursor: pointer; transition: all 0.2s;}
         .btn-dark:active { transform: scale(0.96); }
+        
         .nav-item.active { color: #ea580c; }
         .nav-item.active i { transform: translateY(-3px) scale(1.1); transition: all 0.3s; }
+
         .slide-up { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .fade-in { animation: fadeIn 0.2s ease forwards; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .pop { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes pop { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
         .progress-step.active .step-icon { background-color: #ea580c; color: white; border-color: #ea580c; }
         .hide-item { display: none !important; }
+        
         .wallet-radio:checked + div { border-color: #ea580c; background-color: #ffedd5; }
         .wallet-radio:checked + div i { color: #ea580c; }
+
         .app-container { max-width: 100%; height: 100dvh; }
         @media (min-width: 768px) {
             .app-container { max-width: 480px; margin: 0 auto; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; position: relative;}
             .desktop-modal { top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 24px; bottom: auto; max-height: 85vh; width: 450px !important; }
             .desktop-modal.translate-y-full { transform: translate(-50%, 100%); opacity: 0; }
         }
+        
         .stylish-font { font-family: 'Pacifico', cursive; letter-spacing: 1px; text-shadow: 1px 1px 3px rgba(234, 88, 12, 0.2); }
     </style>
     <script>tailwind.config = { theme: { extend: { colors: { brand: { light: '#ffedd5', DEFAULT: '#ea580c', dark: '#c2410c' } } } } }</script>
@@ -47,20 +57,22 @@
 
     <div class="app-container w-full bg-white relative flex flex-col overflow-hidden">
         
+        <!-- Offline & Closed Alerts -->
         <div id="closed-banner" class="hidden w-full bg-red-600 text-white text-xs font-bold text-center py-2.5 z-50 flex justify-center items-center gap-2 shadow-md">
             <i class="fa-solid fa-lock"></i> রেস্টুরেন্ট এখন বন্ধ আছে। আপনি এখন অর্ডার করতে পারবেন না।
         </div>
-
         <div id="offline-alert" class="absolute top-0 left-0 w-full bg-red-500 text-white text-xs font-bold text-center py-2 z-[99999] transition-all duration-300 transform -translate-y-full">
             <i class="fa-solid fa-wifi mr-2"></i> ইন্টারনেট কানেকশন নেই!
         </div>
 
+        <!-- Initial Loader -->
         <div id="initial-loading" class="absolute inset-0 bg-white z-[5000] flex flex-col items-center justify-center">
             <div class="w-28 h-28 bg-[#ea580c] rounded-full flex items-center justify-center mb-6 text-6xl text-white shadow-xl shadow-orange-500/40 fa-bounce"><i class="fa-solid fa-fire-burner"></i></div>
             <h2 class="text-4xl text-[#ea580c] stylish-font text-center px-4 leading-tight mb-2">শেরপুর<br>ক্লাউড কিচেন</h2>
             <p class="text-slate-500 font-bold text-sm mt-3 flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-full border border-slate-100"><i class="fa-solid fa-spinner fa-spin text-[#ea580c]"></i> অরিজিনাল স্বাদ লোড হচ্ছে...</p>
         </div>
 
+        <!-- Area Modal Strict Overlay -->
         <div id="area-modal-overlay" class="fixed inset-0 bg-slate-900/80 z-[3500] hidden opacity-0 transition-opacity duration-300 backdrop-blur-md"></div>
         <div id="area-modal" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white rounded-t-[32px] shadow-2xl z-[3600] hidden transition-all duration-300 translate-y-full flex flex-col pb-safe max-h-[85vh] desktop-modal">
             <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-4 mb-2 shrink-0 md:hidden"></div>
@@ -68,33 +80,60 @@
             <div class="p-6 flex-1 overflow-hidden flex flex-col"><div id="area-list-container" class="flex-1 overflow-y-auto custom-scroll space-y-3 pb-6"></div></div>
         </div>
 
+        <!-- MAIN APP -->
         <div id="main-app" class="flex-1 flex flex-col bg-slate-50 h-full overflow-y-auto custom-scroll relative">
-            <header class="bg-white px-3 py-3 sticky top-0 z-40 shadow-sm flex items-center gap-3 border-b border-slate-100">
-                <button onclick="uiModals.navTo('home')" class="w-11 h-11 shrink-0 bg-[#ea580c] text-white rounded-full flex items-center justify-center text-xl shadow-md shadow-orange-500/30 transition-transform active:scale-95"><i class="fa-solid fa-fire-burner"></i></button>
-                <button onclick="uiModals.open('area-modal')" class="flex-1 bg-slate-50 px-3 py-2 rounded-xl border border-slate-100 flex flex-col items-start transition-colors hover:bg-brand/5 text-left overflow-hidden"><span class="text-[9px] font-extrabold text-brand uppercase tracking-widest flex items-center gap-1"><i class="fa-solid fa-location-dot"></i> লোকেশন</span><span class="text-sm font-extrabold text-slate-900 w-full truncate" id="header-loc-text">এরিয়া নির্বাচন করুন</span></button>
-                <div class="flex items-center gap-1.5 shrink-0"><button onclick="menuLogic.toggleSearchBar()" class="w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors border border-slate-100"><i class="fa-solid fa-search"></i></button><button onclick="favLogic.openFavorites()" class="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center text-red-400 hover:bg-red-100 transition-colors border border-red-100"><i class="fa-solid fa-heart" id="header-fav-icon"></i></button><button onclick="uiModals.open('profile-modal')" class="w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors border border-slate-100"><i class="fa-solid fa-user"></i></button></div>
+
+            <!-- Sticky Header (Now with Default Open Search Bar) -->
+            <header class="bg-white px-4 py-3 sticky top-0 z-40 shadow-sm border-b border-slate-100 flex flex-col gap-3">
+                <div class="flex items-center gap-3">
+                    <button onclick="uiModals.navTo('home')" class="w-11 h-11 shrink-0 bg-[#ea580c] text-white rounded-full flex items-center justify-center text-xl shadow-md shadow-orange-500/30 transition-transform active:scale-95"><i class="fa-solid fa-fire-burner"></i></button>
+                    <button onclick="uiModals.open('area-modal')" class="flex-1 bg-slate-50 px-3 py-2 rounded-xl border border-slate-100 flex flex-col items-start transition-colors hover:bg-brand/5 text-left overflow-hidden"><span class="text-[9px] font-extrabold text-brand uppercase tracking-widest flex items-center gap-1"><i class="fa-solid fa-location-dot"></i> লোকেশন</span><span class="text-sm font-extrabold text-slate-900 w-full truncate" id="header-loc-text">এরিয়া নির্বাচন করুন</span></button>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button onclick="favLogic.openFavorites()" class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-400 hover:bg-red-100 transition-colors border border-red-100"><i class="fa-solid fa-heart" id="header-fav-icon"></i></button>
+                        <button onclick="uiModals.open('profile-modal')" class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors border border-slate-100"><i class="fa-solid fa-user"></i></button>
+                    </div>
+                </div>
+                <!-- Default Open Search Bar -->
+                <div class="relative w-full">
+                    <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="menu-search" oninput="menuLogic.handleSearch()" placeholder="খাবার খুঁজুন..." class="w-full bg-slate-50 rounded-xl py-3 pl-11 pr-4 text-sm font-semibold outline-none focus:ring-2 focus:ring-brand/30 border border-slate-200">
+                </div>
             </header>
 
-            <div id="search-bar-container" class="sticky top-[68px] z-30 px-4 py-2 bg-white hidden shadow-sm border-b border-slate-100 slide-up">
-                <div class="relative w-full md:max-w-md md:mx-auto"><i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i><input type="text" id="menu-search" oninput="menuLogic.handleSearch()" placeholder="খাবার খুঁজুন..." class="w-full bg-slate-50 rounded-xl py-3 pl-11 pr-4 text-sm font-semibold outline-none focus:ring-2 focus:ring-brand/30 border border-slate-200"></div>
-            </div>
-
+            <!-- Offers Section -->
             <section class="px-4 mt-4 mb-4 hidden fade-in" id="offers-section">
                 <h3 class="text-sm font-extrabold text-slate-900 tracking-tight mb-3 flex items-center gap-2"><i class="fa-solid fa-bolt text-brand"></i> স্পেশাল অফার</h3>
                 <div id="offers-container" class="flex overflow-x-auto gap-4 custom-scroll pb-2"></div>
             </section>
 
+            <!-- Category Icons -->
             <section class="pl-4 mt-2 mb-4 bg-white py-4 shadow-sm border-y border-slate-100">
                 <div id="category-icons" class="flex gap-4 overflow-x-auto custom-scroll pr-5"></div>
             </section>
 
-            <main id="grouped-menu-container" class="pb-10 min-h-[400px]">
+            <!-- Menu Container -->
+            <main class="pb-2 min-h-[400px]">
                 <div id="empty-menu-msg" class="hidden text-center py-20 fade-in"><i class="fa-solid fa-cookie-bite text-5xl mb-4 text-slate-300 block"></i><p class="font-bold text-slate-500">খাবার পাওয়া যায়নি</p></div>
-                <div id="menu-skeletons" class="px-4 mt-4 space-y-4"><div class="h-6 w-32 skeleton rounded"></div><div class="grid grid-cols-2 gap-3"><div class="w-full h-64 skeleton rounded-2xl"></div><div class="w-full h-64 skeleton rounded-2xl"></div></div></div>
+                
+                <!-- Normal Grouped View (Horizontal Scrolls) -->
+                <div id="normal-menu-view" class="pb-10">
+                    <div id="menu-skeletons" class="px-4 mt-4 space-y-4"><div class="h-6 w-32 skeleton rounded"></div><div class="grid grid-cols-2 gap-3"><div class="w-full h-64 skeleton rounded-2xl"></div><div class="w-full h-64 skeleton rounded-2xl"></div></div></div>
+                </div>
+                
+                <!-- List / Search View (Vertical Grid) -->
+                <div id="list-menu-view" class="hidden px-4 pb-10 fade-in">
+                    <div class="flex justify-between items-center mb-6 mt-2 pb-3 border-b border-slate-100">
+                        <h3 id="list-view-title" class="text-lg font-extrabold text-slate-900">...</h3>
+                        <button onclick="menuLogic.closeListView()" class="w-8 h-8 bg-red-50 text-red-500 hover:bg-red-100 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times text-sm"></i></button>
+                    </div>
+                    <div id="list-view-grid" class="grid grid-cols-2 gap-3 md:gap-4"></div>
+                </div>
             </main>
-            <div class="h-8 w-full shrink-0 block"></div>
+            
+            <div class="h-40 w-full shrink-0 block"></div>
         </div>
 
+        <!-- BOTTOM NAV -->
         <div class="w-full bg-white flex justify-between items-center py-2 px-6 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] z-[40] border-t border-slate-100 pb-safe shrink-0 mt-auto">
             <button onclick="uiModals.navTo('home')" class="nav-item active flex flex-col items-center p-2 w-12 transition-colors"><i class="fa-solid fa-house text-[22px] mb-1"></i><span class="text-[9px] font-extrabold">হোম</span></button>
             <button onclick="uiModals.open('cart-sidebar')" class="nav-item text-slate-400 flex flex-col items-center p-2 w-12 transition-colors relative"><i class="fa-solid fa-basket-shopping text-[22px] mb-1"></i><span class="text-[9px] font-extrabold">কার্ট</span><span id="bottom-cart-badge" class="absolute top-0 right-0 bg-brand text-white text-[9px] font-bold h-4 w-4 flex items-center justify-center rounded-full border-2 border-white hidden">0</span></button>
@@ -107,9 +146,11 @@
             <a id="float-wa-btn" href="#" target="_blank" class="pointer-events-auto bg-[#25D366] text-white w-12 h-12 rounded-full shadow-lg shadow-green-500/30 flex items-center justify-center transition-transform hover:scale-110 border-2 border-white"><i class="fa-brands fa-whatsapp text-2xl"></i></a>
             <a id="float-call-btn" href="#" target="_blank" class="pointer-events-auto bg-slate-900 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 border-2 border-white"><i class="fa-solid fa-phone text-xl"></i></a>
         </div>
+
     </div>
 
-    <!-- Modals -->
+    <!-- ================== MODALS & SIDEBARS ================== -->
+
     <div id="request-modal-overlay" onclick="uiModals.close('request-modal')" class="fixed inset-0 bg-slate-900/60 z-[150] hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm"></div>
     <div id="request-modal" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white rounded-t-[32px] shadow-2xl z-[160] hidden transition-all duration-300 translate-y-full flex flex-col max-h-[90vh] pb-safe desktop-modal">
         <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-4 mb-2 shrink-0 md:hidden"></div>
@@ -191,6 +232,7 @@
         </div>
     </div>
 
+    <!-- Favorite Sidebar (Updated Empty State) -->
     <div id="fav-sidebar-overlay" onclick="uiModals.close('fav-sidebar')" class="fixed inset-0 bg-slate-900/60 z-[150] hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm"></div>
     <div id="fav-sidebar" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-[160] transform translate-x-full transition-transform duration-300 flex flex-col md:left-1/2 md:-translate-x-1/2 md:translate-x-0 md:opacity-0 md:pointer-events-none md:transition-opacity">
         <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-white shrink-0">
@@ -205,6 +247,7 @@
         <div id="notif-items" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/50 custom-scroll"></div>
     </div>
 
+    <!-- Cart Sidebar -->
     <div id="cart-sidebar-overlay" onclick="uiModals.close('cart-sidebar')" class="fixed inset-0 bg-slate-900/60 z-[150] hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm"></div>
     <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-[160] transform translate-x-full transition-transform duration-300 flex flex-col md:left-1/2 md:-translate-x-1/2 md:translate-x-0 md:opacity-0 md:pointer-events-none">
         <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-white shrink-0">
@@ -214,11 +257,12 @@
         
         <div id="cart-step-1" class="flex-1 flex flex-col overflow-hidden bg-slate-50/50">
             <div id="cart-items" class="flex-1 overflow-y-auto p-5 space-y-4 custom-scroll"></div>
-            <div class="p-6 border-t border-slate-100 bg-white shadow-[0_-5px_15px_rgba(0,0,0,0.02)] shrink-0">
+            <!-- Added ID to footer for dynamic hiding -->
+            <div id="cart-footer" class="p-6 border-t border-slate-100 bg-white shadow-[0_-5px_15px_rgba(0,0,0,0.02)] shrink-0 hidden">
                 <div class="flex justify-between mb-2 text-sm text-slate-600"><span>সাবটোটাল:</span><span id="cart-subtotal-1" class="font-bold">৳ 0</span></div>
                 <div class="flex justify-between mb-4 text-sm text-slate-600"><span>ডেলিভারি চার্জ:</span><span id="cart-delivery-charge" class="font-bold">৳ 0</span></div>
                 <div class="flex justify-between mb-4 items-center"><span class="text-xs font-extrabold text-slate-900 uppercase">সর্বমোট:</span><span id="cart-grand-total" class="text-2xl font-bold text-brand">৳ 0</span></div>
-                <button id="proceed-btn" onclick="cartLogic.goToCheckout()" class="btn-primary w-full py-4 text-base hidden">চেকআউটে যান <i class="fa-solid fa-arrow-right ml-2 text-sm"></i></button>
+                <button id="proceed-btn" onclick="cartLogic.goToCheckout()" class="btn-primary w-full py-4 text-base">চেকআউটে যান <i class="fa-solid fa-arrow-right ml-2 text-sm"></i></button>
             </div>
         </div>
         
@@ -252,6 +296,7 @@
                         <input type="text" id="cust-name" placeholder="সম্পূর্ণ নাম" class="input border border-slate-200">
                         <input type="tel" id="cust-phone" placeholder="১১ ডিজিটের মোবাইল নম্বর" class="input border border-slate-200" maxlength="11">
                         <textarea id="cust-address" placeholder="বিস্তারিত ঠিকানা (বাড়ি নম্বর, রোড)" rows="2" class="input border border-slate-200"></textarea>
+                        
                         <textarea id="cust-note" placeholder="আপনার স্পেশাল কোনো রিকুয়েস্ট থাকলে এখানে লিখে দিন" rows="2" class="input border border-slate-200 mt-2 text-sm"></textarea>
                         
                         <h4 class="font-extrabold text-slate-900 text-sm mb-2 mt-6">পেমেন্ট মেথড</h4>
@@ -278,6 +323,7 @@
         </div>
     </div>
 
+    <!-- Center Toasts -->
     <div id="toast" class="fixed top-1/2 left-0 right-0 mx-auto transform -translate-y-1/2 bg-slate-900/95 backdrop-blur text-white px-6 py-5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-center gap-4 z-[999999] transition-all duration-300 opacity-0 scale-90 pointer-events-none w-[85%] max-w-sm border border-slate-700">
         <div id="toast-icon" class="text-3xl shrink-0"></div>
         <div class="flex-1"><span id="toast-title" class="font-extrabold block mb-1 text-base tracking-wide text-white"></span><span id="toast-msg" class="text-sm block text-slate-300 font-medium leading-relaxed"></span></div>
@@ -288,11 +334,11 @@
         
         const state = {
             menu: [], areas: [], combinedOffers: [], 
-            cart: JSON.parse(localStorage.getItem('sk_cart')) || [],
+            cart: (JSON.parse(localStorage.getItem('sk_cart')) || []).filter(item => item && item.id), // Ensure no empty objects
             favorites: JSON.parse(localStorage.getItem('sk_favs')) || [],
             customer: JSON.parse(localStorage.getItem('sk_customer')) || { name:'', phone:'', email:'', address:'' },
             areaVal: localStorage.getItem('sk_area') || '',
-            settings: { SiteName: "Sherpur Cloud Kitchen", FreeDeliveryThreshold: 1000, AdminPhone: "01700000000", IsOpen: 'true', Coupons: { "SAVE20": 20 }, BlockedUsers: "" }, 
+            settings: { SiteName: "Sherpur Cloud Kitchen", FreeDeliveryThreshold: 1000, AdminPhone: "01700000000", Coupons: { "SAVE20": 20 }, BlockedUsers: "" }, 
             activeCategory: 'সব', discountAmount: 0,
             readNotifs: JSON.parse(localStorage.getItem('sk_read_notifs')) || [],
             alertedNotifs: JSON.parse(localStorage.getItem('sk_alerted_notifs')) || [],
@@ -321,10 +367,16 @@
                 uiModals.closeAllBut(modalId);
                 const m = document.getElementById(modalId); const o = document.getElementById(modalId + '-overlay');
                 if(o) { o.classList.remove('hidden'); setTimeout(() => o.classList.remove('opacity-0'), 10); }
+                
                 if(m) { 
-                    if(modalId.includes('sidebar')) { m.classList.remove('md:opacity-0', 'md:pointer-events-none'); m.classList.remove('translate-x-full'); } 
-                    else { m.classList.remove('hidden'); setTimeout(() => m.classList.remove('translate-y-full'), 20); }
+                    if(modalId.includes('sidebar')) {
+                        m.classList.remove('md:opacity-0', 'md:pointer-events-none');
+                        m.classList.remove('translate-x-full');
+                    } else {
+                        m.classList.remove('hidden'); setTimeout(() => m.classList.remove('translate-y-full'), 20); 
+                    }
                 }
+
                 if(modalId === 'area-modal') {
                     const btn = document.getElementById('close-area-btn');
                     if(state.areaVal) btn.classList.remove('hidden'); else btn.classList.add('hidden');
@@ -333,12 +385,18 @@
             close: (modalId) => {
                 const m = document.getElementById(modalId); const o = document.getElementById(modalId + '-overlay');
                 if(m) { 
-                    if(modalId.includes('sidebar')) { m.classList.add('translate-x-full'); setTimeout(() => m.classList.add('md:opacity-0', 'md:pointer-events-none'), 300); } 
-                    else { m.classList.add('translate-y-full'); } 
+                    if(modalId.includes('sidebar')) {
+                        m.classList.add('translate-x-full'); 
+                        setTimeout(() => m.classList.add('md:opacity-0', 'md:pointer-events-none'), 300);
+                    } else { 
+                        m.classList.add('translate-y-full'); 
+                    } 
                 }
                 if(o) { o.classList.add('opacity-0'); setTimeout(() => { o.classList.add('hidden'); if(m && !modalId.includes('sidebar')) m.classList.add('hidden'); }, 300); }
             },
-            closeAllBut: (exceptId) => { ['area-modal', 'profile-modal', 'about-modal', 'food-details-modal', 'tracking-modal', 'notif-sidebar', 'cart-sidebar', 'request-modal', 'offer-modal', 'fav-sidebar'].forEach(id => { if(id !== exceptId) uiModals.close(id); }); },
+            closeAllBut: (exceptId) => {
+                ['area-modal', 'profile-modal', 'about-modal', 'food-details-modal', 'tracking-modal', 'notif-sidebar', 'cart-sidebar', 'request-modal', 'offer-modal', 'fav-sidebar'].forEach(id => { if(id !== exceptId) uiModals.close(id); });
+            },
             navTo: (view) => {
                 uiModals.closeAllBut('');
                 document.querySelectorAll('.nav-item').forEach(el => { el.classList.remove('active'); el.classList.add('text-slate-400'); });
@@ -351,7 +409,9 @@
             checkLimit: (phone) => {
                 if(!phone) return { allowed: true };
                 const blockedStr = String(state.settings.BlockedUsers || "");
-                if(blockedStr.includes(phone)) { return { allowed: false, msg: "আপনি এখন আর অনলাইনে অর্ডার দিতে পারবেন না। অনুগ্রহ করে কল দিয়ে যোগাযোগ করুন।" }; }
+                if(blockedStr.includes(phone)) {
+                    return { allowed: false, msg: "আপনি এখন আর অনলাইনে অর্ডার দিতে পারবেন না। অনুগ্রহ করে কল দিয়ে যোগাযোগ করুন।" };
+                }
                 return { allowed: true };
             }
         };
@@ -389,13 +449,32 @@
             searchTimeout: null,
             init: () => {
                 document.getElementById('menu-skeletons').style.display = 'none';
-                const container = document.getElementById('grouped-menu-container');
-                container.querySelectorAll('.category-group').forEach(e=>e.remove());
-                const grouped = {}; state.menu.forEach(i => { const c = i.category || 'অন্যান্য'; if(!grouped[c]) grouped[c] = []; grouped[c].push(i); });
+                
+                // Normal Horizontal Scroll View Construction
+                const container = document.getElementById('normal-menu-view');
+                container.innerHTML = '';
+                const grouped = {}; 
+                state.menu.forEach(i => { const c = i.category || 'অন্যান্য'; if(!grouped[c]) grouped[c] = []; grouped[c].push(i); });
+                
                 let html = '';
-                for(let cat in grouped) { html += `<div class="mb-8 category-group" data-cat="${cat}"><h3 class="text-xl font-extrabold text-slate-900 px-5 mb-4">${cat}</h3><div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 px-4 pb-2">${grouped[cat].map(item => menuLogic.buildCard(item)).join('')}</div></div>`; }
-                container.insertAdjacentHTML('beforeend', html);
-                menuLogic.renderCategories(); menuLogic.applyFilters();
+                const order = state.dummyCategories; 
+                const categoriesToRender = order.filter(c => grouped[c] && c !== 'সব' && c !== 'রিকুয়েষ্ট').concat(Object.keys(grouped).filter(c => !order.includes(c)));
+
+                categoriesToRender.forEach(cat => {
+                    if(!grouped[cat] || grouped[cat].length === 0) return;
+                    html += `
+                    <div class="mb-8 category-group" data-cat="${cat}">
+                        <div class="flex justify-between items-center px-4 mb-3">
+                            <h3 class="text-lg font-extrabold text-slate-900">${cat}</h3>
+                            <button onclick="menuLogic.showCategoryAll('${cat}')" class="text-[10px] font-bold text-brand bg-brand/10 px-3 py-1.5 rounded-full active:scale-95 transition-transform">আরও দেখুন <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                        </div>
+                        <div class="flex overflow-x-auto gap-4 px-4 pb-2 custom-scroll">
+                            ${grouped[cat].map(item => `<div class="w-40 shrink-0">${menuLogic.buildCard(item)}</div>`).join('')}
+                        </div>
+                    </div>`;
+                });
+                container.innerHTML = html;
+                menuLogic.renderCategories();
             },
             buildCard: (item) => {
                 const isClosed = state.settings.IsOpen === 'false';
@@ -404,6 +483,7 @@
                 return `
                 <div class="card p-3 flex flex-col relative w-full shadow-sm food-card" data-id="${item.id}" data-name="${item.name.toLowerCase()}" data-cat="${item.category}">
                     ${item.available === false ? '<span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-900/80 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl z-20 uppercase border border-white/20">স্টক আউট</span>' : ''}
+                    
                     <button onclick="menuLogic.toggleFav('${item.id}', event)" class="absolute top-4 right-4 z-10 w-8 h-8 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm text-lg fav-btn ${isFav ? 'text-red-500 pop' : 'text-slate-300'}"><i class="fa-solid fa-heart"></i></button>
                     
                     <div class="cursor-pointer group flex flex-col h-full" onclick="menuLogic.openDetails('${item.id}')">
@@ -425,28 +505,67 @@
             },
             setCategory: (c) => { 
                 if(c === 'রিকুয়েষ্ট') { uiModals.open('request-modal'); return; }
-                state.activeCategory = c; menuLogic.renderCategories(); menuLogic.applyFilters(); 
+                if(c === 'সব') { menuLogic.closeListView(); return; }
+                menuLogic.showCategoryAll(c);
             },
-            toggleSearchBar: () => { const sb = document.getElementById('search-bar-container'); sb.classList.toggle('hidden'); if(!sb.classList.contains('hidden')) document.getElementById('menu-search').focus(); },
+            showCategoryAll: (cat) => {
+                state.activeCategory = cat;
+                menuLogic.renderCategories();
+                document.getElementById('normal-menu-view').classList.add('hidden');
+                document.getElementById('offers-section').classList.add('hidden');
+                document.getElementById('list-menu-view').classList.remove('hidden');
+                document.getElementById('list-view-title').textContent = cat;
+                
+                const items = state.menu.filter(i => i.category === cat);
+                document.getElementById('list-view-grid').innerHTML = items.map(item => menuLogic.buildCard(item)).join('');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            },
+            closeListView: () => {
+                state.activeCategory = 'সব';
+                menuLogic.renderCategories();
+                document.getElementById('menu-search').value = '';
+                document.getElementById('list-menu-view').classList.add('hidden');
+                document.getElementById('normal-menu-view').classList.remove('hidden');
+                if(state.combinedOffers.length) document.getElementById('offers-section').classList.remove('hidden');
+                document.getElementById('empty-menu-msg').classList.add('hidden');
+            },
             handleSearch: () => { if(menuLogic.searchTimeout) clearTimeout(menuLogic.searchTimeout); menuLogic.searchTimeout = setTimeout(() => menuLogic.applyFilters(), 200); },
             applyFilters: () => {
-                const term = document.getElementById('menu-search').value.toLowerCase(); const groups = document.querySelectorAll('.category-group'); let anyVisible = false;
-                groups.forEach(group => {
-                    let groupHasVisible = false;
-                    group.querySelectorAll('.food-card').forEach(card => {
-                        const mSearch = !term || card.dataset.name.includes(term); const mCat = state.activeCategory === 'সব' || card.dataset.cat === state.activeCategory;
-                        if(mSearch && mCat) { card.classList.remove('hide-item'); groupHasVisible = true; anyVisible = true; } else { card.classList.add('hide-item'); }
-                    });
-                    group.classList.toggle('hide-item', !groupHasVisible);
-                });
-                let emptyEl = document.getElementById('empty-menu-msg');
-                if(!anyVisible) { emptyEl.classList.remove('hidden'); } else { emptyEl.classList.add('hidden'); }
+                const term = document.getElementById('menu-search').value.toLowerCase().trim();
+                
+                if(!term) {
+                    if(state.activeCategory !== 'সব') menuLogic.showCategoryAll(state.activeCategory);
+                    else menuLogic.closeListView();
+                    return;
+                }
+                
+                // Hide normal views and offers for searching
+                document.getElementById('normal-menu-view').classList.add('hidden');
+                document.getElementById('offers-section').classList.add('hidden');
+                document.getElementById('list-menu-view').classList.remove('hidden');
+                document.getElementById('list-view-title').innerHTML = `অনুসন্ধানের ফলাফল: <span class="text-brand">'${term}'</span>`;
+                
+                const matched = state.menu.filter(i => i.name.toLowerCase().includes(term) || (i.category && i.category.toLowerCase().includes(term)));
+                
+                if(matched.length > 0) {
+                    document.getElementById('empty-menu-msg').classList.add('hidden');
+                    document.getElementById('list-view-grid').innerHTML = matched.map(item => menuLogic.buildCard(item)).join('');
+                } else {
+                    document.getElementById('list-view-grid').innerHTML = '';
+                    document.getElementById('empty-menu-msg').classList.remove('hidden');
+                }
             },
             toggleFav: (id, e) => {
                 if(e) e.stopPropagation(); const idStr = String(id);
-                if(state.favorites.includes(idStr)) { state.favorites = state.favorites.filter(f => f !== idStr); utils.toast("প্রিয় তালিকা", "খাবারটি প্রিয় তালিকা থেকে সরানো হয়েছে"); } 
-                else { state.favorites.push(idStr); utils.toast("প্রিয় তালিকা", "এই খাবারটি আপনার প্রিয় তালিকায় যোগ করা হয়েছে", "success"); }
+                if(state.favorites.includes(idStr)) { 
+                    state.favorites = state.favorites.filter(f => f !== idStr); 
+                    utils.toast("প্রিয় তালিকা", "খাবারটি প্রিয় তালিকা থেকে সরানো হয়েছে"); 
+                } else { 
+                    state.favorites.push(idStr); 
+                    utils.toast("প্রিয় তালিকা", "খাবারটি প্রিয় তালিকায় যোগ করা হয়েছে", "success"); 
+                }
                 localStorage.setItem('sk_favs', JSON.stringify(state.favorites));
+                
                 document.querySelectorAll(`.food-card[data-id="${id}"] .fav-btn`).forEach(btn => { if(state.favorites.includes(idStr)) btn.classList.replace('text-slate-300', 'text-red-500'); else btn.classList.replace('text-red-500', 'text-slate-300'); });
                 if(!document.getElementById('fav-sidebar').classList.contains('translate-x-full')) { favLogic.render(); }
             },
@@ -470,7 +589,7 @@
             orderNow: (id) => { 
                 if(state.settings.IsOpen === 'false') return utils.toast("দুঃখিত", "রেস্টুরেন্ট এখন বন্ধ আছে।", "error");
                 const ex = state.cart.find(i => i.id === String(id)); 
-                if(!ex) { state.cart.push({id: String(id), qty: 1}); cartLogic.updateAll(); } else { utils.toast("তথ্য", "এই আইটেমটি ইতিমধ্যে কার্টে যোগ করা আছে!", "error"); }
+                if(!ex) { state.cart.push({id: String(id), qty: 1}); cartLogic.updateAll(); } else { utils.toast("তথ্য", "এটি ইতিমধ্যে কার্টে যোগ করা আছে!", "error"); }
                 uiModals.open('cart-sidebar'); cartLogic.backToItems(); 
             }
         };
@@ -479,10 +598,24 @@
             openFavorites: () => { favLogic.render(); uiModals.open('fav-sidebar'); },
             render: () => {
                 const container = document.getElementById('fav-items');
-                if(state.favorites.length === 0) { container.innerHTML = '<div class="text-center py-20 fade-in"><i class="fa-solid fa-heart-crack text-5xl mb-4 text-slate-300 block"></i><p class="font-bold text-slate-500 text-sm">প্রিয় খাবারের তালিকা শূন্য</p></div>'; return; }
+                if(state.favorites.length === 0) { 
+                    container.innerHTML = '<div class="text-center py-20 fade-in"><i class="fa-solid fa-heart-crack text-5xl mb-4 text-slate-300 block"></i><p class="font-bold text-slate-500 text-sm">আপনি এখনো প্রিয় খাবারের তালিকায় কিছু যোগ করেননি</p></div>'; 
+                    return; 
+                }
                 container.innerHTML = state.favorites.map(id => {
                     const mItem = state.menu.find(x => String(x.id) === id); if(!mItem) return '';
-                    return `<div class="card !p-3 flex items-center gap-4 shadow-sm mb-3 fade-in"><img src="${mItem.image}" class="w-16 h-16 rounded-xl object-contain bg-slate-50"><div class="flex-1 pr-2"><h5 class="text-sm font-extrabold text-slate-900 line-clamp-1 mb-1">${mItem.name}</h5><span class="font-extrabold text-brand text-xs block mb-2">৳ ${Number(mItem.price).toLocaleString()}</span><div class="flex items-center justify-between mt-1"><button onclick="menuLogic.orderNow('${mItem.id}')" class="bg-slate-900 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg active:scale-95 transition-transform">অর্ডার নাও</button><button onclick="menuLogic.toggleFav('${mItem.id}')" class="text-red-400 bg-red-50 w-8 h-8 rounded-lg flex justify-center items-center"><i class="fa-solid fa-trash-can text-[10px]"></i></button></div></div></div>`;
+                    return `
+                    <div class="card !p-3 flex items-center gap-4 shadow-sm mb-3 fade-in">
+                        <img src="${mItem.image}" class="w-16 h-16 rounded-xl object-contain bg-slate-50 cursor-pointer" onclick="menuLogic.openDetails('${mItem.id}')">
+                        <div class="flex-1 pr-2">
+                            <h5 class="text-sm font-extrabold text-slate-900 line-clamp-1 mb-1 cursor-pointer" onclick="menuLogic.openDetails('${mItem.id}')">${mItem.name}</h5>
+                            <span class="font-extrabold text-brand text-xs block mb-2">৳ ${Number(mItem.price).toLocaleString()}</span>
+                            <div class="flex items-center justify-between mt-1">
+                                <button onclick="menuLogic.orderNow('${mItem.id}')" class="bg-slate-900 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg active:scale-95 transition-transform">অর্ডার নাও</button>
+                                <button onclick="menuLogic.toggleFav('${mItem.id}')" class="text-red-400 bg-red-50 w-8 h-8 rounded-lg flex justify-center items-center"><i class="fa-solid fa-trash-can text-[10px]"></i></button>
+                            </div>
+                        </div>
+                    </div>`;
                 }).join('');
             }
         };
@@ -521,8 +654,7 @@
                 if(e) { e.currentTarget.classList.add('scale-125'); setTimeout(()=>e.currentTarget.classList.remove('scale-125'), 200); e.stopPropagation(); }
                 const ex = state.cart.find(i => i.id === String(id));
                 if(ex) { 
-                    if(ex.qty < 20) ex.qty += 1; 
-                    utils.toast("সফল", "খাবারের পরিমাণ বাড়ানো হয়েছে", "success"); 
+                    utils.toast("তথ্য", "এটি ইতিমধ্যে কার্টে যোগ করা আছে!", "error"); 
                 } 
                 else { 
                     state.cart.push({id: String(id), qty: 1}); 
@@ -538,18 +670,42 @@
                 const uniqueTypesCount = state.cart.length; const b = document.getElementById('bottom-cart-badge');
                 if(uniqueTypesCount > 0) { b.textContent = uniqueTypesCount; b.classList.remove('hidden', 'pop'); void b.offsetWidth; b.classList.add('pop'); } else b.classList.add('hidden');
                 
-                const cItems = document.getElementById('cart-items'); const sub1 = document.getElementById('cart-subtotal-1'); const pBtn = document.getElementById('proceed-btn');
+                const cItems = document.getElementById('cart-items'); 
+                const footer = document.getElementById('cart-footer'); 
+                const pBtn = document.getElementById('proceed-btn');
                 const charge = state.areaVal ? parseInt(state.areaVal.split('|')[1]) : 0;
                 
                 if(state.cart.length === 0) {
-                    if(cItems) cItems.innerHTML = '<div class="text-center py-20 fade-in"><i class="fa-solid fa-basket-shopping text-5xl mb-4 text-slate-300 block"></i><p class="font-bold text-slate-500 text-sm">কার্ট খালি</p></div>';
-                    if(pBtn) pBtn.classList.add('hidden'); if(sub1) sub1.textContent = '৳ 0'; document.getElementById('cart-delivery-charge').textContent='৳ 0'; document.getElementById('cart-grand-total').textContent='৳ 0'; return;
+                    if(cItems) cItems.innerHTML = '<div class="text-center py-20 fade-in"><i class="fa-solid fa-basket-shopping text-5xl mb-4 text-slate-300 block"></i><p class="font-bold text-slate-500 text-sm">আপনি কার্টে এখনো কোনো কিছু যোগ করেননি</p></div>';
+                    if(footer) footer.classList.add('hidden'); 
+                    return;
                 }
                 
-                if(cItems) { cItems.innerHTML = state.cart.map(cItem => { const mItem = state.menu.find(x => x.id === cItem.id); if(!mItem) return ''; return `<div class="card !p-3 flex items-center gap-4 shadow-sm mb-3 fade-in"><img src="${mItem.image}" class="w-16 h-16 rounded-xl object-contain bg-slate-50"><div class="flex-1 pr-2"><h5 class="text-sm font-extrabold text-slate-900 line-clamp-1 mb-1">${mItem.name}</h5><span class="font-extrabold text-brand text-xs block mb-2">৳ ${(Number(mItem.price)*cItem.qty).toLocaleString()}</span><div class="flex items-center justify-between"><div class="flex gap-3 bg-slate-50 rounded-lg p-1.5 border border-slate-100"><button onclick="cartLogic.changeQty('${cItem.id}', -1)" class="w-6 h-6 rounded-md bg-white shadow-sm flex justify-center items-center"><i class="fa-solid fa-minus text-[10px]"></i></button><span class="text-xs font-extrabold w-4 text-center">${cItem.qty}</span><button onclick="cartLogic.changeQty('${cItem.id}', 1)" class="w-6 h-6 rounded-md bg-brand text-white shadow-sm flex justify-center items-center"><i class="fa-solid fa-plus text-[10px] text-white"></i></button></div><button onclick="cartLogic.remove('${cItem.id}')" class="text-red-400 bg-red-50 w-8 h-8 rounded-lg flex justify-center items-center"><i class="fa-solid fa-trash-can text-[10px]"></i></button></div></div></div>`; }).join(''); }
+                if(footer) footer.classList.remove('hidden');
+                
+                if(cItems) { 
+                    cItems.innerHTML = state.cart.map(cItem => { 
+                        const mItem = state.menu.find(x => x.id === cItem.id); if(!mItem) return ''; 
+                        return `
+                        <div class="card !p-3 flex items-center gap-4 shadow-sm mb-3 fade-in">
+                            <img src="${mItem.image}" class="w-16 h-16 rounded-xl object-contain bg-slate-50 cursor-pointer" onclick="menuLogic.openDetails('${mItem.id}')">
+                            <div class="flex-1 pr-2">
+                                <h5 class="text-sm font-extrabold text-slate-900 line-clamp-1 mb-1 cursor-pointer" onclick="menuLogic.openDetails('${mItem.id}')">${mItem.name}</h5>
+                                <span class="font-extrabold text-brand text-xs block mb-2">৳ ${(Number(mItem.price)*cItem.qty).toLocaleString()}</span>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex gap-3 bg-slate-50 rounded-lg p-1.5 border border-slate-100"><button onclick="cartLogic.changeQty('${cItem.id}', -1)" class="w-6 h-6 rounded-md bg-white shadow-sm flex justify-center items-center"><i class="fa-solid fa-minus text-[10px]"></i></button><span class="text-xs font-extrabold w-4 text-center">${cItem.qty}</span><button onclick="cartLogic.changeQty('${cItem.id}', 1)" class="w-6 h-6 rounded-md bg-brand text-white shadow-sm flex justify-center items-center"><i class="fa-solid fa-plus text-[10px] text-white"></i></button></div>
+                                    <button onclick="cartLogic.remove('${cItem.id}')" class="text-red-400 bg-red-50 w-8 h-8 rounded-lg flex justify-center items-center"><i class="fa-solid fa-trash-can text-[10px]"></i></button>
+                                </div>
+                            </div>
+                        </div>`; 
+                    }).join(''); 
+                }
                 const st = cartLogic.getSubtotal();
-                if(sub1) sub1.textContent = `৳ ${st.toLocaleString()}`; document.getElementById('cart-delivery-charge').textContent = `৳ ${charge}`; document.getElementById('cart-grand-total').textContent = `৳ ${(st+charge).toLocaleString()}`;
-                if(pBtn) pBtn.classList.remove('hidden'); checkoutLogic.calculateTotal();
+                document.getElementById('cart-subtotal-1').textContent = `৳ ${st.toLocaleString()}`; 
+                document.getElementById('cart-delivery-charge').textContent = `৳ ${charge}`; 
+                document.getElementById('cart-grand-total').textContent = `৳ ${(st+charge).toLocaleString()}`;
+                if(pBtn) pBtn.classList.remove('hidden'); 
+                checkoutLogic.calculateTotal();
             },
             goToCheckout: () => {
                 if(state.settings.IsOpen === 'false') return utils.toast('দুঃখিত', 'রেস্টুরেন্ট এখন বন্ধ আছে', 'error');
@@ -700,7 +856,19 @@
                             localStorage.setItem('sk_alerted_notifs', JSON.stringify(state.alertedNotifs));
                         }
 
-                        if(!isBg) { document.getElementById('notif-items').innerHTML = data.data.map(n => `<div class="card !p-5 shadow-sm relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1 bg-brand"></div><h4 class="font-extrabold text-sm mb-1 text-slate-900">${n.title}</h4><p class="text-xs text-slate-600 font-medium">${n.message}</p></div>`).join(''); state.readNotifs = data.data.map(n => String(n.id)); localStorage.setItem('sk_read_notifs', JSON.stringify(state.readNotifs)); b2?.classList.add('hidden'); }
+                        if(!isBg) { 
+                            document.getElementById('notif-items').innerHTML = data.data.map(n => `
+                            <div class="card !p-5 shadow-sm relative overflow-hidden mb-3">
+                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-brand"></div>
+                                <h4 class="font-extrabold text-sm mb-1 text-slate-900">${n.title}</h4>
+                                <p class="text-xs text-slate-600 font-medium">${n.message}</p>
+                                <div class="mt-4 flex gap-2">
+                                    <button onclick="uiModals.navTo('home'); uiModals.close('notif-sidebar'); document.getElementById('menu-search').focus();" class="flex-1 bg-brand text-white text-[10px] font-bold py-2 rounded-lg shadow-sm">অর্ডার করুন</button>
+                                    <a href="tel:${state.settings.AdminPhone}" class="flex-1 bg-slate-900 text-white text-[10px] font-bold py-2 rounded-lg text-center shadow-sm"><i class="fa-solid fa-phone mr-1"></i> বিস্তারিত জানতে কল করুন</a>
+                                </div>
+                            </div>`).join(''); 
+                            state.readNotifs = data.data.map(n => String(n.id)); localStorage.setItem('sk_read_notifs', JSON.stringify(state.readNotifs)); b2?.classList.add('hidden'); 
+                        }
                     }
                 } catch(e){}
             }
