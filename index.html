@@ -37,6 +37,7 @@
         .pop { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes pop { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
+        .progress-step.active .step-icon { background-color: #ea580c; color: white; border-color: #ea580c; }
         .hide-item { display: none !important; }
         
         .wallet-radio:checked + div { border-color: #ea580c; background-color: #ffedd5; }
@@ -80,7 +81,6 @@
         <!-- MAIN APP -->
         <div id="main-app" class="flex-1 flex flex-col bg-slate-50 h-full overflow-y-auto custom-scroll relative">
 
-            <!-- Sticky Header with Default Open Search Bar -->
             <header class="bg-white px-4 py-3 sticky top-0 z-40 shadow-sm border-b border-slate-100 flex flex-col gap-3">
                 <div class="flex items-center gap-3">
                     <button onclick="uiModals.navTo('home')" class="w-11 h-11 shrink-0 bg-[#ea580c] text-white rounded-full flex items-center justify-center text-xl shadow-md shadow-orange-500/30 transition-transform active:scale-95"><i class="fa-solid fa-fire-burner"></i></button>
@@ -124,6 +124,7 @@
             <div class="h-40 w-full shrink-0 block"></div>
         </div>
 
+        <!-- BOTTOM NAV -->
         <div class="absolute bottom-0 left-0 w-full bg-white flex justify-between items-center py-2 px-6 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] z-[40] border-t border-slate-100 pb-safe">
             <button onclick="uiModals.navTo('home')" class="nav-item active flex flex-col items-center p-2 w-12 transition-colors"><i class="fa-solid fa-house text-[22px] mb-1"></i><span class="text-[9px] font-extrabold">হোম</span></button>
             <button onclick="uiModals.open('cart-sidebar')" class="nav-item text-slate-400 flex flex-col items-center p-2 w-12 transition-colors relative"><i class="fa-solid fa-basket-shopping text-[22px] mb-1"></i><span class="text-[9px] font-extrabold">কার্ট</span><span id="bottom-cart-badge" class="absolute top-0 right-0 bg-brand text-white text-[9px] font-bold h-4 w-4 flex items-center justify-center rounded-full border-2 border-white hidden">0</span></button>
@@ -173,7 +174,7 @@
         <div class="p-6 flex-1 overflow-y-auto custom-scroll">
             <form onsubmit="profileLogic.save(event)" class="space-y-4 mb-6">
                 <input type="text" id="prof-name" placeholder="আপনার নাম" class="input border border-slate-200">
-                <input type="tel" id="prof-phone" required placeholder="11 ডিজিটের মোবাইল নম্বর" class="input border border-slate-200" pattern="01[3-9][0-9]{8}" maxlength="11" minlength="11">
+                <input type="tel" id="prof-phone" placeholder="11 ডিজিটের মোবাইল নম্বর" class="input border border-slate-200" maxlength="11">
                 <input type="email" id="prof-email" placeholder="ইমেইল (ঐচ্ছিক)" class="input border border-slate-200">
                 <div class="relative"><select id="prof-area" class="input bg-white appearance-none pr-10 cursor-pointer border border-slate-200"></select><i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i></div>
                 <textarea id="prof-address" placeholder="বিস্তারিত ঠিকানা" rows="2" class="input border border-slate-200"></textarea>
@@ -198,11 +199,13 @@
         </div>
     </div>
 
+    <!-- Food Details Modal -->
     <div id="food-details-modal-overlay" onclick="uiModals.close('food-details-modal')" class="fixed inset-0 bg-slate-900/60 z-[150] hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm" style="z-index: 200;"></div>
     <div id="food-details-modal" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white rounded-t-[32px] shadow-2xl z-[160] hidden transition-all duration-300 translate-y-full flex flex-col max-h-[90vh] pb-safe overflow-hidden desktop-modal" style="z-index: 210;">
         <div id="food-details-content" class="flex flex-col h-full overflow-hidden"></div>
     </div>
 
+    <!-- Tracking -->
     <div id="tracking-modal-overlay" onclick="uiModals.close('tracking-modal')" class="fixed inset-0 bg-slate-900/60 z-[150] hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm"></div>
     <div id="tracking-modal" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white rounded-t-[32px] shadow-2xl z-[160] hidden transition-all duration-300 translate-y-full flex flex-col max-h-[90vh] pb-safe desktop-modal">
         <div class="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-4 mb-2 shrink-0 md:hidden"></div>
@@ -273,7 +276,6 @@
                         <div id="free-delivery-badge" class="absolute top-0 right-0 bg-green-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl hidden">ফ্রি ডেলিভারি</div>
                         <div class="flex justify-between text-sm mb-2 text-slate-600 font-medium"><span>খাবারের মূল্য:</span><span id="checkout-subtotal" class="text-slate-800 font-bold">৳ 0</span></div>
                         
-                        <!-- Area selection in checkout -->
                         <div class="flex justify-between items-center text-sm mb-3 text-slate-600 font-medium border-b border-brand/10 pb-3">
                             <select id="checkout-area-select" class="bg-transparent font-bold text-slate-800 outline-none w-[120px] cursor-pointer" onchange="checkoutLogic.calculateTotal()"></select>
                             <span id="checkout-delivery" class="text-slate-800 font-bold">৳ 0</span>
@@ -288,11 +290,11 @@
 
                     <form id="checkout-form" onsubmit="checkoutLogic.execute(event)" class="space-y-4">
                         <h4 class="font-extrabold text-slate-900 text-sm mb-2">আপনার তথ্য (বাধ্যতামূলক)</h4>
-                        <input type="text" id="cust-name" required placeholder="সম্পূর্ণ নাম" class="input border border-slate-200">
-                        <input type="tel" id="cust-phone" required placeholder="11 ডিজিটের মোবাইল নম্বর" class="input border border-slate-200" pattern="01[3-9][0-9]{8}" maxlength="11" minlength="11">
-                        <textarea id="cust-address" required placeholder="বিস্তারিত ঠিকানা (বাড়ি নম্বর, রোড)" rows="2" class="input border border-slate-200"></textarea>
                         
-                        <!-- Extra note taking space -->
+                        <input type="text" id="cust-name" placeholder="সম্পূর্ণ নাম" class="input border border-slate-200">
+                        <input type="tel" id="cust-phone" placeholder="11 ডিজিটের মোবাইল নম্বর" class="input border border-slate-200" maxlength="11">
+                        <textarea id="cust-address" placeholder="বিস্তারিত ঠিকানা (বাড়ি নম্বর, রোড)" rows="2" class="input border border-slate-200"></textarea>
+                        
                         <textarea id="cust-note" placeholder="আপনার স্পেশাল কোনো রিকুয়েস্ট থাকলে এখানে লিখে দিন" rows="2" class="input border border-slate-200 mt-2 text-sm"></textarea>
                         
                         <h4 class="font-extrabold text-slate-900 text-sm mb-2 mt-6">পেমেন্ট মেথড</h4>
@@ -306,7 +308,13 @@
                             <div id="payment-instructions" class="text-slate-600 text-xs bg-white p-4 rounded-xl border border-slate-200 hidden mb-3 font-medium"></div>
                             <input type="text" id="trx-id" placeholder="যে নাম্বার থেকে টাকা পাঠিয়েছেন তা দিন" class="input bg-white hidden border border-slate-200">
                         </div>
-                        <button type="submit" id="confirm-btn" class="btn-primary w-full py-4 text-base mt-6">অর্ডার কনফার্ম করুন <i class="fa-solid fa-check ml-2"></i></button>
+
+                        <div class="flex justify-between items-center bg-brand/5 p-4 rounded-2xl border border-brand/20 mt-6 mb-2">
+                            <span class="text-sm font-extrabold text-slate-800">সর্বমোট বিল:</span>
+                            <span id="checkout-total-bottom" class="text-2xl font-extrabold text-brand">৳ 0</span>
+                        </div>
+
+                        <button type="submit" id="confirm-btn" class="btn-primary w-full py-4 text-base mt-2">অর্ডার কনফার্ম করুন <i class="fa-solid fa-check ml-2"></i></button>
                     </form>
                 </div>
             </div>
@@ -374,7 +382,6 @@
 
         const uiModals = {
             open: (modalId) => {
-                // Modified: If it's the food details modal, do NOT close other modals (so cart/fav stay beneath)
                 if(modalId !== 'food-details-modal') {
                     uiModals.closeAllBut(modalId);
                 }
@@ -410,7 +417,6 @@
                     o.classList.add('opacity-0'); 
                     setTimeout(() => { 
                         o.classList.add('hidden'); 
-                        // Modified: strictly hide the modal div if it's not a sidebar
                         if(m && !modalId.includes('sidebar')) m.classList.add('hidden'); 
                     }, 300); 
                 }
@@ -444,15 +450,25 @@
             },
             save: (e) => {
                 e.preventDefault();
+                const name = document.getElementById('prof-name').value.trim();
                 const phone = document.getElementById('prof-phone').value.trim();
-                if(!/^(01[3-9]\d{8})$/.test(phone)) { return utils.toast("ভুল তথ্য", "দয়া করে সঠিক 11 ডিজিটের মোবাইল নাম্বার দিন", "error"); }
+                const address = document.getElementById('prof-address').value.trim();
 
-                state.customer.name = document.getElementById('prof-name').value; state.customer.phone = phone;
-                state.customer.email = document.getElementById('prof-email').value; state.customer.address = document.getElementById('prof-address').value;
+                if(!name) { return utils.toast("সতর্কতা", "অনুগ্রহ করে আপনার পুরো নাম লিখুন", "error"); }
+                if(!phone || phone.length !== 11 || !phone.startsWith('01')) { return utils.toast("সতর্কতা", "অনুগ্রহ করে 11 সংখ্যার সঠিক ফোন নাম্বার লিখুন", "error"); }
+                if(!address) { return utils.toast("সতর্কতা", "অনুগ্রহ করে আপনার বিস্তারিত ঠিকানা লিখুন", "error"); }
+
+                state.customer.name = name; 
+                state.customer.phone = phone;
+                state.customer.email = document.getElementById('prof-email').value; 
+                state.customer.address = address;
+                
                 localStorage.setItem('sk_customer', JSON.stringify(state.customer));
                 const area = document.getElementById('prof-area').value;
                 if(area) { state.areaVal = area; localStorage.setItem('sk_area', area); document.getElementById('header-loc-text').innerHTML = `${area.split('|')[0]} <span class="text-[10px] text-slate-400 font-bold">(৳ ${area.split('|')[1]})</span>`; cartLogic.updateAll(); }
-                utils.toast('সফল', 'আপনার তথ্য সেভ হয়েছে'); uiModals.close('profile-modal');
+                
+                utils.toast('সফল', 'আপনার তথ্য সফলভাবে আপডেট হয়েছে', 'success'); 
+                uiModals.close('profile-modal');
             }
         };
 
@@ -471,7 +487,6 @@
             init: () => {
                 document.getElementById('menu-skeletons').style.display = 'none';
                 
-                // Normal Horizontal Scroll View Construction
                 const container = document.getElementById('normal-menu-view');
                 container.innerHTML = '';
                 const grouped = {}; 
@@ -496,7 +511,7 @@
                 });
                 container.innerHTML = html;
                 menuLogic.renderCategories();
-                utils.enableDragScroll(); // Enable drag to scroll for new horizontal lists
+                utils.enableDragScroll(); 
             },
             buildCard: (item) => {
                 const isClosed = state.settings.IsOpen === 'false';
@@ -511,7 +526,7 @@
                     <div class="cursor-pointer group flex flex-col h-full" onclick="menuLogic.openDetails('${item.id}')">
                         <div class="relative w-full h-32 rounded-[16px] overflow-hidden mb-3 bg-slate-50"><img src="${item.image}" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110 ${item.available === false ? 'grayscale' : ''}"></div>
                         <h4 class="font-extrabold text-slate-900 text-sm line-clamp-1 mb-1">${item.name}</h4>
-                        <span class="font-extrabold text-brand text-base mb-3 block">৳ ${Number(item.price).toLocaleString()}</span>
+                        <span class="font-extrabold text-brand text-base mb-3 block">৳ ${Number(item.price).toLocaleString('en-US')}</span>
                     </div>
 
                     <div class="mt-auto flex gap-2">
@@ -523,8 +538,17 @@
                 const catsFromApi = state.menu.map(i => i.category).filter(Boolean);
                 const combinedCats = [...new Set([...state.dummyCategories, ...catsFromApi])];
                 const iconMap = { 'সব':'fa-border-all', 'মেইন ডিশ':'fa-plate-wheat', 'সাইড ডিশ':'fa-bowl-rice', 'ফাস্ট ফুড':'fa-burger', 'ডেজার্ট':'fa-ice-cream', 'কেইক':'fa-cake-candles', 'SPC কিচেন স্পেশাল':'fa-crown', 'রিকুয়েষ্ট':'fa-bell-concierge' };
-                document.getElementById('category-icons').innerHTML = combinedCats.map(c => `<div class="flex flex-col items-center gap-2 cursor-pointer shrink-0" onclick="menuLogic.setCategory('${c}')"><div class="w-[70px] h-[70px] rounded-2xl flex items-center justify-center transition-all duration-300 ${state.activeCategory === c ? 'bg-[#ea580c] text-white shadow-lg transform -translate-y-1' : 'bg-white text-slate-500 border border-slate-100 shadow-sm'}"><i class="fa-solid ${iconMap[c] || 'fa-utensils'} text-2xl"></i></div><span class="text-[11px] font-bold ${state.activeCategory === c ? 'text-slate-900' : 'text-slate-500'}">${c}</span></div>`).join('');
-                utils.enableDragScroll(); // ensure categories can also be dragged
+                const fallbackIcons = ['fa-utensils', 'fa-bowl-food', 'fa-hotdog', 'fa-pizza-slice', 'fa-leaf'];
+                
+                const getIconForCategory = (cat) => {
+                    if(iconMap[cat]) return iconMap[cat];
+                    let hash = 0;
+                    for (let i = 0; i < cat.length; i++) hash = cat.charCodeAt(i) + ((hash << 5) - hash);
+                    return fallbackIcons[Math.abs(hash) % fallbackIcons.length];
+                };
+
+                document.getElementById('category-icons').innerHTML = combinedCats.map(c => `<div class="flex flex-col items-center gap-2 cursor-pointer shrink-0" onclick="menuLogic.setCategory('${c}')"><div class="w-[70px] h-[70px] rounded-2xl flex items-center justify-center transition-all duration-300 ${state.activeCategory === c ? 'bg-[#ea580c] text-white shadow-lg transform -translate-y-1' : 'bg-white text-slate-500 border border-slate-100 shadow-sm'}"><i class="fa-solid ${getIconForCategory(c)} text-2xl"></i></div><span class="text-[11px] font-bold ${state.activeCategory === c ? 'text-slate-900' : 'text-slate-500'}">${c}</span></div>`).join('');
+                utils.enableDragScroll(); 
             },
             setCategory: (c) => { 
                 if(c === 'রিকুয়েষ্ট') { uiModals.open('request-modal'); return; }
@@ -562,7 +586,6 @@
                     return;
                 }
                 
-                // Hide normal views and offers for searching
                 document.getElementById('normal-menu-view').classList.add('hidden');
                 document.getElementById('offers-section').classList.add('hidden');
                 document.getElementById('list-menu-view').classList.remove('hidden');
@@ -601,10 +624,10 @@
                 document.getElementById('food-details-content').innerHTML = `
                     <div class="relative h-64 w-full bg-slate-50 p-4 border-b border-slate-100 flex items-center justify-center shrink-0"><img src="${item.image}" class="max-h-full max-w-full object-contain rounded-2xl ${item.available === false ? 'grayscale' : ''}"><button onclick="uiModals.close('food-details-modal')" class="absolute top-4 right-4 bg-white/90 backdrop-blur rounded-full w-10 h-10 text-slate-800 hover:text-red-500 flex justify-center items-center shadow-sm"><i class="fa-solid fa-times"></i></button></div>
                     <div class="p-6 overflow-y-auto custom-scroll flex-1 flex flex-col bg-white">
-                        <div class="flex justify-between items-start mb-2"><h3 class="text-2xl font-extrabold leading-tight">${item.name}</h3><p class="text-brand font-extrabold text-2xl">৳ ${Number(item.price).toLocaleString()}</p></div>
+                        <div class="flex justify-between items-start mb-2"><h3 class="text-2xl font-extrabold leading-tight">${item.name}</h3><p class="text-brand font-extrabold text-2xl">৳ ${Number(item.price).toLocaleString('en-US')}</p></div>
                         <p class="inline-block bg-slate-50 text-slate-500 text-[9px] font-bold uppercase px-3 py-1 rounded-lg mb-6 w-fit">${item.category}</p>
                         <h4 class="font-extrabold text-sm mb-2">বিবরণ</h4><p class="text-slate-500 text-sm mb-6 font-medium">${item.ingredients || 'নাই'}</p>
-                        <div class="mt-auto bg-slate-50 p-4 rounded-2xl mb-4 border border-slate-100"><div class="flex justify-between text-xs font-bold text-slate-600 mb-1"><span>খাবারের দাম:</span><span>৳ ${item.price}</span></div><div class="flex justify-between text-xs font-bold text-slate-600 mb-2 pb-2 border-b border-slate-200"><span>ডেলিভারি চার্জ (${state.areaVal?state.areaVal.split('|')[0]:'এরিয়া নেই'}):</span><span>৳ ${charge}</span></div><div class="flex justify-between items-center"><span class="font-extrabold text-slate-900 uppercase text-xs">মোট:</span><span class="text-xl font-extrabold text-brand">৳ ${grandTotal}</span></div></div>
+                        <div class="mt-auto bg-slate-50 p-4 rounded-2xl mb-4 border border-slate-100"><div class="flex justify-between text-xs font-bold text-slate-600 mb-1"><span>খাবারের দাম:</span><span>৳ ${Number(item.price).toLocaleString('en-US')}</span></div><div class="flex justify-between text-xs font-bold text-slate-600 mb-2 pb-2 border-b border-slate-200"><span>ডেলিভারি চার্জ (${state.areaVal?state.areaVal.split('|')[0]:'এরিয়া নেই'}):</span><span>৳ ${charge}</span></div><div class="flex justify-between items-center"><span class="font-extrabold text-slate-900 uppercase text-xs">মোট:</span><span class="text-xl font-extrabold text-brand">৳ ${grandTotal.toLocaleString('en-US')}</span></div></div>
                         ${isAvail ? `<button onclick="menuLogic.orderNow('${item.id}'); uiModals.close('food-details-modal');" class="btn-primary w-full py-4 text-base">চেকআউটে যান <i class="fa-solid fa-arrow-right ml-2"></i></button>` : `<button disabled class="btn-primary w-full py-4 text-base bg-slate-200 text-slate-400">${isClosed ? 'রেস্টুরেন্ট বন্ধ' : 'স্টক আউট'}</button>`}
                     </div>`;
                 uiModals.open('food-details-modal');
@@ -612,8 +635,9 @@
             orderNow: (id) => { 
                 if(state.settings.IsOpen === 'false') return utils.toast("দুঃখিত", "রেস্টুরেন্ট এখন বন্ধ আছে।", "error");
                 const ex = state.cart.find(i => i.id === String(id)); 
-                if(!ex) { state.cart.push({id: String(id), qty: 1}); cartLogic.updateAll(); } else { utils.toast("তথ্য", "এটি ইতিমধ্যে কার্টে যোগ করা আছে!", "error"); }
-                uiModals.open('cart-sidebar'); cartLogic.backToItems(); 
+                if(!ex) { state.cart.push({id: String(id), qty: 1}); cartLogic.updateAll(); }
+                uiModals.open('cart-sidebar'); 
+                cartLogic.goToCheckout(); 
             }
         };
 
@@ -632,7 +656,7 @@
                         <img src="${mItem.image}" class="w-16 h-16 rounded-xl object-contain bg-slate-50 cursor-pointer" onclick="menuLogic.openDetails('${mItem.id}')">
                         <div class="flex-1 pr-2">
                             <h5 class="text-sm font-extrabold text-slate-900 line-clamp-1 mb-1 cursor-pointer" onclick="menuLogic.openDetails('${mItem.id}')">${mItem.name}</h5>
-                            <span class="font-extrabold text-brand text-xs block mb-2">৳ ${Number(mItem.price).toLocaleString()}</span>
+                            <span class="font-extrabold text-brand text-xs block mb-2">৳ ${Number(mItem.price).toLocaleString('en-US')}</span>
                             <div class="flex items-center justify-between mt-1">
                                 <button onclick="menuLogic.orderNow('${mItem.id}')" class="bg-slate-900 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg active:scale-95 transition-transform">অর্ডার নাও</button>
                                 <button onclick="menuLogic.toggleFav('${mItem.id}')" class="text-red-400 bg-red-50 w-8 h-8 rounded-lg flex justify-center items-center"><i class="fa-solid fa-trash-can text-[10px]"></i></button>
@@ -658,13 +682,13 @@
                 const offerPrice = Number(offer.price) || 0;
                 if(!mItem) { mItem = { id: 'OFFER-'+idx, name: offer.title, price: offerPrice, image: offer.image, category: 'অফার' }; state.menu.push(mItem); }
                 const ex = state.cart.find(i => i.id === mItem.id); if(!ex) { state.cart.push({id: mItem.id, qty: 1}); cartLogic.updateAll(); } else { utils.toast("তথ্য", "অফারটি ইতিমধ্যে কার্টে যোগ করা আছে!", "error"); }
-                uiModals.close('offer-modal'); uiModals.open('cart-sidebar'); cartLogic.backToItems();
+                uiModals.close('offer-modal'); uiModals.open('cart-sidebar'); cartLogic.goToCheckout();
             }
         };
 
         const requestLogic = {
             send: async () => {
-                const txt = document.getElementById('custom-request-text').value; if(!txt.trim()) return utils.toast("ভুল", "কিছু লিখুন", "error");
+                const txt = document.getElementById('custom-request-text').value; if(!txt.trim()) return utils.toast("সতর্কতা", "দয়া করে বিস্তারিত লিখুন", "error");
                 const btn = document.getElementById('req-send-btn'); btn.disabled=true; btn.innerHTML='প্রসেস হচ্ছে...';
                 const payload = { action:'order', orderId: 'REQ-'+Math.floor(100000+Math.random()*900000), name: state.customer.name||'Guest', phone: state.customer.phone||'N/A', address: 'Special Request', orderDetails: '[SPECIAL FOOD REQUEST] ' + txt, totalBill: 0, paymentDetails: 'N/A', status: 'পেন্ডিং' };
                 try { await fetch(scriptURL, {method:'POST', body:JSON.stringify(payload)}); utils.toast("সফল", "আপনার রিকোয়েস্ট পাঠানো হয়েছে।", "success", 4000); document.getElementById('custom-request-text').value = ''; uiModals.close('request-modal'); } catch(e) { utils.toast("Error", "সার্ভার সমস্যা", "error"); } finally { btn.disabled=false; btn.innerHTML='সেন্ড করুন <i class="fa-solid fa-paper-plane ml-2"></i>'; }
@@ -689,16 +713,27 @@
             remove: (id) => { state.cart = state.cart.filter(i => i.id !== String(id)); cartLogic.updateAll(); },
             getSubtotal: () => state.cart.reduce((s, i) => { const m = state.menu.find(x=>x.id===i.id); return s + (m ? Number(m.price)*i.qty : 0); }, 0),
             updateAll: () => {
+                state.cart = state.cart.filter(item => item && item.id);
                 localStorage.setItem('sk_cart', JSON.stringify(state.cart));
-                const uniqueTypesCount = state.cart.length; const b = document.getElementById('bottom-cart-badge');
-                if(uniqueTypesCount > 0) { b.textContent = uniqueTypesCount; b.classList.remove('hidden', 'pop'); void b.offsetWidth; b.classList.add('pop'); } else b.classList.add('hidden');
+                
+                const uniqueTypesCount = state.cart.length; 
+                const b = document.getElementById('bottom-cart-badge');
+                
+                if(uniqueTypesCount > 0) { 
+                    b.textContent = uniqueTypesCount; 
+                    b.classList.remove('hidden', 'pop'); 
+                    void b.offsetWidth; 
+                    b.classList.add('pop'); 
+                } else { 
+                    b.classList.add('hidden'); 
+                }
                 
                 const cItems = document.getElementById('cart-items'); 
                 const footer = document.getElementById('cart-footer'); 
                 const pBtn = document.getElementById('proceed-btn');
                 const charge = state.areaVal ? parseInt(state.areaVal.split('|')[1]) : 0;
                 
-                if(state.cart.length === 0) {
+                if(uniqueTypesCount === 0) {
                     if(cItems) cItems.innerHTML = '<div class="text-center py-20 fade-in"><i class="fa-solid fa-basket-shopping text-5xl mb-4 text-slate-300 block"></i><p class="font-bold text-slate-500 text-sm">আপনি কার্টে এখনো কোনো কিছু যোগ করেননি</p></div>';
                     if(footer) footer.classList.add('hidden'); 
                     return;
@@ -714,7 +749,7 @@
                             <img src="${mItem.image}" class="w-16 h-16 rounded-xl object-contain bg-slate-50 cursor-pointer" onclick="menuLogic.openDetails('${mItem.id}')">
                             <div class="flex-1 pr-2">
                                 <h5 class="text-sm font-extrabold text-slate-900 line-clamp-1 mb-1 cursor-pointer" onclick="menuLogic.openDetails('${mItem.id}')">${mItem.name}</h5>
-                                <span class="font-extrabold text-brand text-xs block mb-2">৳ ${(Number(mItem.price)*cItem.qty).toLocaleString()}</span>
+                                <span class="font-extrabold text-brand text-xs block mb-2">৳ ${(Number(mItem.price)*cItem.qty).toLocaleString('en-US')}</span>
                                 <div class="flex items-center justify-between">
                                     <div class="flex gap-3 bg-slate-50 rounded-lg p-1.5 border border-slate-100"><button onclick="cartLogic.changeQty('${cItem.id}', -1)" class="w-6 h-6 rounded-md bg-white shadow-sm flex justify-center items-center"><i class="fa-solid fa-minus text-[10px]"></i></button><span class="text-xs font-extrabold w-4 text-center">${cItem.qty}</span><button onclick="cartLogic.changeQty('${cItem.id}', 1)" class="w-6 h-6 rounded-md bg-brand text-white shadow-sm flex justify-center items-center"><i class="fa-solid fa-plus text-[10px] text-white"></i></button></div>
                                     <button onclick="cartLogic.remove('${cItem.id}')" class="text-red-400 bg-red-50 w-8 h-8 rounded-lg flex justify-center items-center"><i class="fa-solid fa-trash-can text-[10px]"></i></button>
@@ -724,9 +759,9 @@
                     }).join(''); 
                 }
                 const st = cartLogic.getSubtotal();
-                document.getElementById('cart-subtotal-1').textContent = `৳ ${st.toLocaleString()}`; 
-                document.getElementById('cart-delivery-charge').textContent = `৳ ${charge}`; 
-                document.getElementById('cart-grand-total').textContent = `৳ ${(st+charge).toLocaleString()}`;
+                document.getElementById('cart-subtotal-1').textContent = `৳ ${st.toLocaleString('en-US')}`; 
+                document.getElementById('cart-delivery-charge').textContent = `৳ ${charge.toLocaleString('en-US')}`; 
+                document.getElementById('cart-grand-total').textContent = `৳ ${(st+charge).toLocaleString('en-US')}`;
                 if(pBtn) pBtn.classList.remove('hidden'); 
                 checkoutLogic.calculateTotal();
             },
@@ -754,13 +789,13 @@
                 if(areaSelectVal && areaSelectVal !== state.areaVal) { state.areaVal = areaSelectVal; localStorage.setItem('sk_area', state.areaVal); document.getElementById('header-loc-text').innerHTML = `${state.areaVal.split('|')[0]} <span class="text-[10px] text-slate-400 font-bold">(৳ ${state.areaVal.split('|')[1]})</span>`; }
                 const charge = state.areaVal ? parseInt(state.areaVal.split('|')[1]) : 0; const subtotal = cartLogic.getSubtotal(); const isFree = subtotal >= Number(state.settings.FreeDeliveryThreshold);
                 
-                document.getElementById('checkout-subtotal').textContent = `৳ ${subtotal}`;
+                document.getElementById('checkout-subtotal').textContent = `৳ ${subtotal.toLocaleString('en-US')}`;
                 let finalCharge = charge;
-                if(isFree) { document.getElementById('free-delivery-badge').classList.remove('hidden'); document.getElementById('checkout-delivery').innerHTML = `<span class="line-through text-slate-300 mr-1">৳ ${charge}</span> <span class="text-green-500 font-extrabold uppercase text-[10px]">ফ্রি</span>`; finalCharge = 0; } else { document.getElementById('free-delivery-badge').classList.add('hidden'); document.getElementById('checkout-delivery').textContent = `৳ ${charge}`; }
+                if(isFree) { document.getElementById('free-delivery-badge').classList.remove('hidden'); document.getElementById('checkout-delivery').innerHTML = `<span class="line-through text-slate-300 mr-1">৳ ${charge}</span> <span class="text-green-500 font-extrabold uppercase text-[10px]">ফ্রি</span>`; finalCharge = 0; } else { document.getElementById('free-delivery-badge').classList.add('hidden'); document.getElementById('checkout-delivery').textContent = `৳ ${charge.toLocaleString('en-US')}`; }
                 
                 const total = Math.max(0, subtotal + finalCharge - state.discountAmount);
-                document.getElementById('checkout-total-top').textContent = `৳ ${total}`;
-                document.getElementById('checkout-total-bottom').textContent = `৳ ${total}`;
+                document.getElementById('checkout-total-top').textContent = `৳ ${total.toLocaleString('en-US')}`;
+                document.getElementById('checkout-total-bottom').textContent = `৳ ${total.toLocaleString('en-US')}`;
 
                 if(document.querySelector('input[name="payment_method"]:checked')?.value === 'online') checkoutLogic.updateInstructions();
             },
@@ -780,13 +815,12 @@
                 const btn = document.getElementById('confirm-btn'); 
                 
                 const name = document.getElementById('cust-name').value.trim();
-                if(!name) { return utils.toast("সতর্কতা", "দয়া করে আপনার পুরো নাম লিখুন।", "error"); }
-
                 const phone = document.getElementById('cust-phone').value.trim();
-                if(!phone || phone.length < 11 || !/^(01[3-9]\d{8})$/.test(phone)) { return utils.toast("সতর্কতা", "দয়া করে 11 ডিজিটের সঠিক যোগাযোগ নাম্বার দিন।", "error"); }
-                
                 const address = document.getElementById('cust-address').value.trim();
-                if(!address) { return utils.toast("সতর্কতা", "দয়া করে আপনার বিস্তারিত এড্রেস লিখুন।", "error"); }
+
+                if(!name) { return utils.toast("সতর্কতা", "অনুগ্রহ করে আপনার পুরো নাম লিখুন", "error"); }
+                if(!phone || phone.length < 11 || !/^(01[3-9]\d{8})$/.test(phone)) { return utils.toast("সতর্কতা", "অনুগ্রহ করে 11 ডিজিটের সঠিক ফোন নাম্বার লিখুন", "error"); }
+                if(!address) { return utils.toast("সতর্কতা", "অনুগ্রহ করে সম্পূর্ণ অ্যাড্রেস লিখুন", "error"); }
                 
                 const limit = spamLogic.checkLimit(phone);
                 if(!limit.allowed) { return utils.toast("অ্যাকাউন্ট ব্লকড", limit.msg, "error"); }
@@ -806,11 +840,11 @@
                     const cNote = document.getElementById('cust-note').value.trim();
                     const detailsStr = state.cart.map(c => { const m = state.menu.find(x=>x.id===c.id); return m ? `${m.name}(${c.qty})` : ''; }).join(', ') + (cNote ? ` | Note: ${cNote}` : '');
 
-                    const payload = { action:'order', orderId, name: document.getElementById('cust-name').value, phone, address:`[${areaName}] ${document.getElementById('cust-address').value}`, orderDetails: detailsStr, totalBill, paymentDetails: pDetails, status:'পেন্ডিং' };
+                    const payload = { action:'order', orderId, name, phone, address:`[${areaName}] ${address}`, orderDetails: detailsStr, totalBill, paymentDetails: pDetails, status:'পেন্ডিং' };
                     
                     const response = await fetch(scriptURL, { method:'POST', body:JSON.stringify(payload) }); const resData = await response.json();
                     if(resData.result === 'success') {
-                        state.customer.phone = phone; state.customer.name = document.getElementById('cust-name').value; state.customer.address = document.getElementById('cust-address').value; localStorage.setItem('sk_customer', JSON.stringify(state.customer));
+                        state.customer.phone = phone; state.customer.name = name; state.customer.address = address; localStorage.setItem('sk_customer', JSON.stringify(state.customer));
                         state.cart = []; cartLogic.updateAll(); uiModals.close('cart-sidebar'); cartLogic.backToItems();
                         utils.toast("সফল", "আপনার অর্ডার কমপ্লিট হয়েছে", "success", 2000);
                         setTimeout(() => { utils.playAlert(); utils.toast("অ্যালার্ট", "প্রিয় কাস্টমার আপনার অর্ডার আমরা পেয়েছি, আমরা কল করে কনফার্ম হব, দয়া করে রিসিভ করবেন।", "success", 4000); document.getElementById('search-phone').value = phone; trackingLogic.openTracking(); trackingLogic.executeSearch(); }, 2200);
@@ -832,7 +866,7 @@
                             const statuses = ['পেন্ডিং', 'খাবার তৈরি হচ্ছে', 'ডেলিভারি ম্যান পথে আছে', 'বৃষ্টির জন্য দেরি হচ্ছে', 'সম্পূর্ণ হয়েছে'];
                             let step = statuses.indexOf(o.status); if(o.status.includes('বাতিল')) step = -1;
                             const stepsHtml = step >= 0 ? `<div class="flex justify-between items-center mt-6 mb-10 px-4 relative"><div class="absolute top-2 left-4 right-4 h-1 bg-slate-100 z-0"></div><div class="absolute top-2 left-4 h-1 bg-brand z-0 transition-all progress-line" style="width: ${step * 25}%"></div>${statuses.map((s, i) => `<div class="progress-step flex flex-col items-center z-10 ${i<=step?'active':''}"><div class="step-icon w-5 h-5 rounded-full border-2 border-slate-200 bg-white flex items-center justify-center text-[10px] text-transparent transition-colors mb-1"><i class="fa-solid fa-check"></i></div><span class="text-[9px] text-slate-500 font-bold step-text absolute whitespace-nowrap" style="margin-top: ${i%2===0 ? '25px' : '-22px'}">${s}</span></div>`).join('')}</div>` : '';
-                            return `<div class="card !p-5 shadow-sm border border-slate-100 mb-4 fade-in"><div class="flex justify-between items-center mb-2"><span class="font-extrabold text-sm">${o.id}</span><span class="text-[9px] px-3 py-1 rounded-full uppercase font-extrabold border ${step===-1?'text-red-700 bg-red-50 border-red-200':'text-brand bg-brand/10 border-brand/20'}">${o.status}</span></div>${stepsHtml}<div class="bg-slate-50 p-4 rounded-xl border border-slate-100 mb-4 mt-6"><span class="font-extrabold uppercase text-[9px] text-slate-400 block mb-1">অর্ডারকৃত খাবার</span><p class="text-xs font-medium">${o.details}</p></div><div class="flex justify-between items-end mb-4"><div><span class="text-[10px] font-extrabold text-slate-500 uppercase"><i class="fa-solid fa-wallet mr-1"></i>${o.payment.includes('Online')?'Online':'COD'}</span></div><span class="font-extrabold text-brand text-xl">৳ ${Number(o.total).toLocaleString()}</span></div>
+                            return `<div class="card !p-5 shadow-sm border border-slate-100 mb-4 fade-in"><div class="flex justify-between items-center mb-2"><span class="font-extrabold text-sm">${o.id}</span><span class="text-[9px] px-3 py-1 rounded-full uppercase font-extrabold border ${step===-1?'text-red-700 bg-red-50 border-red-200':'text-brand bg-brand/10 border-brand/20'}">${o.status}</span></div>${stepsHtml}<div class="bg-slate-50 p-4 rounded-xl border border-slate-100 mb-4 mt-6"><span class="font-extrabold uppercase text-[9px] text-slate-400 block mb-1">অর্ডারকৃত খাবার</span><p class="text-xs font-medium">${o.details}</p></div><div class="flex justify-between items-end mb-4"><div><span class="text-[10px] font-extrabold text-slate-500 uppercase"><i class="fa-solid fa-wallet mr-1"></i>${o.payment.includes('Online')?'Online':'COD'}</span></div><span class="font-extrabold text-brand text-xl">৳ ${Number(o.total).toLocaleString('en-US')}</span></div>
                             <button onclick="trackingLogic.reorder('${o.details}')" class="w-full bg-brand/10 text-brand rounded-xl py-3 flex items-center justify-center font-bold text-sm hover:bg-brand/20 transition-colors mb-2"><i class="fa-solid fa-rotate-right mr-2"></i> এই অর্ডারটি পুনরায় করুন</button>
                             <a href="tel:${state.settings.AdminPhone}" class="w-full bg-slate-900 text-white rounded-xl py-3 flex items-center justify-center font-bold text-sm hover:bg-slate-800 transition-colors"><i class="fa-solid fa-phone mr-2"></i> কল দিন</a></div>`;
                         }).join('');
@@ -881,10 +915,9 @@
 
                         if(!isBg) { 
                             document.getElementById('notif-items').innerHTML = data.data.map(n => {
-                                // স্মার্ট অর্ডার সিস্টেম: মেসেজে মেনুর কোনো আইটেম থাকলে তার অর্ডার বাটন জেনারেট করবে
                                 const matchedItem = state.menu.find(m => n.title.includes(m.name) || n.message.includes(m.name));
                                 const orderBtnHtml = matchedItem 
-                                    ? `<button onclick="cartLogic.add('${matchedItem.id}'); uiModals.navTo('home'); uiModals.close('notif-sidebar'); uiModals.open('cart-sidebar');" class="flex-1 bg-brand text-white text-[10px] font-bold py-2 rounded-lg shadow-sm">অর্ডার করুন</button>` 
+                                    ? `<button onclick="cartLogic.add('${matchedItem.id}'); uiModals.navTo('home'); uiModals.close('notif-sidebar'); uiModals.open('cart-sidebar'); cartLogic.goToCheckout();" class="flex-1 bg-brand text-white text-[10px] font-bold py-2 rounded-lg shadow-sm">অর্ডার করুন</button>` 
                                     : '';
                                     
                                 return `
@@ -935,7 +968,7 @@
                                 </div>
                                 <h4 class="font-extrabold text-slate-900 text-sm line-clamp-2 mb-1 leading-tight">${o.title}</h4>
                                 <div class="mt-auto flex justify-between items-end pt-2">
-                                    <span class="font-extrabold text-brand text-base">৳ ${Number(o.price || 0).toLocaleString()}</span>
+                                    <span class="font-extrabold text-brand text-base">৳ ${Number(o.price || 0).toLocaleString('en-US')}</span>
                                     <div class="w-7 h-7 rounded-lg bg-slate-900 text-white flex justify-center items-center text-[10px] shadow-sm"><i class="fa-solid fa-arrow-right"></i></div>
                                 </div>
                             </div>`).join(''); 
