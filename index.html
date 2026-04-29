@@ -112,7 +112,8 @@
                     <div id="menu-skeletons" class="px-4 mt-4 space-y-4"><div class="h-6 w-32 skeleton rounded"></div><div class="grid grid-cols-2 gap-3"><div class="w-full h-64 skeleton rounded-2xl"></div><div class="w-full h-64 skeleton rounded-2xl"></div></div></div>
                 </div>
                 
-                <div id="list-menu-view" class="hidden px-4 pb-10 fade-in">
+                <!-- List View Container (Added padding-bottom pb-32 to prevent bottom items hiding) -->
+                <div id="list-menu-view" class="hidden px-4 pb-32 fade-in">
                     <div class="flex justify-between items-center mb-6 mt-2 pb-3 border-b border-slate-100">
                         <h3 id="list-view-title" class="text-lg font-extrabold text-slate-900">...</h3>
                         <button onclick="menuLogic.closeListView()" class="w-8 h-8 bg-red-50 text-red-500 hover:bg-red-100 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-times text-sm"></i></button>
@@ -121,7 +122,8 @@
                 </div>
             </main>
             
-            <div class="h-40 w-full shrink-0 block"></div>
+            <!-- Extra Spacer for Bottom Nav -->
+            <div class="h-48 w-full shrink-0 block"></div>
         </div>
 
         <!-- BOTTOM NAV -->
@@ -191,10 +193,11 @@
             <div class="w-24 h-24 bg-brand rounded-full flex items-center justify-center mx-auto mb-4 text-4xl text-white shadow-lg shadow-brand/30"><i class="fa-solid fa-fire-burner"></i></div>
             <h3 class="font-extrabold text-xl text-slate-900 mb-2">শেরপুর ক্লাউড কিচেন</h3>
             <p class="text-sm text-slate-600 leading-relaxed font-medium mb-6">ক্লাউড কিচেন হলো একটি আধুনিক রেস্টুরেন্ট ব্যবস্থা, যেখানে কোনো ডাইনিং স্পেস থাকে না। আমরা শুধু ডেলিভারির জন্য হাই-জিনিক পরিবেশে সেরা মানের খাবার তৈরি করি এবং সরাসরি আপনার দোরগোড়ায় পৌঁছে দেই।</p>
-            <div class="flex gap-4 justify-center mt-4">
-                <a href="#" class="w-12 h-12 rounded-full bg-[#1877F2]/10 text-[#1877F2] flex items-center justify-center text-2xl transition-transform hover:scale-110"><i class="fa-brands fa-facebook"></i></a>
+            <div class="flex gap-4 justify-center mt-4 border-t border-slate-100 pt-6">
+                <a href="#" class="w-12 h-12 rounded-full bg-[#1877F2]/10 text-[#1877F2] flex items-center justify-center text-2xl transition-transform hover:scale-110"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="w-12 h-12 rounded-full bg-[#FF0000]/10 text-[#FF0000] flex items-center justify-center text-2xl transition-transform hover:scale-110"><i class="fa-brands fa-youtube"></i></a>
                 <a href="#" class="w-12 h-12 rounded-full bg-[#E4405F]/10 text-[#E4405F] flex items-center justify-center text-2xl transition-transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="w-12 h-12 rounded-full bg-[#25D366]/10 text-[#25D366] flex items-center justify-center text-2xl transition-transform hover:scale-110"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#" class="w-12 h-12 rounded-full bg-slate-900/10 text-slate-900 flex items-center justify-center text-2xl transition-transform hover:scale-110"><i class="fa-brands fa-tiktok"></i></a>
             </div>
         </div>
     </div>
@@ -332,7 +335,7 @@
         
         const state = {
             menu: [], areas: [], combinedOffers: [], 
-            cart: (JSON.parse(localStorage.getItem('sk_cart')) || []).filter(item => item && item.id), // Ensure no empty objects
+            cart: (JSON.parse(localStorage.getItem('sk_cart')) || []).filter(item => item && item.id),
             favorites: JSON.parse(localStorage.getItem('sk_favs')) || [],
             customer: JSON.parse(localStorage.getItem('sk_customer')) || { name:'', phone:'', email:'', address:'' },
             areaVal: localStorage.getItem('sk_area') || '',
@@ -358,7 +361,6 @@
                 clearTimeout(utils.toastTimer);
                 utils.toastTimer = setTimeout(() => { el.classList.remove('pop'); el.classList.add('opacity-0', 'scale-90'); }, duration);
             },
-            // Touch Drag Scroll Logic
             enableDragScroll: () => {
                 setTimeout(() => {
                     const sliders = document.querySelectorAll('.custom-scroll');
@@ -429,17 +431,6 @@
                 document.querySelectorAll('.nav-item').forEach(el => { el.classList.remove('active'); el.classList.add('text-slate-400'); });
                 if(view==='home') document.querySelector('.nav-item').classList.add('active');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        };
-
-        const spamLogic = {
-            checkLimit: (phone) => {
-                if(!phone) return { allowed: true };
-                const blockedStr = String(state.settings.BlockedUsers || "");
-                if(blockedStr.includes(phone)) {
-                    return { allowed: false, msg: "আপনি এখন আর অনলাইনে অর্ডার দিতে পারবেন না। অনুগ্রহ করে কল দিয়ে যোগাযোগ করুন।" };
-                }
-                return { allowed: true };
             }
         };
 
@@ -627,7 +618,7 @@
                         <div class="flex justify-between items-start mb-2"><h3 class="text-2xl font-extrabold leading-tight">${item.name}</h3><p class="text-brand font-extrabold text-2xl">৳ ${Number(item.price).toLocaleString('en-US')}</p></div>
                         <p class="inline-block bg-slate-50 text-slate-500 text-[9px] font-bold uppercase px-3 py-1 rounded-lg mb-6 w-fit">${item.category}</p>
                         <h4 class="font-extrabold text-sm mb-2">বিবরণ</h4><p class="text-slate-500 text-sm mb-6 font-medium">${item.ingredients || 'নাই'}</p>
-                        <div class="mt-auto bg-slate-50 p-4 rounded-2xl mb-4 border border-slate-100"><div class="flex justify-between text-xs font-bold text-slate-600 mb-1"><span>খাবারের দাম:</span><span>৳ ${Number(item.price).toLocaleString('en-US')}</span></div><div class="flex justify-between text-xs font-bold text-slate-600 mb-2 pb-2 border-b border-slate-200"><span>ডেলিভারি চার্জ (${state.areaVal?state.areaVal.split('|')[0]:'এরিয়া নেই'}):</span><span>৳ ${charge}</span></div><div class="flex justify-between items-center"><span class="font-extrabold text-slate-900 uppercase text-xs">মোট:</span><span class="text-xl font-extrabold text-brand">৳ ${grandTotal.toLocaleString('en-US')}</span></div></div>
+                        <div class="mt-auto bg-slate-50 p-4 rounded-2xl mb-4 border border-slate-100"><div class="flex justify-between text-xs font-bold text-slate-600 mb-1"><span>খাবারের দাম:</span><span>৳ ${Number(item.price).toLocaleString('en-US')}</span></div><div class="flex justify-between text-xs font-bold text-slate-600 mb-2 pb-2 border-b border-slate-200"><span>ডেলিভারি চার্জ (${state.areaVal?state.areaVal.split('|')[0]:'এরিয়া নেই'}):</span><span>৳ ${charge.toLocaleString('en-US')}</span></div><div class="flex justify-between items-center"><span class="font-extrabold text-slate-900 uppercase text-xs">মোট:</span><span class="text-xl font-extrabold text-brand">৳ ${grandTotal.toLocaleString('en-US')}</span></div></div>
                         ${isAvail ? `<button onclick="menuLogic.orderNow('${item.id}'); uiModals.close('food-details-modal');" class="btn-primary w-full py-4 text-base">চেকআউটে যান <i class="fa-solid fa-arrow-right ml-2"></i></button>` : `<button disabled class="btn-primary w-full py-4 text-base bg-slate-200 text-slate-400">${isClosed ? 'রেস্টুরেন্ট বন্ধ' : 'স্টক আউট'}</button>`}
                     </div>`;
                 uiModals.open('food-details-modal');
@@ -672,7 +663,7 @@
                 const offer = state.combinedOffers[idx]; if(!offer) return;
                 const mItem = state.menu.find(m => m.name.toLowerCase() === offer.title.toLowerCase());
                 const price = mItem ? Number(mItem.price) : Number(offer.price || 0);
-                document.getElementById('offer-modal-img').src = offer.image || ''; document.getElementById('offer-modal-title').textContent = offer.title || 'অফার'; document.getElementById('offer-modal-price').textContent = `৳ ${price}`; document.getElementById('offer-modal-desc').textContent = offer.description || 'বিস্তারিত তথ্য নেই।'; document.getElementById('offer-modal').dataset.idx = idx;
+                document.getElementById('offer-modal-img').src = offer.image || ''; document.getElementById('offer-modal-title').textContent = offer.title || 'অফার'; document.getElementById('offer-modal-price').textContent = `৳ ${price.toLocaleString('en-US')}`; document.getElementById('offer-modal-desc').textContent = offer.description || 'বিস্তারিত তথ্য নেই।'; document.getElementById('offer-modal').dataset.idx = idx;
                 uiModals.open('offer-modal');
             },
             executeOrder: () => {
@@ -683,15 +674,6 @@
                 if(!mItem) { mItem = { id: 'OFFER-'+idx, name: offer.title, price: offerPrice, image: offer.image, category: 'অফার' }; state.menu.push(mItem); }
                 const ex = state.cart.find(i => i.id === mItem.id); if(!ex) { state.cart.push({id: mItem.id, qty: 1}); cartLogic.updateAll(); } else { utils.toast("তথ্য", "অফারটি ইতিমধ্যে কার্টে যোগ করা আছে!", "error"); }
                 uiModals.close('offer-modal'); uiModals.open('cart-sidebar'); cartLogic.goToCheckout();
-            }
-        };
-
-        const requestLogic = {
-            send: async () => {
-                const txt = document.getElementById('custom-request-text').value; if(!txt.trim()) return utils.toast("সতর্কতা", "দয়া করে বিস্তারিত লিখুন", "error");
-                const btn = document.getElementById('req-send-btn'); btn.disabled=true; btn.innerHTML='প্রসেস হচ্ছে...';
-                const payload = { action:'order', orderId: 'REQ-'+Math.floor(100000+Math.random()*900000), name: state.customer.name||'Guest', phone: state.customer.phone||'N/A', address: 'Special Request', orderDetails: '[SPECIAL FOOD REQUEST] ' + txt, totalBill: 0, paymentDetails: 'N/A', status: 'পেন্ডিং' };
-                try { await fetch(scriptURL, {method:'POST', body:JSON.stringify(payload)}); utils.toast("সফল", "আপনার রিকোয়েস্ট পাঠানো হয়েছে।", "success", 4000); document.getElementById('custom-request-text').value = ''; uiModals.close('request-modal'); } catch(e) { utils.toast("Error", "সার্ভার সমস্যা", "error"); } finally { btn.disabled=false; btn.innerHTML='সেন্ড করুন <i class="fa-solid fa-paper-plane ml-2"></i>'; }
             }
         };
 
@@ -713,7 +695,8 @@
             remove: (id) => { state.cart = state.cart.filter(i => i.id !== String(id)); cartLogic.updateAll(); },
             getSubtotal: () => state.cart.reduce((s, i) => { const m = state.menu.find(x=>x.id===i.id); return s + (m ? Number(m.price)*i.qty : 0); }, 0),
             updateAll: () => {
-                state.cart = state.cart.filter(item => item && item.id);
+                // Ensure only items that actually exist in the current menu are in the cart
+                state.cart = state.cart.filter(item => item && item.id && state.menu.some(m => String(m.id) === String(item.id)));
                 localStorage.setItem('sk_cart', JSON.stringify(state.cart));
                 
                 const uniqueTypesCount = state.cart.length; 
@@ -743,7 +726,7 @@
                 
                 if(cItems) { 
                     cItems.innerHTML = state.cart.map(cItem => { 
-                        const mItem = state.menu.find(x => x.id === cItem.id); if(!mItem) return ''; 
+                        const mItem = state.menu.find(x => String(x.id) === String(cItem.id)); if(!mItem) return ''; 
                         return `
                         <div class="card !p-3 flex items-center gap-4 shadow-sm mb-3 fade-in">
                             <img src="${mItem.image}" class="w-16 h-16 rounded-xl object-contain bg-slate-50 cursor-pointer" onclick="menuLogic.openDetails('${mItem.id}')">
